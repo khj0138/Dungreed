@@ -44,6 +44,9 @@
     <Filter Include="Contents\Player">
       <UniqueIdentifier>{102e2bb9-3bc2-43f7-8011-d57757324e12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\BackGround">
+      <UniqueIdentifier>{37f497b2-b833-49e8-9157-55b7df4bd1d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -103,6 +106,9 @@
     <ClInclude Include="hjPlayScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="hjBackGround.h">
+      <Filter>Contents\BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -156,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="hjPlayScene.cpp">
       <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="hjBackGround.cpp">
+      <Filter>Contents\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

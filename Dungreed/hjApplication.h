@@ -20,6 +20,13 @@ namespace hj
 		HWND mHwnd;
 		HDC mHdc;
 
+		// back buffer
+		HBITMAP mBackBuffer;
+		HDC mBackHDC;
+
+		UINT mWidth;
+		UINT mHeight;
+
 		Vector2 mPos;
 	};
 }

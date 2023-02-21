@@ -36,7 +36,6 @@ namespace hj
 			layer.Render(hdc);
 		}
 	}
-
 	void hj::Scene::Release()
 	{
 		for (Layer& layer : mLayers)

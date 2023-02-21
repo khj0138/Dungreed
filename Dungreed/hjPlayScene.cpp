@@ -1,5 +1,7 @@
+
 #include "hjPlayScene.h"
 #include "hjHero.h"
+#include "hjBackGround.h"
 
 namespace hj
 {
@@ -16,6 +18,8 @@ namespace hj
 	{
 		Hero* hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);
+		BackGround* backGround = new BackGround();
+		AddGameObject(backGround, eLayerType::BG);
 
 		Scene::Initialize();
 	}
