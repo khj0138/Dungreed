@@ -124,6 +124,9 @@
     <ClInclude Include="hjSpriteRenderer.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="hjTransform.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -191,6 +194,9 @@
       <Filter>Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="hjSpriteRenderer.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="hjTransform.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
   </ItemGroup>

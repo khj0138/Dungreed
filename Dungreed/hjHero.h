@@ -1,6 +1,5 @@
 #pragma once
 #include "hjGameObject.h"
-#include "hjImage.h"
 
 namespace hj
 {
@@ -15,11 +14,10 @@ namespace hj
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
+		void StateChange(UINT prev, UINT cur);
 
 	private:
-		//std::vector<Image*> mImage;
-		Image* mImage;
-		bool flip;
+		std::vector<int> mStates;
 	};
 
 }

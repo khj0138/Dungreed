@@ -11,6 +11,7 @@ namespace hj
 		static void Update();
 		static void Render(HDC hdc);
 		static UINT GetTime();
+		static void SetTime();
 
 		__forceinline static double Deltatime() { return mDeltaTime; }
 

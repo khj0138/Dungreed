@@ -149,6 +149,7 @@
     <ClInclude Include="hjSceneManager.h" />
     <ClInclude Include="hjSpriteRenderer.h" />
     <ClInclude Include="hjTime.h" />
+    <ClInclude Include="hjTransform.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -170,6 +171,7 @@
     <ClCompile Include="hjSceneManager.cpp" />
     <ClCompile Include="hjSpriteRenderer.cpp" />
     <ClCompile Include="hjTime.cpp" />
+    <ClCompile Include="hjTransform.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

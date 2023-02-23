@@ -1,18 +1,30 @@
 #include "hjComponent.h"
 
-void hj::Component::Initialize()
-{
-}
 
-void hj::Component::Update()
-{
-}
+namespace hj {
+	Component::Component(eComponentType type)
+		: mType(type)
+	{
 
-void hj::Component::Render(HDC hdc)
-{
+	}
+	Component::~Component()
+	{
+	}
+	void hj::Component::Initialize()
+	{
+	}
 
-}
+	void hj::Component::Update()
+	{
+	}
 
-void hj::Component::Release()
-{
+	void hj::Component::Render(HDC hdc)
+	{
+
+	}
+
+	void hj::Component::Release()
+	{
+	}
+
 }

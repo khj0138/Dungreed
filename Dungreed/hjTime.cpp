@@ -58,5 +58,9 @@ namespace hj
 		}
 		return 0;
 	}
+	void hj::Time::SetTime()
+	{
+		temp = 0;
+	}
 
 }

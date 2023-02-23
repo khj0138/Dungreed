@@ -1,4 +1,6 @@
 #include "hjGameObject.h"
+#include "hjTransform.h"
+#include "hjSpriteRenderer.h"
 
 
 namespace hj
@@ -7,10 +9,18 @@ namespace hj
 	hj::GameObject::GameObject()
 		: index(0)
 	{
+		mComponents.resize((UINT)eComponentType::End);
+		AddComponent<Transform>();
+		AddComponent<SpriteRenderer>();
 	}
 
 	hj::GameObject::~GameObject()
 	{
+		for (Component* comp : mComponents)
+		{
+			delete comp;
+			comp = nullptr;
+		}
 	}
 
 	void hj::GameObject::Initialize()
@@ -48,13 +58,7 @@ namespace hj
 
 	void hj::GameObject::Release()
 	{
-		for (Component* comp : mComponents)
-		{
-			if (comp == nullptr)
-				continue;
 
-			comp->Release();
-		}
 	}
 
 }

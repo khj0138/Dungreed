@@ -17,7 +17,6 @@ namespace hj
 		virtual void Release() override;
 
 	private:
-		Image* mImage;
 	};
 
 }

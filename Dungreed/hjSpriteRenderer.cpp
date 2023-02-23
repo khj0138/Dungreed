@@ -1,17 +1,29 @@
 #include "hjSpriteRenderer.h"
 
-void hj::SpriteRenderer::Initialize()
+namespace hj
 {
-}
+	SpriteRenderer::SpriteRenderer()
+		:Component(eComponentType::SpriteRenderer)
+		, mFlip(false)
+	{
+	}
+	SpriteRenderer::~SpriteRenderer()
+	{
+	}
+	void hj::SpriteRenderer::Initialize()
+	{
+	}
 
-void hj::SpriteRenderer::Update()
-{
-}
+	void hj::SpriteRenderer::Update()
+	{
+	}
 
-void hj::SpriteRenderer::Render(HDC hdc)
-{
-}
+	void hj::SpriteRenderer::Render(HDC hdc)
+	{
+	}
 
-void hj::SpriteRenderer::Release()
-{
+	void hj::SpriteRenderer::Release()
+	{
+	}
+
 }
