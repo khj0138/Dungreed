@@ -5,6 +5,7 @@ namespace hj
 {
 
 	hj::GameObject::GameObject()
+		: index(0)
 	{
 	}
 

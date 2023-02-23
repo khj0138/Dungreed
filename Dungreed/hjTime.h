@@ -10,6 +10,7 @@ namespace hj
 		static void Initialize();
 		static void Update();
 		static void Render(HDC hdc);
+		static UINT GetTime();
 
 		__forceinline static double Deltatime() { return mDeltaTime; }
 
@@ -17,6 +18,7 @@ namespace hj
 	private:
 		static double mDeltaTime;
 		static double mSecond;
+		static double temp;
 		static LARGE_INTEGER mCpuFrequency;
 		static LARGE_INTEGER mPrevFrequency;
 		static LARGE_INTEGER mCurFrequency;

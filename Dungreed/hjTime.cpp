@@ -7,6 +7,7 @@ namespace hj
 {
 	double Time::mDeltaTime = 0.0l;
 	double Time::mSecond = 0.0f;
+	double Time::temp = 0.0f;
 	LARGE_INTEGER Time::mCpuFrequency = {};
 	LARGE_INTEGER Time::mPrevFrequency = {};
 	LARGE_INTEGER Time::mCurFrequency = {};
@@ -34,7 +35,7 @@ namespace hj
 	void hj::Time::Render(HDC hdc)
 	{
 		mSecond += mDeltaTime;
-
+		temp += mDeltaTime;
 		if (mSecond > 1.0f)
 		{
 			HWND hWnd = application.GetHwnd();
@@ -46,6 +47,16 @@ namespace hj
 
 			mSecond = 0.0f;
 		}
+	}
+
+	UINT hj::Time::GetTime()
+	{
+		if (temp > 0.15)
+		{ 
+			temp = 0.0f;
+			return 1;
+		}
+		return 0;
 	}
 
 }

@@ -18,6 +18,7 @@ namespace hj
 
 	protected:
 		Vector2 mPos;
+		int index;
 
 	private:
 		std::vector<Component*> mComponents;

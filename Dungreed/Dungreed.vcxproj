@@ -138,12 +138,16 @@
     <ClInclude Include="hjGameObject.h" />
     <ClInclude Include="hjHero.h" />
     <ClInclude Include="HjHjEngine.h" />
+    <ClInclude Include="hjImage.h" />
     <ClInclude Include="hjInput.h" />
     <ClInclude Include="hjLayer.h" />
     <ClInclude Include="hjMath.h" />
     <ClInclude Include="hjPlayScene.h" />
+    <ClInclude Include="hjResource.h" />
+    <ClInclude Include="hjRscManager.h" />
     <ClInclude Include="hjScene.h" />
     <ClInclude Include="hjSceneManager.h" />
+    <ClInclude Include="hjSpriteRenderer.h" />
     <ClInclude Include="hjTime.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -155,12 +159,16 @@
     <ClCompile Include="hjEntity.cpp" />
     <ClCompile Include="hjGameObject.cpp" />
     <ClCompile Include="hjHero.cpp" />
+    <ClCompile Include="hjImage.cpp" />
     <ClCompile Include="hjInput.cpp" />
     <ClCompile Include="hjLayer.cpp" />
     <ClCompile Include="hjMath.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
+    <ClCompile Include="hjResource.cpp" />
+    <ClCompile Include="hjRscManager.cpp" />
     <ClCompile Include="hjScene.cpp" />
     <ClCompile Include="hjSceneManager.cpp" />
+    <ClCompile Include="hjSpriteRenderer.cpp" />
     <ClCompile Include="hjTime.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

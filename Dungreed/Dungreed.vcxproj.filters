@@ -47,6 +47,9 @@
     <Filter Include="Contents\BackGround">
       <UniqueIdentifier>{37f497b2-b833-49e8-9157-55b7df4bd1d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Resource">
+      <UniqueIdentifier>{aa86cdf9-5e83-48e6-afb6-44739cef1c19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -109,6 +112,18 @@
     <ClInclude Include="hjBackGround.h">
       <Filter>Contents\BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="hjResource.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="hjRscManager.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="hjImage.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSpriteRenderer.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -165,6 +180,18 @@
     </ClCompile>
     <ClCompile Include="hjBackGround.cpp">
       <Filter>Contents\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="hjResource.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="hjRscManager.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="hjImage.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSpriteRenderer.cpp">
+      <Filter>Engine\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

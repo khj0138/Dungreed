@@ -2,6 +2,7 @@
 #include "hjTime.h"
 #include "hjSceneManager.h"
 #include "hjInput.h"
+#include "hjRscManager.h"
 
 
 namespace hj
@@ -13,10 +14,14 @@ namespace hj
 
 	hj::Hero::~Hero()
 	{
+		
 	}
 
 	void hj::Hero::Initialize()
 	{
+		
+		mImage = RscManager::Load<Image>(L"Idle", L"..\\Resource\\baseCharIdle.bmp");
+		flip = false;
 		GameObject::Initialize();
 	}
 
@@ -26,10 +31,12 @@ namespace hj
 		if (Input::GetKeyState(eKeyCode::A) == eKeyState::Pressed)
 		{
 			mPos.x -= 100.0f * Time::Deltatime();
+			flip = true;
 		}
 		if (Input::GetKeyState(eKeyCode::D) == eKeyState::Pressed)
 		{
 			mPos.x += 100.0f * Time::Deltatime();
+			flip = false;
 		}
 		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Pressed)
 		{
@@ -39,24 +46,18 @@ namespace hj
 		{
 			mPos.y += 100.0f * Time::Deltatime();
 		}
+		if(Time::GetTime())
+			index = (index+1) % 5;
 	}
 
 	void hj::Hero::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
-		// stock 오브젝트
-		HBRUSH brush = CreateSolidBrush(RGB(0, 0, 0));
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
-
-		HPEN pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 255));
-		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
-
-		Rectangle(hdc, mPos.x, mPos.y, mPos.x + 100, mPos.y + 100);
-
-		SelectObject(hdc, oldPen);
-		DeleteObject(pen);
-		SelectObject(hdc, oldBrush);
-		DeleteObject(brush);
+		UINT width = mImage->GetWidth() / 5;
+		UINT height = mImage->GetHeight() / 2;
+		
+		GdiTransparentBlt(hdc, mPos.x, mPos.y, width, height, mImage->GetHdc(), width * index, flip * height, width, height, RGB(255, 0, 255));
+		//BitBlt(hdc, mPos.x, mPos.y, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, SRCCOPY);
 	}
 
 	void hj::Hero::Release()
