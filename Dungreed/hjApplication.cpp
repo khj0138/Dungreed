@@ -6,7 +6,7 @@
 
 namespace hj
 {
-	hj::Application::Application()
+	Application::Application()
 		: mHwnd(NULL)
 		, mHdc(NULL)
 		, mWidth(1600)
@@ -14,12 +14,12 @@ namespace hj
 	{
 	}
 
-	hj::Application::~Application()
+	Application::~Application()
 	{
 		SceneManager::Release();
 	}
 
-	void hj::Application::Initialize(HWND hWnd)
+	void Application::Initialize(HWND hWnd)
 	{
 		mHwnd = hWnd;
 		mHdc = GetDC(hWnd);
@@ -48,20 +48,20 @@ namespace hj
 		SceneManager::Initialize();
 	}
 
-	void hj::Application::Run()
+	void Application::Run()
 	{
 		Update();
 		Render();
 	}
 
-	void hj::Application::Update()
+	void Application::Update()
 	{
 		Time::Update();
 		Input::Update();
 		SceneManager::Update();
 	}
 
-	void hj::Application::Render()
+	void Application::Render()
 	{
 		// clear
 		Time::Render(mBackHDC);

@@ -12,7 +12,7 @@ namespace hj
 	LARGE_INTEGER Time::mPrevFrequency = {};
 	LARGE_INTEGER Time::mCurFrequency = {};
 
-	void hj::Time::Initialize()
+	void Time::Initialize()
 	{
 		// CPU 고유 진동수 할당
 		QueryPerformanceFrequency(&mCpuFrequency);
@@ -21,7 +21,7 @@ namespace hj
 		QueryPerformanceCounter(&mPrevFrequency);
 	}
 
-	void hj::Time::Update()
+	void Time::Update()
 	{
 		QueryPerformanceCounter(&mCurFrequency);
 
@@ -32,7 +32,7 @@ namespace hj
 		mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 	}
 
-	void hj::Time::Render(HDC hdc)
+	void Time::Render(HDC hdc)
 	{
 		mSecond += mDeltaTime;
 		temp += mDeltaTime;
@@ -49,7 +49,7 @@ namespace hj
 		}
 	}
 
-	UINT hj::Time::GetTime()
+	UINT Time::GetTime()
 	{
 		if (temp > 0.15)
 		{ 
@@ -58,7 +58,7 @@ namespace hj
 		}
 		return 0;
 	}
-	void hj::Time::SetTime()
+	void Time::SetTime()
 	{
 		temp = 0;
 	}

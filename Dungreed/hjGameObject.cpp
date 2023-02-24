@@ -6,7 +6,7 @@
 namespace hj
 {
 
-	hj::GameObject::GameObject()
+	GameObject::GameObject()
 		: index(0)
 	{
 		mComponents.resize((UINT)eComponentType::End);
@@ -14,7 +14,7 @@ namespace hj
 		AddComponent<SpriteRenderer>();
 	}
 
-	hj::GameObject::~GameObject()
+	GameObject::~GameObject()
 	{
 		for (Component* comp : mComponents)
 		{
@@ -23,7 +23,7 @@ namespace hj
 		}
 	}
 
-	void hj::GameObject::Initialize()
+	void GameObject::Initialize()
 	{
 		for (Component* comp : mComponents)
 		{
@@ -34,7 +34,7 @@ namespace hj
 		}
 	}
 
-	void hj::GameObject::Update()
+	void GameObject::Update()
 	{
 		for (Component* comp : mComponents)
 		{
@@ -45,7 +45,7 @@ namespace hj
 		}
 	}
 
-	void hj::GameObject::Render(HDC hdc)
+	void GameObject::Render(HDC hdc)
 	{
 		for (Component* comp : mComponents)
 		{
@@ -56,7 +56,7 @@ namespace hj
 		}
 	}
 
-	void hj::GameObject::Release()
+	void GameObject::Release()
 	{
 
 	}

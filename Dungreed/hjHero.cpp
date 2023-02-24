@@ -8,20 +8,19 @@
 
 namespace hj
 {
-	hj::Hero::Hero()
+	Hero::Hero()
 	{
 		mStates.resize((UINT)eStateType::End);
 		mStates[(UINT)eStateType::Idle] = 5;
 		mStates[(UINT)eStateType::Run] = 8;
-
 	}
 
-	hj::Hero::~Hero()
+	Hero::~Hero()
 	{
 		
 	}
 
-	void hj::Hero::Initialize()
+	void Hero::Initialize()
 	{
 		GameObject::Initialize();
 
@@ -32,7 +31,7 @@ namespace hj
 		spr->SetIndex(0);
 	}
 
-	void hj::Hero::Update()
+	void Hero::Update()
 	{
 		GameObject::Update();
 
@@ -103,7 +102,7 @@ namespace hj
 		}
 	}
 
-	void hj::Hero::Render(HDC hdc)
+	void Hero::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
 
@@ -118,20 +117,33 @@ namespace hj
 		UINT width = img->GetWidth() / 8;
 		UINT height = img->GetHeight() / 4;
 		HDC iHdc = img->GetHdc();
+
+		UINT iWidth = img->GetWidth() / 8;
+		UINT iHeight = img->GetHeight() / 4;
+		UINT iPosX = pos.x;
+		UINT iPosY = pos.y;
 	
 		UINT sprType = spr->getState();
 		UINT sprNum = spr->getIndex();
-		
-		GdiTransparentBlt(hdc, pos.x, pos.y, width, height, iHdc, width * sprNum, height * ((sprType * 2) + flip), width, height, RGB(255, 0, 255));
-		//BitBlt(hdc, mPos.x, mPos.y, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, SRCCOPY);
+
+
+		// GdiTransparentBlt(
+		// hdc, 복사할 위치(x), 복사할 위치(y), 복사할 가로, 복사할 세로,
+		// 복사되는 hdc, 복사되는 x, 복사되는 y, 복사되는 가로, 복사되는 세로, 제외할 색);
+
+		GdiTransparentBlt(
+			hdc, pos.x, pos.y, width, height,
+			iHdc, width * sprNum, height * ((sprType * 2) + flip), width, height, RGB(255, 0, 255));
+
+		//BitBlt(hdc, pos.x, pos.y, width, height,iHdc, width * sprNum, height * ((sprType * 2) + flip), SRCCOPY);
 	}
 
-	void hj::Hero::Release()
+	void Hero::Release()
 	{
 		GameObject::Release();
 	}
 
-	void hj::Hero::StateChange(UINT prev, UINT cur)
+	void Hero::StateChange(UINT prev, UINT cur)
 	{
 		SpriteRenderer* spr = GetComponent<SpriteRenderer>();
 

@@ -10,20 +10,20 @@ namespace hj {
 	Component::~Component()
 	{
 	}
-	void hj::Component::Initialize()
+	void Component::Initialize()
 	{
 	}
 
-	void hj::Component::Update()
+	void Component::Update()
 	{
 	}
 
-	void hj::Component::Render(HDC hdc)
+	void Component::Render(HDC hdc)
 	{
 
 	}
 
-	void hj::Component::Release()
+	void Component::Release()
 	{
 	}
 

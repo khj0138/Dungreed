@@ -1,41 +1,58 @@
-
 #include "hjPlayScene.h"
-#include "hjHero.h"
-#include "hjBackGround.h"
+#include "hjSceneManager.h"
+#include "hjInput.h"
+
 
 namespace hj
 {
 
-	hj::PlayScene::PlayScene()
+	PlayScene::PlayScene()
 	{
 	}
 
-	hj::PlayScene::~PlayScene()
+	PlayScene::~PlayScene()
 	{
 	}
 
-	void hj::PlayScene::Initialize()
+	void PlayScene::Initialize()
 	{
-		Hero* hero = new Hero();
+		hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);
-		BackGround* backGround = new BackGround();
-		AddGameObject(backGround, eLayerType::BG);
+		bg = new BackGround();
+		AddGameObject(bg, eLayerType::BG);
+		bg->setBG(L"back", L"..\\Resource\\SkyDay.bmp");
+
 
 		Scene::Initialize();
 	}
 
-	void hj::PlayScene::Update()
+	void PlayScene::Update()
 	{
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Title);
+		}
+
 		Scene::Update();
 	}
 
-	void hj::PlayScene::Render(HDC hdc)
+	void PlayScene::Render(HDC hdc)
 	{
 		Scene::Render(hdc);
 	}
 
-	void hj::PlayScene::Release()
+	void PlayScene::Release()
 	{
 		Scene::Release();
+	}
+
+	void PlayScene::OnEnter()
+	{
+
+	}
+
+	void PlayScene::OnExit()
+	{
+
 	}
 }

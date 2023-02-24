@@ -3,7 +3,6 @@
 #include "hjSceneManager.h"
 #include "hjInput.h"
 #include "hjRscManager.h"
-#include "hjSpriteRenderer.h"
 #include "hjTransform.h"
 
 
@@ -18,10 +17,6 @@ namespace hj
 	void BackGround::Initialize()
 	{
 		GameObject::Initialize();
-
-		SpriteRenderer* spr = GetComponent<SpriteRenderer>();
-
-		spr->SetSprite(L"back", L"..\\Resource\\BackCloud.bmp");
 	}
 	void BackGround::Update()
 	{
@@ -43,6 +38,14 @@ namespace hj
 		HDC iHdc = img->GetHdc();
 		BitBlt(hdc, pos.x, pos.y, width,height, iHdc, 0, 0, SRCCOPY);
 		//GdiTransparentBlt(hdc, mPos.x, mPos.y, width, height, mImage->GetHdc(), 0, 0, width, height, RGB(255, 0, 255));
+	}
+	void BackGround::setBG(const std::wstring& key, const std::wstring& path)
+	{
+		spr = GetComponent<SpriteRenderer>();
+		spr->SetSprite(key, path);
+		spr->SetState((UINT)eStateType::Idle);
+		spr->SetIndex(0);
+		int a = 0;
 	}
 	void BackGround::Release()
 	{

@@ -1,16 +1,14 @@
 #pragma once
 #include "hjScene.h"
-#include "hjHero.h"
-#include "hjBackGround.h"
+#include "hjBackGround.h";
 
 namespace hj
 {
-
-	class PlayScene : public Scene
+	class TitleScene : public Scene
 	{
 	public:
-		PlayScene();
-		~PlayScene();
+		TitleScene();
+		~TitleScene();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -19,10 +17,7 @@ namespace hj
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-
 	private:
-		Hero* hero;
 		BackGround* bg;
 	};
-
 }

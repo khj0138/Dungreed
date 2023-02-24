@@ -1,5 +1,6 @@
 #include "hjSpriteRenderer.h"
 
+
 namespace hj
 {
 	SpriteRenderer::SpriteRenderer()
@@ -10,19 +11,19 @@ namespace hj
 	SpriteRenderer::~SpriteRenderer()
 	{
 	}
-	void hj::SpriteRenderer::Initialize()
+	void SpriteRenderer::Initialize()
 	{
 	}
 
-	void hj::SpriteRenderer::Update()
+	void SpriteRenderer::Update()
 	{
 	}
 
-	void hj::SpriteRenderer::Render(HDC hdc)
+	void SpriteRenderer::Render(HDC hdc)
 	{
 	}
 
-	void hj::SpriteRenderer::Release()
+	void SpriteRenderer::Release()
 	{
 	}
 

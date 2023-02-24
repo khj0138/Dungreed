@@ -127,6 +127,9 @@
     <ClInclude Include="hjTransform.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="hjTitleScene.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -198,6 +201,9 @@
     </ClCompile>
     <ClCompile Include="hjTransform.cpp">
       <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="hjTitleScene.cpp">
+      <Filter>Contents\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

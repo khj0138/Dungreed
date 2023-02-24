@@ -21,7 +21,7 @@ namespace hj
 		Vector2 GetSize() { return mSize; }
 	private:
 		Vector2 mPos;
-		Vector2 mSize;
+		Vector2 mSize; 
 		Vector2 mRotation;
 	};
 

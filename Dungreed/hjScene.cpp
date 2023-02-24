@@ -3,17 +3,17 @@
 namespace hj
 {
 
-	hj::Scene::Scene()
+	Scene::Scene()
 	{
 		mLayers.reserve(5);
 		mLayers.resize((UINT)eLayerType::End);
 	}
 
-	hj::Scene::~Scene()
+	Scene::~Scene()
 	{
 	}
 
-	void hj::Scene::Initialize()
+	void Scene::Initialize()
 	{
 		for (Layer& layer : mLayers)
 		{
@@ -21,7 +21,7 @@ namespace hj
 		}
 	}
 
-	void hj::Scene::Update()
+	void Scene::Update()
 	{
 		for (Layer& layer : mLayers)
 		{
@@ -29,22 +29,24 @@ namespace hj
 		}
 	}
 
-	void hj::Scene::Render(HDC hdc)
+	void Scene::Render(HDC hdc)
 	{
 		for (Layer& layer : mLayers)
 		{
 			layer.Render(hdc);
 		}
 	}
-	void hj::Scene::Release()
+	void Scene::Release()
 	{
-		for (Layer& layer : mLayers)
-		{
-			layer.Release();
-		}
+		
 	}
-
-	void hj::Scene::AddGameObject(GameObject* obj, eLayerType layer)
+	void Scene::OnEnter()
+	{
+	}
+	void Scene::OnExit()
+	{
+	}
+	void Scene::AddGameObject(GameObject* obj, eLayerType layer)
 	{
 		mLayers[(UINT)layer].AddGameObject(obj);
 	}

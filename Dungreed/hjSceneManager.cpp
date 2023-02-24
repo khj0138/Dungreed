@@ -1,16 +1,21 @@
 #include "hjSceneManager.h"
 #include "hjPlayScene.h"
+#include "hjTitleScene.h"
 
 namespace hj
 {
 	std::vector<Scene*> SceneManager::mScenes = {};
+	Scene* SceneManager::mActiveScene = nullptr;
 
 	void SceneManager::Initialize()
 	{
 		mScenes.resize((UINT)eSceneType::Max);
 
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
-		mScenes[(UINT)eSceneType::Play]->SetName(L"PLAYER");
+		//mScenes[(UINT)eSceneType::Play]->SetName(L"PLAYER");
+		mScenes[(UINT)eSceneType::Title] = new TitleScene();
+
+		mActiveScene = mScenes[(UINT)eSceneType::Title];
 
 		for (Scene* scene : mScenes)
 		{
@@ -23,44 +28,33 @@ namespace hj
 
 	void SceneManager::Update()
 	{
-		//for (size_t i = 0; i < (UINT)eSceneType::Max; i++)
-		//{
-		//	if (mScenes[i] == nullptr)
-		//		continue;
-
-		//	mScenes[i]->Update();
-		//}
-		//read only
-		for (Scene* scene : mScenes)
-		{
-			if (scene == nullptr)
-				continue;
-
-			scene->Update();
-		}
+		mActiveScene->Update();
 	}
 
-	void hj::SceneManager::Render(HDC hdc)
+	void SceneManager::Render(HDC hdc)
+	{
+		mActiveScene->Render(hdc);
+	}
+
+	void SceneManager::Release()
 	{
 		for (Scene* scene : mScenes)
 		{
 			if (scene == nullptr)
 				continue;
-
-			scene->Render(hdc);
+			delete scene;
+			scene = nullptr;
 		}
 	}
 
-	void hj::SceneManager::Release()
+	void SceneManager::LoadScene(eSceneType type)
 	{
-		for (Scene* scene : mScenes)
-		{
-			if (scene == nullptr)
-				continue;
+		//ÇöÀç¾À
+		mActiveScene->OnExit();
 
-			scene->Release();
-		}
-		delete mScenes[(UINT)eSceneType::Play];
+		//´ÙÀ½¾À
+		mActiveScene = mScenes[(UINT)type];
+		mActiveScene->OnEnter();
 	}
 
 }

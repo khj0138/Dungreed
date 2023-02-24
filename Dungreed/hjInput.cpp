@@ -12,7 +12,7 @@ namespace hj
 
 	std::vector<Input::Key> Input::mKeys;
 
-	void hj::Input::Initialize()
+	void Input::Initialize()
 	{
 		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 		{
@@ -25,7 +25,7 @@ namespace hj
 		}
 	}
 
-	void hj::Input::Update()
+	void Input::Update()
 	{
 		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 		{
@@ -50,7 +50,7 @@ namespace hj
 		}
 	}
 
-	void hj::Input::Render(HDC hdc)
+	void Input::Render(HDC hdc)
 	{
 
 	}
