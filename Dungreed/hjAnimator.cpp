@@ -81,6 +81,16 @@ namespace hj
 		mActiveAnimation = FindAnimation(name);
 		mbLoop = loop;
 	}
+	void Animator::Reset()
+	{
+		mActiveAnimation->Reset();
+	}
+	void Animator::Flip(const std::wstring& name)
+	{
+		UINT spriteIndex = mActiveAnimation->getIndex();
+		mActiveAnimation = FindAnimation(name);
+		mActiveAnimation->setIndex(spriteIndex);
+	}
 	Animator::Events* Animator::FindEvents(const std::wstring& name)
 	{
 		return nullptr;

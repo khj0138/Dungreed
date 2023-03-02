@@ -61,7 +61,6 @@ namespace hj
 	{
 		spr = GetComponent<SpriteRenderer>();
 		spr->SetSprite(key, path);
-		spr->SetState((UINT)eStateType::Idle);
 		spr->SetIndex(0);
 		int a = 0;
 	}

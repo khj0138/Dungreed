@@ -29,9 +29,3 @@ enum class eComponentType
 	End,
 };
 
-enum class eStateType
-{
-	Idle,
-	Run,
-	End,
-};

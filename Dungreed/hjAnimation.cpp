@@ -30,7 +30,7 @@ namespace hj
 		if (mbComplete == true)
 			return;
 
-		mTime += Time::Deltatime();
+		mTime += Time::DeltaTime();
 		if (mSpriteSheet[mSpriteIndex].duration < mTime)
 		{
 			mTime = 0.0f;
@@ -49,9 +49,12 @@ namespace hj
 	{
 		Transform* tr
 			= mAnimator->GetOwner()->GetComponent<Transform>();
+		Vector2 scale = tr->GetScale();
 
-		TransparentBlt(hdc, tr->GetPos().x, tr->GetPos().y
-			, mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y
+		TransparentBlt(hdc, tr->GetPos().x + mSpriteSheet[mSpriteIndex].offset.x
+			, tr->GetPos().y + mSpriteSheet[mSpriteIndex].offset.y
+			, mSpriteSheet[mSpriteIndex].size.x * scale.x
+			, mSpriteSheet[mSpriteIndex].size.y * scale.y
 			, mSheetImage->GetHdc()
 			, mSpriteSheet[mSpriteIndex].leftTop.x, mSpriteSheet[mSpriteIndex].leftTop.y
 			, mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y,

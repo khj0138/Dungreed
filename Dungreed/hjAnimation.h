@@ -36,6 +36,8 @@ namespace hj
 
 		bool isComplete() { return mbComplete; }
 		void SetAnimator(Animator* animator) { mAnimator = animator;  }
+		int getIndex() { return mSpriteIndex; }
+		void setIndex(int spriteIndex) { mSpriteIndex = spriteIndex; }
 	
 	private:
 		Animator* mAnimator;

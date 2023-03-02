@@ -134,6 +134,7 @@
     <ClInclude Include="hjAnimator.h" />
     <ClInclude Include="hjApplication.h" />
     <ClInclude Include="hjBackGround.h" />
+    <ClInclude Include="hjCollider.h" />
     <ClInclude Include="hjComponent.h" />
     <ClInclude Include="hjEntity.h" />
     <ClInclude Include="hjEnums.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="hjAnimator.cpp" />
     <ClCompile Include="hjApplication.cpp" />
     <ClCompile Include="hjBackGround.cpp" />
+    <ClCompile Include="hjCollider.cpp" />
     <ClCompile Include="hjComponent.cpp" />
     <ClCompile Include="hjEntity.cpp" />
     <ClCompile Include="hjGameObject.cpp" />

@@ -5,9 +5,11 @@ namespace hj
 {
 	Transform::Transform()
 		:Component(eComponentType::Transform)
-		, mPos(0,0)
-		, mSize(0,0)
-		, mRotation(0,0)
+		, mPos(Vector2::Zero)
+		, mScale(Vector2::One)
+		, mRotation(0, 0)
+		, mSize(0, 0)
+		, mVelocity(0, 0)
 	{
 	}
 	Transform::~Transform()

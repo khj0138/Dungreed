@@ -13,7 +13,7 @@ namespace hj
 		static UINT GetTime();
 		static void SetTime();
 
-		__forceinline static double Deltatime() { return mDeltaTime; }
+		__forceinline static double DeltaTime() { return mDeltaTime; }
 
 
 	private:

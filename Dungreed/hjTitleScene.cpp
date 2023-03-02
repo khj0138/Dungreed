@@ -14,20 +14,21 @@ namespace hj {
 	}
 	void TitleScene::Initialize()
 	{
-		
-		
-		BackGround* bg2 = new BackGround();
-		AddGameObject(bg2, eLayerType::BG);
-		bg2->setBG(L"backTitle", L"..\\Resource\\Title\\backCloud.bmp");
-		bg2->setV(1.f);
-		BackGround* bg3 = new BackGround();
-		AddGameObject(bg3, eLayerType::BG);
-		bg3->setBG(L"backTitle", L"..\\Resource\\Title\\FrontCloud.bmp");
-		bg3->setV(1.f);
 		BackGround* bg = new BackGround();
 		AddGameObject(bg, eLayerType::BG);
-		bg->setBG(L"backTitle", L"..\\Resource\\Title\\TitleSky.bmp");
+		bg->setBG(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp");
 		bg->setV(0.0f);
+
+		bg = new BackGround();
+		AddGameObject(bg, eLayerType::BG);
+		bg->setBG(L"backCloud", L"..\\Resource\\Title\\backCloud.bmp");
+		bg->setV(1.f);
+		
+		bg = new BackGround();
+		AddGameObject(bg, eLayerType::BG);
+		bg->setBG(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp");
+		bg->setV(2.f);
+		
 	}
 	void TitleScene::Update()
 	{
@@ -36,7 +37,7 @@ namespace hj {
 			SceneManager::LoadScene(eSceneType::Play);
 		}
 		
-		mTime += Time::Deltatime();
+		mTime += Time::DeltaTime();
 		if (mTime > 0.01)
 		{
 			mTime = 0.0f;

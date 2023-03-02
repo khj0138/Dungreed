@@ -36,12 +36,57 @@ struct Vector2
 	Vector2(Vector2&&) = default;
 	Vector2& operator=(Vector2&&) = default;
 	
-	Vector2& operator*(Vector2 other)
+	Vector2 operator+(const Vector2& other)
 	{
-		Vector2 temp = { this->x, this->y };
-		temp.x = temp.x * other.x;
-		temp.y = temp.y * other.y;
+		Vector2 temp;
+		temp.x = x + other.x;
+		temp.y = y + other.y;
+		return temp;
+	}
+	Vector2 operator-(const Vector2& other)
+	{
+		Vector2 temp;
+		temp.x = x - other.x;
+		temp.y = y - other.y;
+		return temp;
+	}
+	Vector2 operator*(const Vector2& other)
+	{
+		Vector2 temp;
+		temp.x = x * other.x;
+		temp.y = y * other.y;
+		return temp;
+	}
+	Vector2 operator/(const Vector2& other)
+	{
+		if (other.x == 0 || other.y == 0)
+			return Vector2{0.0f, 0.0f};
+		Vector2 temp;
+		temp.x = x / other.x;
+		temp.y = y / other.y;
 		return temp;
 	}
 
+	void operator+=(const Vector2& other)
+	{
+		x = x + other.x;
+		y = y + other.y;
+	}
+	void operator-=(const Vector2& other)
+	{
+		x = x + other.x;
+		y = y + other.y;
+	}
+	void operator*=(const Vector2& other)
+	{
+		x = x + other.x;
+		y = y + other.y;
+	}
+	void operator/=(const Vector2& other)
+	{
+		if (other.x == 0 || other.y == 0)
+			return;
+		x = x + other.x;
+		y = y + other.y;
+	}
 };

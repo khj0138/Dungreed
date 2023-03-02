@@ -30,7 +30,7 @@ namespace hj
 
 		// 윈도우 크기 변경 및 출력 설정
 		SetWindowPos(mHwnd
-			, nullptr, 100, 50
+			, nullptr, 0,0
 			, rect.right - rect.left
 			, rect.bottom - rect.top
 			, 0);

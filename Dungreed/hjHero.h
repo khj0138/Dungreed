@@ -1,12 +1,21 @@
 #pragma once
 #include "hjGameObject.h"
+#include "hjImage.h"
 
 namespace hj
 {
-
+	class Animator;
 	class Hero : public GameObject
 	{
 	public:
+		enum class eHeroState
+		{
+			Idle,
+			Run,
+			Die,
+			Jump,
+			End,
+		};
 		Hero();
 		~Hero();
 
@@ -14,10 +23,19 @@ namespace hj
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
-		void StateChange(UINT prev, UINT cur);
+		//void StateChange(UINT prev, UINT cur);
+
+		void idle();
+		void run();
+		void die();
+		void jump();
+
 
 	private:
-		std::vector<int> mStates;
+		eHeroState mState;
+		Animator* mAnimator;
+		bool flip;
+		bool isJump;
 	};
 
 }
