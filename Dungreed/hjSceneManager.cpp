@@ -16,6 +16,7 @@ namespace hj
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 
 		mActiveScene = mScenes[(UINT)eSceneType::Title];
+		//mActiveScene = mScenes[(UINT)eSceneType::Play];
 
 		for (Scene* scene : mScenes)
 		{

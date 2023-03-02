@@ -1,6 +1,8 @@
 #include "hjTitleScene.h"
 #include "hjInput.h"
 #include "hjSceneManager.h"
+#include "hjTime.h"
+#include "hjImage.h"
 
 namespace hj {
 
@@ -12,10 +14,20 @@ namespace hj {
 	}
 	void TitleScene::Initialize()
 	{
-		bg = new BackGround();
+		
+		
+		BackGround* bg2 = new BackGround();
+		AddGameObject(bg2, eLayerType::BG);
+		bg2->setBG(L"backTitle", L"..\\Resource\\Title\\backCloud.bmp");
+		bg2->setV(1.f);
+		BackGround* bg3 = new BackGround();
+		AddGameObject(bg3, eLayerType::BG);
+		bg3->setBG(L"backTitle", L"..\\Resource\\Title\\FrontCloud.bmp");
+		bg3->setV(1.f);
+		BackGround* bg = new BackGround();
 		AddGameObject(bg, eLayerType::BG);
-		bg->setBG(L"backTitle", L"..\\Resource\\BackCloud.bmp");
-
+		bg->setBG(L"backTitle", L"..\\Resource\\Title\\TitleSky.bmp");
+		bg->setV(0.0f);
 	}
 	void TitleScene::Update()
 	{
@@ -23,6 +35,13 @@ namespace hj {
 		{
 			SceneManager::LoadScene(eSceneType::Play);
 		}
+		
+		mTime += Time::Deltatime();
+		if (mTime > 0.01)
+		{
+			mTime = 0.0f;
+		}
+		Scene::Update();
 	}
 	void TitleScene::Render(HDC hdc)
 	{

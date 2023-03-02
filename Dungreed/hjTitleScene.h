@@ -1,6 +1,7 @@
 #pragma once
 #include "hjScene.h"
 #include "hjBackGround.h";
+#include "hjGameObject.h"
 
 namespace hj
 {
@@ -18,6 +19,7 @@ namespace hj
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 	private:
-		BackGround* bg;
+		std::vector<BackGround*> bg;
+		double mTime;
 	};
 }

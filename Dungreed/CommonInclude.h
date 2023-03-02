@@ -13,3 +13,6 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <functional>
+
+#pragma comment(lib, "Msimg32.lib")

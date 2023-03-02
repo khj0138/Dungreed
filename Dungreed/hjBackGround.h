@@ -2,6 +2,8 @@
 #include "hjGameObject.h"
 #include "hjImage.h"
 #include "hjSpriteRenderer.h"
+#include "hjTransform.h"
+
 
 namespace hj
 {
@@ -18,9 +20,14 @@ namespace hj
 		virtual void Release() override;
 
 		void setBG(const std::wstring& key, const std::wstring& path);
+		void setPos(Vector2 pos);
+		void setV(double v) { mV = v; }
 
 	private:
 		SpriteRenderer* spr;
+		Transform* tr;
+		double mV;
+
 	};
 
 }

@@ -130,6 +130,8 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="hjAnimation.h" />
+    <ClInclude Include="hjAnimator.h" />
     <ClInclude Include="hjApplication.h" />
     <ClInclude Include="hjBackGround.h" />
     <ClInclude Include="hjComponent.h" />
@@ -155,6 +157,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hjAnimation.cpp" />
+    <ClCompile Include="hjAnimator.cpp" />
     <ClCompile Include="hjApplication.cpp" />
     <ClCompile Include="hjBackGround.cpp" />
     <ClCompile Include="hjComponent.cpp" />

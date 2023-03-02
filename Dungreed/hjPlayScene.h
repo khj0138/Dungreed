@@ -2,6 +2,7 @@
 #include "hjScene.h"
 #include "hjHero.h"
 #include "hjBackGround.h"
+#include "hjGameObject.h"
 
 namespace hj
 {
