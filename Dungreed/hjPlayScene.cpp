@@ -1,6 +1,9 @@
 #include "hjPlayScene.h"
 #include "hjSceneManager.h"
 #include "hjInput.h"
+#include "hjSceneManager.h"
+#include "hjMonster.h"
+#include "hjCollisionManager.h"
 
 
 namespace hj
@@ -18,12 +21,16 @@ namespace hj
 	{
 		hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);
-		bg = new BackGround();
-		AddGameObject(bg, eLayerType::BG);
-		bg->setBG(L"back", L"..\\Resource\\SkyDay.bmp");
+		BackGround* bg = new BackGround();
+		bg->setAnimation(L"back", L"..\\Resource\\SkyDay.bmp", 0.0f);
+		AddGameObject(bg, eLayerType::BackBG);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 
 
 		Scene::Initialize();
+
+		Vector2 size = bg->GetSize();
+		bg->setScale(Vector2{ (1600.f / size.x), (900.f / size.y) });
 	}
 
 	void PlayScene::Update()

@@ -4,9 +4,11 @@
 namespace hj
 {
 
+
 	class Image : public Resource
 	{
 	public:
+		static Image* Create(const std::wstring& name, UINT width, UINT height);
 		Image();
 		~Image();
 
@@ -17,6 +19,7 @@ namespace hj
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
 
+		void SetSize(Vector2 size) { mWidth = size.x; mHeight = size.y; }
 
 	private:
 		HBITMAP mBitmap;

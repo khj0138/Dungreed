@@ -44,15 +44,21 @@ namespace hj
 			, Vector2 leftTop
 			, UINT column, UINT row, UINT spriteLength
 			, Vector2 offset, float duration);
-
-		void CreateAnimations();
+		void CreateAnimations(const std::wstring&path, Vector2 offset, float duration);
 
 		Animation* FindAnimation(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop);
+
+
 		void Reset();
 		void Flip(const std::wstring& name);
+		void setActAnimLeftTop(Vector2 leftTop) { mActiveAnimation->setLeftTop(leftTop); }
+		Animation* GetActiveAnimation() { return mActiveAnimation; }
 
 		Events* FindEvents(const std::wstring& name);
+		std::function<void()>& GetStartEvent(const std::wstring& name);
+		std::function<void()>& GetCompleteEvent(const std::wstring& name);
+		std::function<void()>& GetEndEvent(const std::wstring& name);
 
 	private:
 		std::map<std::wstring, Animation*> mAnimations;

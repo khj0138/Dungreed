@@ -9,61 +9,79 @@
 namespace hj
 {
 	BackGround::BackGround()
+		: mTime(0.0f)
 	{
+
 	}
 	BackGround::~BackGround()
 	{
 	}
 	void BackGround::Initialize()
 	{
+		mLeftTop = Vector2{ 0.0f, 0.0f };
+		mAnimator = AddComponent<Animator>();
 		GameObject::Initialize();
+		Transform* tr = GetComponent<Transform>();
+		tr->SetPos(Vector2{ 0.0f, 0.0f });
+		Vector2 size = Vector2::Zero;
+		float width = mImage->GetWidth();
+		float height = mImage->GetHeight();
+		if (width * 1600.f > height * 900.f)
+		{
+			size.x = (float)height / 900.f * 1600.f;
+			size.y = height;
+		}
+		else
+		{
+			size.x = width;
+			size.y = (float)width / 1600.f * 900.f;
+		}
+		tr->SetSize(Vector2{ width - size.x, height });
+		tr->SetPos (tr->GetPos() + Vector2{ size.x / 2.0f, size.y });
+
+		mImage->SetSize(size);
+
+		mAnimator->CreateAnimation(L"output", mImage,Vector2::Zero, 1, 1, 1, Vector2::Zero, 0.1);
+		mAnimator->Play(L"output", true);
 	}
 	void BackGround::Update()
 	{
 		Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-		setPos(Vector2{ (float)mV * 1.0f, 0.0f });
+	
+		if(mPlayRate != 0.0f)
+		{ 
+			if (mLeftTop.x >= (tr->GetSize().x))
+			{
+				mLeftTop = Vector2::Zero;
+
+				mAnimator->setActAnimLeftTop(mLeftTop);
+			}
+			else
+			{
+				mTime += Time::DeltaTime();
+				float temp = 1.0f * (float)mTime * (float)mPlayRate;
+
+				if (temp > 1)
+				{
+					mLeftTop += Vector2{(float)((UINT)temp), 0.0f };
+					mTime = 0.0f;
+				}
+				mAnimator->setActAnimLeftTop(mLeftTop);
+			}
+		}
+
 		GameObject::Update();
 	}
 	void BackGround::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
-		Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-		Vector2 size = tr->GetSize();
-		
-		SpriteRenderer* spr = GetComponent<SpriteRenderer>();
-		Image* img = spr->GetSprite();
-		bool flip = spr->checkFlip();
-
-		UINT width = img->GetWidth();
-		UINT height = img->GetHeight();
-		HDC iHdc = img->GetHdc();
-		//BitBlt(hdc, 0, 0, 1600, 900, iHdc, 0, 0, SRCCOPY);
-
-		float scale = (float)width / 1600.f;
-
-		float moveX = (float)pos.x / (float)width;
-		float outputX = (float)height / 900.f * 1600.f;
-		float moveRate = (1 - moveX) * (float)width / outputX;
-		if (moveRate > 1)
-		{
-			GdiTransparentBlt(hdc, 0, 0, (UINT)(1600), (UINT)(900), iHdc, moveX * width, 0, (UINT)(outputX ), height, RGB(255, 0, 255));
-		}
-		else
-		{
-			GdiTransparentBlt(hdc, 0, 0, (UINT)(1600.f * moveRate), (UINT)(900), iHdc, moveX* width, 0, moveRate * outputX, height, RGB(255, 0, 255));
-			GdiTransparentBlt(hdc, (UINT)(1600.f * moveRate), 0, (UINT)(1600.f * (1-moveRate)), (UINT)(900.f), iHdc, 0, 0, (UINT)(outputX * (1- moveRate)), height, RGB(255, 0, 255));
-		}
-
 	}
-	void BackGround::setBG(const std::wstring& key, const std::wstring& path)
+
+	void BackGround::Release()
 	{
-		spr = GetComponent<SpriteRenderer>();
-		spr->SetSprite(key, path);
-		spr->SetIndex(0);
-		int a = 0;
+		GameObject::Release();
 	}
+
 	void BackGround::setPos(Vector2 pos)
 	{
 		tr = GetComponent<Transform>();
@@ -71,11 +89,28 @@ namespace hj
 
 		spr = GetComponent < SpriteRenderer>();
 		UINT width = spr->GetSprite()->GetWidth();
-		tr->SetPos(Vector2{ (float)((UINT)(iPos.x + pos.x) % width), iPos.y });
+		if((iPos.x + pos.x) < width)
+			tr->SetPos(Vector2{ (float)(iPos.x + pos.x), iPos.y });
+		else
+			tr->SetPos(Vector2{ (float)(iPos.x + pos.x) - width, iPos.y });
 	}
 
-	void BackGround::Release()
+	void BackGround::setAnimation(const std::wstring name, const std::wstring path, float playRate)
 	{
-		GameObject::Release();
+		mImage = RscManager::Load<Image>(name, path);
+		mPlayRate = playRate;
 	}
+
+	void BackGround::setScale(Vector2 scale)
+	{
+		Transform* tr = GetComponent<Transform>();
+		tr->SetScale(Vector2{ scale.x, scale.y });
+	}
+	Vector2 BackGround::GetSize()
+	{
+		return Vector2{(float) mImage->GetWidth(),(float) mImage->GetHeight() };
+	}
+	
+
+	
 }

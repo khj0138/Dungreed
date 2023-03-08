@@ -49,6 +49,20 @@ namespace hj
 			return dynamic_cast<T*>(resource);
 		}
 
+		template <typename T>
+		static void Insert(const std::wstring& key, T* resource)
+		{
+			mRscManager.insert(std::make_pair(key, resource));
+		}
+
+		static void Release()
+		{
+			for (auto pair : mRscManager)
+			{
+				delete pair.second;
+				pair.second = nullptr;
+			}
+		}
 	private:
 		static std::map<std::wstring, Resource*> mRscManager;
 	};

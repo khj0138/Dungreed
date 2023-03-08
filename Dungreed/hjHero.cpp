@@ -5,6 +5,7 @@
 #include "hjRscManager.h"
 #include "hjTransform.h"
 #include "hjAnimator.h"
+#include "hjCollider.h"
 //#include "hjSpriteRenderer.h"
 
 namespace hj
@@ -26,12 +27,15 @@ namespace hj
 		Image* mImage = RscManager::Load<Image>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
 		Transform* tr = GetComponent<Transform>();
 		
-		tr->SetPos(Vector2{ 800.0f, 450.0f });
+		//tr->SetPos(Vector2{ 800.0f, 450.0f });
+		tr->SetPos(Vector2{ 100.0f, 500.0f });
+		Vector2 pos = tr->GetPos();
+
 		Vector2 size = Vector2::Zero;
 		size.x = mImage->GetWidth() / 8.0f;
 		size.y = mImage->GetHeight() / 8.0f;
 		tr->SetSize(size);
-		tr->SetVelocity(Vector2{ 100.0f, 0.0f });
+		tr->SetVelocity(Vector2{ 200.0f, 0.0f });
 
 		UINT index = 0;
 		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
@@ -46,6 +50,12 @@ namespace hj
 		mState = eHeroState::Idle;
 		mAnimator->Play(L"Idle", true);
 		flip = false;
+
+		Collider* collider = AddComponent<Collider>();
+		collider->SetSize(Vector2{ 36.0f, 56.0f });
+		Vector2 colSize = collider->GetSize();
+		collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
+
 		GameObject::Initialize();
 	}
 
@@ -82,7 +92,7 @@ namespace hj
 		POINT point = { 0,0 };
 		if (ClientToScreen(hWnd, &point))
 		{
-			if ((cursor.x - point.x - (size.x/2.0f)) < tr->GetPos().x)
+			if ((cursor.x - point.x ) < tr->GetPos().x)
 				flip = true;
 			else
 				flip = false;
@@ -206,22 +216,25 @@ namespace hj
 		Transform* tr = GetComponent<Transform>();
 		Vector2 velocity = tr->GetVelocity();
 		Vector2 pos = tr->GetPos();
-		if (isJump == false && (velocity.y == 0))
+		float speed = 600.0f;
+		if (isJump == false && (velocity.y <= 0.001 && velocity.y >= -0.001))
 		{
 			isJump = true;
-			tr->SetVelocity(Vector2{ velocity.x, velocity.y + 500.0f });
+			tr->SetVelocity(Vector2{ velocity.x,   speed });
 		}
 
-		else if (isJump == true && (pos.y >= 450.0f))
-		{
+		else if (isJump == true && velocity.y <= (-1.f) * speed)
+		{ 
 			isJump = false;
-			tr->SetVelocity(Vector2{ velocity.x, velocity.y * 0.0f });
+			tr->SetVelocity(Vector2{ velocity.x, (float)0});
+		//	tr->SetPos(Vector2{ pos.x, 449.9f });
 			mState = eHeroState::Idle;
 			mAnimator->Play(L"Idle", true);
 		}
 		else
 		{
-			tr->SetVelocity(Vector2{ velocity.x, velocity.y - 5.0f });
+			float n = 0.65f;
+			tr->SetVelocity(Vector2{ velocity.x, velocity.y - (2.0f * speed / n) * (float)Time::DeltaTime() });
 			if (flip)
 				mAnimator->Flip(L"FlippedJump");
 			else

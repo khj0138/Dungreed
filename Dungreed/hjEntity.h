@@ -3,7 +3,7 @@
 
 namespace hj
 {
-
+	
 	class Entity
 	{
 	public:

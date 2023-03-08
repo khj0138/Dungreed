@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +135,10 @@
     <ClInclude Include="hjAnimator.h" />
     <ClInclude Include="hjApplication.h" />
     <ClInclude Include="hjBackGround.h" />
+    <ClInclude Include="hjBaseBullet.h" />
+    <ClInclude Include="hjBird.h" />
     <ClInclude Include="hjCollider.h" />
+    <ClInclude Include="hjCollisionManager.h" />
     <ClInclude Include="hjComponent.h" />
     <ClInclude Include="hjEntity.h" />
     <ClInclude Include="hjEnums.h" />
@@ -145,6 +149,7 @@
     <ClInclude Include="hjInput.h" />
     <ClInclude Include="hjLayer.h" />
     <ClInclude Include="hjMath.h" />
+    <ClInclude Include="hjMonster.h" />
     <ClInclude Include="hjPlayScene.h" />
     <ClInclude Include="hjResource.h" />
     <ClInclude Include="hjRscManager.h" />
@@ -154,6 +159,7 @@
     <ClInclude Include="hjTime.h" />
     <ClInclude Include="hjTitleScene.h" />
     <ClInclude Include="hjTransform.h" />
+    <ClInclude Include="hjWeapon.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -162,7 +168,10 @@
     <ClCompile Include="hjAnimator.cpp" />
     <ClCompile Include="hjApplication.cpp" />
     <ClCompile Include="hjBackGround.cpp" />
+    <ClCompile Include="hjBaseBullet.cpp" />
+    <ClCompile Include="hjBird.cpp" />
     <ClCompile Include="hjCollider.cpp" />
+    <ClCompile Include="hjCollisionManager.cpp" />
     <ClCompile Include="hjComponent.cpp" />
     <ClCompile Include="hjEntity.cpp" />
     <ClCompile Include="hjGameObject.cpp" />
@@ -171,6 +180,7 @@
     <ClCompile Include="hjInput.cpp" />
     <ClCompile Include="hjLayer.cpp" />
     <ClCompile Include="hjMath.cpp" />
+    <ClCompile Include="hjMonster.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
     <ClCompile Include="hjResource.cpp" />
     <ClCompile Include="hjRscManager.cpp" />
@@ -180,6 +190,7 @@
     <ClCompile Include="hjTime.cpp" />
     <ClCompile Include="hjTitleScene.cpp" />
     <ClCompile Include="hjTransform.cpp" />
+    <ClCompile Include="hjWeapon.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

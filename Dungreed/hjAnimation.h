@@ -38,6 +38,7 @@ namespace hj
 		void SetAnimator(Animator* animator) { mAnimator = animator;  }
 		int getIndex() { return mSpriteIndex; }
 		void setIndex(int spriteIndex) { mSpriteIndex = spriteIndex; }
+		void setLeftTop(Vector2 pos) {mSpriteSheet[0].leftTop = pos; }
 	
 	private:
 		Animator* mAnimator;

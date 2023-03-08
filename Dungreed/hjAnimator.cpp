@@ -1,4 +1,5 @@
 #include "hjAnimator.h"
+#include "hjRscManager.h"
 
 
 namespace hj
@@ -18,6 +19,11 @@ namespace hj
 			delete animation.second;
 			animation.second = nullptr;
 		}
+		for (auto events : mEvents)
+		{
+			delete events.second;
+			events.second = nullptr;
+		}
 	}
 	void Animator::Initialize()
 	{
@@ -31,6 +37,12 @@ namespace hj
 
 			if (mbLoop && mActiveAnimation->isComplete())
 			{
+				Animator::Events* events
+					= FindEvents(mActiveAnimation->GetName());
+
+				if (events != nullptr)
+					events->mCompleteEvent();
+
 				mActiveAnimation->Reset();
 			}
 		}
@@ -61,10 +73,62 @@ namespace hj
 		animation->SetName(name);
 		animation->SetAnimator(this);
 
+		
 		mAnimations.insert(std::make_pair(name, animation));
+		Events* event = new Events();
+		mEvents.insert(std::make_pair(name, event));
 	}
-	void Animator::CreateAnimations()
+	void Animator::CreateAnimations(const std::wstring& path, Vector2 offset, float duration)
 	{
+		UINT width = 0;
+		UINT height = 0;
+		UINT fileCount = 0;
+
+		std::filesystem::path fs(path);
+		std::vector<Image*> images = {};
+		for (const auto& p : std::filesystem::recursive_directory_iterator(path))
+		{
+			std::wstring fileName = p.path().filename();
+			std::wstring fullName = path + L"\\" + fileName;
+
+			const std::wstring ext = p.path().extension();
+			if (ext == L".png")
+				continue;
+
+			Image* image = RscManager::Load<Image>(fileName, fullName);
+			images.push_back(image);
+			
+			if (width < image->GetWidth())
+			{
+				width = image->GetWidth();
+			}
+			if (height < image->GetHeight())
+			{
+				height = image->GetHeight();
+			}
+			fileCount++;
+		}
+
+		std::wstring key = fs.parent_path().filename();
+		key += fs.filename();
+		mSpriteSheet = Image::Create(key, width + fileCount, height);
+
+		int index = 0;
+		for (Image* image : images)
+		{
+			int centerX = (width - image->GetWidth()) / 2;
+			int centerY = (height - image->GetHeight());
+
+			BitBlt(mSpriteSheet->GetHdc()
+				, width * index + centerX
+				, 0 + centerY
+				, image->GetWidth(), image->GetHeight()
+				, image->GetHdc(), 0, 0, SRCCOPY);
+
+			index++;
+		}
+
+		CreateAnimation(key, mSpriteSheet, Vector2::Zero, index, 1, index, offset, duration);
 	}
 	Animation* Animator::FindAnimation(const std::wstring& name)
 	{
@@ -78,8 +142,25 @@ namespace hj
 	}
 	void Animator::Play(const std::wstring& name, bool loop)
 	{
+		if (mActiveAnimation != nullptr)
+		{
+			Animator::Events* prevEvents
+				= FindEvents(mActiveAnimation->GetName());
+			
+			if (prevEvents != nullptr)
+				prevEvents->mEndEvent();
+		}
+
+
 		mActiveAnimation = FindAnimation(name);
+		//mActiveAnimation->Reset();
 		mbLoop = loop;
+
+		Animator::Events* events
+			= FindEvents(mActiveAnimation->GetName());
+
+		if (events != nullptr)
+			events->mStartEvent();
 	}
 	void Animator::Reset()
 	{
@@ -91,8 +172,40 @@ namespace hj
 		mActiveAnimation = FindAnimation(name);
 		mActiveAnimation->setIndex(spriteIndex);
 	}
+
 	Animator::Events* Animator::FindEvents(const std::wstring& name)
 	{
-		return nullptr;
+		std::map<std::wstring, Events*>::iterator iter
+			= mEvents.find(name);
+		if (iter == mEvents.end())
+			return nullptr;
+
+		return iter->second;
 	}
+	std::function<void()>& Animator::GetStartEvent(const std::wstring& name)
+	{
+		Animation* animation = FindAnimation(name);
+
+		Animator::Events* events
+			= FindEvents(animation->GetName());
+		return events->mStartEvent.mEvent;
+	}
+	std::function<void()>& Animator::GetCompleteEvent(const std::wstring& name)
+	{
+		Animation* animation = FindAnimation(name);
+
+		Animator::Events* events
+			= FindEvents(animation->GetName());
+
+		return events->mCompleteEvent.mEvent;
+	}
+	std::function<void()>& Animator::GetEndEvent(const std::wstring& name)
+	{
+		Animation* animation = FindAnimation(name);
+
+		Animator::Events* events
+			= FindEvents(animation->GetName());
+		return events->mEndEvent.mEvent;
+	}
+
 }

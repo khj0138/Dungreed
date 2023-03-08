@@ -10,21 +10,24 @@ enum class eSceneType
 
 enum class eLayerType
 {
-	BG,
+	BackBG,
+	BGobject,
+	FrontBG,
 	Monster,
 	Player,
+	Bullet,
 	Test,
 	Effect,
 	UI,
-	End,
+	End = 16,
 };
 
 enum class eComponentType
 {
 	Transform,
-	Collider,
 	SpriteRenderer,
 	Animator,
+	Collider,
 	Audio,
 	End,
 };

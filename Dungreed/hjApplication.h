@@ -3,6 +3,7 @@
 
 namespace hj
 {
+
 	class Application
 	{
 	public:

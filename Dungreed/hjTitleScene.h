@@ -18,8 +18,11 @@ namespace hj
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
+		void makeBird();
 	private:
 		std::vector<BackGround*> bg;
 		double mTime;
+		bool bir = false;
+		std::map<std::wstring, Vector2>::iterator iter;
 	};
 }

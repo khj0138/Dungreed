@@ -50,6 +50,21 @@
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{aa86cdf9-5e83-48e6-afb6-44739cef1c19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Weapon">
+      <UniqueIdentifier>{b1a6a93d-39da-438a-b983-2b816323a838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Weapon\Bullet">
+      <UniqueIdentifier>{0aa414ab-887c-450b-83eb-5c1092fa9773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Monster">
+      <UniqueIdentifier>{3e81c787-7eb0-471c-85e6-a0ff327d1dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Collider">
+      <UniqueIdentifier>{e2522aba-b5cd-4b43-bea0-3fb0ad4168b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\TitleBird">
+      <UniqueIdentifier>{92eac3fc-2f40-40fb-b3c0-37e499aa612d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -136,8 +151,23 @@
     <ClInclude Include="hjAnimator.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="hjWeapon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjBaseBullet.h">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="hjMonster.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
     <ClInclude Include="hjCollider.h">
-      <Filter>Engine\Component</Filter>
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="hjCollisionManager.h">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="hjBird.h">
+      <Filter>Contents\TitleBird</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,8 +250,23 @@
     <ClCompile Include="hjAnimator.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
+    <ClCompile Include="hjWeapon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjBaseBullet.cpp">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="hjMonster.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
     <ClCompile Include="hjCollider.cpp">
-      <Filter>Engine\Component</Filter>
+      <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="hjCollisionManager.cpp">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="hjBird.cpp">
+      <Filter>Contents\TitleBird</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

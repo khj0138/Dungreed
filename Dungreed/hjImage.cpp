@@ -1,10 +1,39 @@
 #include "hjImage.h"
 #include "hjApplication.h"
+#include "hjRscManager.h"
 
 extern hj::Application application;
 
 namespace hj {
+	Image* Image::Create(const std::wstring& name, UINT width, UINT height)
+	{
+		if (width == 0 || height == 0)
+			return nullptr;
 
+		Image* image = RscManager::Find<Image>(name);
+		if (image != nullptr)
+			return image;
+
+		image = new Image();
+		HDC mainHdc = application.GetHdc();
+
+		image->mBitmap = CreateCompatibleBitmap(mainHdc, width, height);
+
+		image->mHdc = CreateCompatibleDC(mainHdc);
+
+		HBITMAP oldBitmap = (HBITMAP)SelectObject(image->mHdc, image->mBitmap);
+		DeleteObject(oldBitmap);
+
+		image->mWidth = width;
+		image->mHeight = height;
+
+		image->SetKey(name);
+		RscManager::Insert<Image>(name, image);
+
+		Rectangle(image->GetHdc(), -1, -1, image->mWidth + 1, image->mHeight + 1);
+
+		return image;
+	}
 	Image::Image()
 		: mBitmap(NULL)
 		, mHdc(NULL)
