@@ -16,7 +16,7 @@ namespace hj
 
 	Hero::~Hero()
 	{
-		
+			
 	}
 
 	void Hero::Initialize()

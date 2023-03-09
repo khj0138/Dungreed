@@ -39,6 +39,7 @@ namespace hj
 			if (mSpriteSheet.size() <= mSpriteIndex + 1)
 			{
 				mbComplete = true;
+
 			}
 			else
 			{

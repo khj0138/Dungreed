@@ -2,6 +2,7 @@
 #include "hjScene.h"
 #include "hjBackGround.h";
 #include "hjGameObject.h"
+#include "hjBird.h"
 
 namespace hj
 {
@@ -18,11 +19,16 @@ namespace hj
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-		void makeBird();
+		void makeBird(int time, Vector2 pos);
+		void spawnBird(Bird* bird);
+		Bird* nextBird(double time);
+
+		/*std::map<int, Vector2>::iterator::iter;*/
 	private:
-		std::vector<BackGround*> bg;
 		double mTime;
 		bool bir = false;
-		std::map<std::wstring, Vector2>::iterator iter;
+		/*std::map<std::wstring, Vector2>::iterator iter;*/
+		//std::map<int, Bird*> mBirds;
+		std::vector<Bird*> mBirds;
 	};
 }

@@ -72,4 +72,68 @@ namespace hj {
 		return S_OK;
 	}
 
+	void Image::SetOutputRatio(Vector2 ratio)
+	{
+		if ((float)mWidth * ratio.y > (float)mHeight * ratio.x)
+		{
+			mWidth = mHeight / ratio.y * ratio.x;
+		}
+		else
+		{
+			mHeight = mWidth / ratio.x * ratio.y;
+		}
+	}
+
+	void Image::matchResolution(Vector2 Resolution)
+	{
+		if (Resolution.x == 0.0f && Resolution.y == 0.0f)
+			Resolution = Vector2{ (float)application.GetmWidth(), (float)application.GetmHeight() };
+
+		float width = 1600.0f;
+		float height = 900.0f;
+
+		if ((float)mWidth * Resolution.y > (float)mHeight * Resolution.x)
+		{
+			height = (float)Resolution.y;
+			width = (float)mWidth * ((float)Resolution.y / (float)mHeight);
+		}
+		else
+		{
+			width = (float)Resolution.x;
+			height = (float)mHeight * ((float)Resolution.x / (float)mWidth);
+		}
+
+		BITMAP oldBitInfo = {};
+		GetObject(mBitmap, sizeof(BITMAP), &oldBitInfo);
+
+		HDC bufferDC = CreateCompatibleDC(mHdc);
+		HBITMAP changedMap = CreateCompatibleBitmap(mHdc, width, height);
+
+		DeleteObject((HBITMAP)SelectObject(bufferDC, changedMap));
+		
+		StretchBlt(bufferDC, 0, 0, width, height, mHdc, 0, 0, oldBitInfo.bmWidth, oldBitInfo.bmHeight, SRCCOPY);
+
+		DeleteDC(mHdc);
+		
+		mHdc = bufferDC;
+		mBitmap = changedMap;
+
+		BITMAP changedBitInfo = {};
+		GetObject(changedMap, sizeof(BITMAP), &changedBitInfo);
+
+		mWidth = changedBitInfo.bmWidth;
+		mHeight = changedBitInfo.bmHeight;
+
+		SetOutputRatio(Resolution);
+		//HDC mainHdc = application.GetHdc();
+		//TransparentBlt(mainHdc, 0, 0
+		//	, mWidth
+		//	, mHeight
+		//	, mHdc
+		//	, 0,0
+		//	//, 200, 180,
+		//	, width, height,
+		//	RGB(255, 255, 255));
+	}
+
 }

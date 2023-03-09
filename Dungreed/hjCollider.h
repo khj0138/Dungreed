@@ -15,8 +15,11 @@ namespace hj
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
-		Vector2 GetPos() { return mPos; }
-		Vector2 GetSize() { return mSize; }
+		virtual void OnCollisionEnter(Collider* other);
+		virtual void OnCollisionStay(Collider* other);
+		virtual void OnCollisionExit(Collider* other);
+
+		
 
 		void SetSize(Vector2 size) { mSize = size; }
 		void SetCenter(Vector2 center = Vector2{ 0.0f, 0.0f }) 
@@ -29,9 +32,14 @@ namespace hj
 			else
 				mCenter = center;
 		};
+		Vector2 GetPos() { return mPos; }
+		Vector2 GetSize() { return mSize; }
 		void SetScale(Vector2 scale) { mScale = scale; };
+		UINT GetID() { return mID; }
 
 	private:
+		static UINT ColliderNumber;
+		UINT mID;
 		Vector2 mCenter;
 		Vector2 mSize;
 		Vector2 mScale;

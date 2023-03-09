@@ -8,6 +8,13 @@ namespace hj
 	class GameObject : public Entity
 	{
 	public:
+		enum class eState
+		{
+			Active,
+			Pause,
+			Death,
+		};
+
 		GameObject();
 		virtual ~GameObject();
 
@@ -15,6 +22,11 @@ namespace hj
 		virtual void Update();
 		virtual void Render(HDC hdc);
 		virtual void Release();
+
+		virtual void OnCollisionEnter(class Collider* other);
+		virtual void OnCollisionStay(class Collider* other);
+		virtual void OnCollisionExit(class Collider* other);
+
 
 		template <typename T>
 		T* AddComponent()
@@ -38,9 +50,6 @@ namespace hj
 
 			return nullptr;
 		}
-
-	protected:
-		int index;
 
 	private:
 		std::vector<Component*> mComponents;

@@ -10,7 +10,7 @@ namespace hj
 	class Bird : public GameObject
 	{
 	public:
-		Bird();
+		Bird(double time, Vector2 pos);
 		~Bird();
 
 		virtual void Initialize() override;
@@ -18,9 +18,15 @@ namespace hj
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 		void setAnimation(const std::wstring name, const std::wstring path);
+		double getSpawnTime() { return spawnTime; }
+		Vector2 getPos() { return spawnPos; }
+		void spawn() { isSpawn = true; }
+		bool getSpawn() { return isSpawn; }
 	private:
-		Image* mImage;
 		Animator* mAnimator;
+		Vector2 spawnPos;
+		bool isSpawn;
+		double spawnTime;
 	};
 
 }

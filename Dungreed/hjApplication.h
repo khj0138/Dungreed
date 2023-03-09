@@ -17,6 +17,8 @@ namespace hj
 
 		HWND GetHwnd() { return mHwnd; }
 		HDC GetHdc() { return mHdc; }
+		UINT GetmWidth() { return mWidth; }
+		UINT GetmHeight() { return mHeight; }
 
 
 	private:

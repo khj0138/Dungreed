@@ -5,6 +5,7 @@
 namespace hj
 {
 	WORD CollisionManager::mMatrix[(UINT)eLayerType::End] = {};
+	std::map<UINT64, bool> CollisionManager::mCollisionMap;
 	void CollisionManager::Update()
 	{
 		Scene* scene = SceneManager::GetActiveScene();
@@ -39,16 +40,52 @@ namespace hj
 				if (leftObject == rightObject)
 					continue;
 
-				if (Intersect(leftCollider, rightCollider))
-				{
-						// Ãæµ¹ 0
-				}
-				else
-				{
-				}
+				ColliderCollision(leftCollider, rightCollider, left, right);
 			}
 		}
 	}
+
+	void CollisionManager::ColliderCollision(Collider* leftCol, Collider* rightCol, eLayerType left, eLayerType right)
+	{
+		ColliderID colliderID = {};
+		colliderID.left = (UINT)leftCol->GetID();
+		colliderID.right = (UINT)rightCol->GetID();
+
+		std::map<UINT64, bool>::iterator iter
+			= mCollisionMap.find(colliderID.id);
+
+		if (iter == mCollisionMap.end())
+		{
+			mCollisionMap.insert(std::make_pair(colliderID.id, false));
+			iter = mCollisionMap.find(colliderID.id);
+		}
+
+		if (Intersect(leftCol, rightCol))
+		{
+			if (iter->second == false)
+			{
+				leftCol->OnCollisionEnter(rightCol);
+				rightCol->OnCollisionEnter(leftCol);
+			}
+			else
+			{
+				leftCol->OnCollisionStay(rightCol);
+				rightCol->OnCollisionStay(leftCol);
+			}
+		}
+		else
+		{
+			if (iter->second == true)
+			{
+				leftCol->OnCollisionExit(rightCol);
+				rightCol->OnCollisionExit(leftCol);
+
+				iter->second = false;
+			}
+		}
+		
+	}
+	
 	bool CollisionManager::Intersect(Collider* left, Collider* right)
 	{
 		Vector2 leftPos = left->GetPos();
@@ -90,5 +127,7 @@ namespace hj
 	}
 	void CollisionManager::Clear()
 	{
+		memset(mMatrix, 0, sizeof(WORD) * (UINT)eLayerType::End);
+		mCollisionMap.clear();
 	}
 }

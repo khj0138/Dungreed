@@ -28,9 +28,6 @@ namespace hj
 
 
 		Scene::Initialize();
-
-		Vector2 size = bg->GetSize();
-		bg->setScale(Vector2{ (1600.f / size.x), (900.f / size.y) });
 	}
 
 	void PlayScene::Update()

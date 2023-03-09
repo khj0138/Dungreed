@@ -5,7 +5,6 @@
 #include "hjRscManager.h"
 #include "hjTransform.h"
 
-
 namespace hj
 {
 	BackGround::BackGround()
@@ -15,6 +14,8 @@ namespace hj
 	}
 	BackGround::~BackGround()
 	{
+		delete mImage;
+		mImage = nullptr;
 	}
 	void BackGround::Initialize()
 	{
@@ -23,26 +24,17 @@ namespace hj
 		GameObject::Initialize();
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(Vector2{ 0.0f, 0.0f });
-		Vector2 size = Vector2::Zero;
+		mImage->matchResolution();
+
 		float width = mImage->GetWidth();
 		float height = mImage->GetHeight();
-		if (width * 1600.f > height * 900.f)
-		{
-			size.x = (float)height / 900.f * 1600.f;
-			size.y = height;
-		}
-		else
-		{
-			size.x = width;
-			size.y = (float)width / 1600.f * 900.f;
-		}
-		tr->SetSize(Vector2{ width - size.x, height });
-		tr->SetPos (tr->GetPos() + Vector2{ size.x / 2.0f, size.y });
+		tr->SetSize(Vector2{ width, height });
+		tr->SetPos (tr->GetPos() + Vector2{ width / 2.0f, height });
 
-		mImage->SetSize(size);
-
-		mAnimator->CreateAnimation(L"output", mImage,Vector2::Zero, 1, 1, 1, Vector2::Zero, 0.1);
+		
+		mAnimator->CreateAnimation(L"output", mImage,Vector2::Zero, 1, 1, 1, Vector2::Zero, 1000.f);
 		mAnimator->Play(L"output", true);
+		
 	}
 	void BackGround::Update()
 	{

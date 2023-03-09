@@ -45,7 +45,7 @@ namespace hj
 			, UINT column, UINT row, UINT spriteLength
 			, Vector2 offset, float duration);
 		void CreateAnimations(const std::wstring&path, Vector2 offset, float duration);
-
+		
 		Animation* FindAnimation(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop);
 

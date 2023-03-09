@@ -20,12 +20,15 @@ namespace hj
 		UINT GetHeight() { return mHeight; }
 
 		void SetSize(Vector2 size) { mWidth = size.x; mHeight = size.y; }
+		void SetOutputRatio(Vector2 ratio);
+		void matchResolution(Vector2 Resolution = Vector2{ 0.0f, 0.0f });
 
 	private:
 		HBITMAP mBitmap;
 		HDC mHdc;
 		UINT mWidth;
 		UINT mHeight;
+		Vector2 mAsRatio;
 	};
 
 }
