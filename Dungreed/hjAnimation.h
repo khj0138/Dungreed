@@ -39,6 +39,9 @@ namespace hj
 		int getIndex() { return mSpriteIndex; }
 		void setIndex(int spriteIndex) { mSpriteIndex = spriteIndex; }
 		void setLeftTop(Vector2 pos) {mSpriteSheet[0].leftTop = pos; }
+		void SetAnimationName(const std::wstring& name) { mAnimationName = name; }
+		std::wstring& GetAnimationName() { return mAnimationName; }
+	
 	
 	private:
 		Animator* mAnimator;
@@ -47,6 +50,7 @@ namespace hj
 		float mTime;
 		bool mbComplete;
 		int mSpriteIndex;
+		std::wstring mAnimationName;
 	};
 
 }

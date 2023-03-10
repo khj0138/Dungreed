@@ -4,6 +4,9 @@
 #include "hjInput.h"
 #include "hjRscManager.h"
 #include "hjTransform.h"
+#include "hjApplication.h"
+
+extern hj::Application application;
 
 namespace hj
 {
@@ -14,8 +17,8 @@ namespace hj
 	}
 	BackGround::~BackGround()
 	{
-		delete mImage;
-		mImage = nullptr;
+		//delete mImage;
+		//mImage = nullptr;
 	}
 	void BackGround::Initialize()
 	{
@@ -23,16 +26,21 @@ namespace hj
 		mAnimator = AddComponent<Animator>();
 		GameObject::Initialize();
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2{ 0.0f, 0.0f });
-		mImage->matchResolution();
 
-		float width = mImage->GetWidth();
-		float height = mImage->GetHeight();
-		tr->SetSize(Vector2{ width, height });
-		tr->SetPos (tr->GetPos() + Vector2{ width / 2.0f, height });
+		tr->SetPos(Vector2{ 0.0f, 0.0f });
+
+		Vector2 windowSize = Vector2{ (float)application.GetWidth(), (float)application.GetHeight() };
+	
+	
+		Vector2 ImgSize = Vector2{ (float)mImage->GetWidth(), (float)mImage->GetHeight() };
+
+		tr->SetSize(Vector2{ ImgSize.x - windowSize.x, ImgSize.y });
+		tr->SetPos(tr->GetPos() + Vector2{ windowSize.x / 2.0f, windowSize.y });
+
+		mImage->SetOutputRatio(windowSize);
 
 		
-		mAnimator->CreateAnimation(L"output", mImage,Vector2::Zero, 1, 1, 1, Vector2::Zero, 1000.f);
+		mAnimator->CreateAnimation(L"output", mImage,Vector2::Zero, 1, 1, 1, Vector2::Zero, 0.1f);
 		mAnimator->Play(L"output", true);
 		
 	}
@@ -44,8 +52,9 @@ namespace hj
 		{ 
 			if (mLeftTop.x >= (tr->GetSize().x))
 			{
-				mLeftTop = Vector2::Zero;
-
+				//mLeftTop = Vector2::Zero;
+				mLeftTop -= Vector2{ (float)tr->GetSize().x - 1.0f * (float)mTime * (float)mPlayRate , 0.0f };
+				int a = 0;
 				mAnimator->setActAnimLeftTop(mLeftTop);
 			}
 			else
@@ -60,6 +69,7 @@ namespace hj
 				}
 				mAnimator->setActAnimLeftTop(mLeftTop);
 			}
+			int a = 0;
 		}
 
 		GameObject::Update();

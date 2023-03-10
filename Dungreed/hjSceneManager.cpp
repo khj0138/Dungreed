@@ -48,6 +48,11 @@ namespace hj
 		}
 	}
 
+	void SceneManager::Destroy()
+	{
+		mActiveScene->Destroy();
+	}
+
 	void SceneManager::LoadScene(eSceneType type)
 	{
 		//ÇöÀç¾À

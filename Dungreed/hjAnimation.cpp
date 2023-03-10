@@ -5,6 +5,7 @@
 #include "hjGameObject.h"
 
 #include "hjAnimator.h"
+#include "hjCamera.h"
 
 namespace hj
 {
@@ -14,12 +15,14 @@ namespace hj
 		, mTime(0.0f)
 		, mbComplete(false)
 		, mSpriteIndex(0)
+		, mAnimationName(L"")
 	{
 
 	}
 	
 	Animation::~Animation()
 	{
+		//delete mSheetImage;
 	}
 
 	void Animation::Initialize()
@@ -55,10 +58,12 @@ namespace hj
 
 
 		Vector2 pos = tr->GetPos();
+		pos = Camera::CaluatePos(pos);
 		pos += mSpriteSheet[mSpriteIndex].offset;
 		pos.x -= mSpriteSheet[mSpriteIndex].size.x / 2.0f;
 		pos.y -= mSpriteSheet[mSpriteIndex].size.y;
 
+		
 		TransparentBlt(hdc, pos.x, pos.y
 			, mSpriteSheet[mSpriteIndex].size.x * scale.x
 			, mSpriteSheet[mSpriteIndex].size.y * scale.y

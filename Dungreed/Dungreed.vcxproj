@@ -137,6 +137,7 @@
     <ClInclude Include="hjBackGround.h" />
     <ClInclude Include="hjBaseBullet.h" />
     <ClInclude Include="hjBird.h" />
+    <ClInclude Include="hjCamera.h" />
     <ClInclude Include="hjCollider.h" />
     <ClInclude Include="hjCollisionManager.h" />
     <ClInclude Include="hjComponent.h" />
@@ -150,6 +151,8 @@
     <ClInclude Include="hjLayer.h" />
     <ClInclude Include="hjMath.h" />
     <ClInclude Include="hjMonster.h" />
+    <ClInclude Include="hjObject.h" />
+    <ClInclude Include="hjPlatform.h" />
     <ClInclude Include="hjPlayScene.h" />
     <ClInclude Include="hjResource.h" />
     <ClInclude Include="hjRscManager.h" />
@@ -170,6 +173,7 @@
     <ClCompile Include="hjBackGround.cpp" />
     <ClCompile Include="hjBaseBullet.cpp" />
     <ClCompile Include="hjBird.cpp" />
+    <ClCompile Include="hjCamera.cpp" />
     <ClCompile Include="hjCollider.cpp" />
     <ClCompile Include="hjCollisionManager.cpp" />
     <ClCompile Include="hjComponent.cpp" />
@@ -181,6 +185,7 @@
     <ClCompile Include="hjLayer.cpp" />
     <ClCompile Include="hjMath.cpp" />
     <ClCompile Include="hjMonster.cpp" />
+    <ClCompile Include="hjPlatform.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
     <ClCompile Include="hjResource.cpp" />
     <ClCompile Include="hjRscManager.cpp" />

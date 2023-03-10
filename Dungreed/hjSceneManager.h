@@ -10,6 +10,7 @@ namespace hj
 		static void Update();
 		static void Render(HDC hdc);
 		static void Release();
+		static void Destroy();
 
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }

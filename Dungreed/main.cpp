@@ -4,6 +4,8 @@
 #include "Client.h"
 #include "hjApplication.h"
 #include <wchar.h>
+#include "hjRscManager.h"
+#include "hjSceneManager.h"
 
 
 #define MAX_LOADSTRING 100
@@ -74,6 +76,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             application.Run();
         }
     }
+    hj::SceneManager::Release();
+    hj::RscManager::Release();
+
 
     if (WM_QUIT == msg.message)
     {

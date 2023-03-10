@@ -67,6 +67,22 @@ struct Vector2
 		temp.y = y / other.y;
 		return temp;
 	}
+	Vector2 operator*(const float& other)
+	{
+		Vector2 temp;
+		temp.x = x * other;
+		temp.y = y * other;
+		return temp;
+	}
+	Vector2 operator/(const float& other)
+	{
+		if (other == 0)
+			return Vector2{ 0.0f, 0.0f };
+		Vector2 temp;
+		temp.x = x / other;
+		temp.y = y / other;
+		return temp;
+	}
 
 	void operator+=(const Vector2& other)
 	{
@@ -75,8 +91,8 @@ struct Vector2
 	}
 	void operator-=(const Vector2& other)
 	{
-		x = x + other.x;
-		y = y + other.y;
+		x = x - other.x;
+		y = y - other.y;
 	}
 	void operator*=(const Vector2& other)
 	{
@@ -87,8 +103,8 @@ struct Vector2
 	{
 		if (other.x == 0 || other.y == 0)
 			return;
-		x = x + other.x;
-		y = y + other.y;
+		x = x / other.x;
+		y = y / other.y;
 	}
 
 	float Length()

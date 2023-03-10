@@ -27,7 +27,7 @@ namespace hj
 		void setPlayRate(float playRate) { mPlayRate = playRate; }
 
 		Vector2 GetSize();
-
+		
 	private:
 		SpriteRenderer* spr;
 		Transform* tr;

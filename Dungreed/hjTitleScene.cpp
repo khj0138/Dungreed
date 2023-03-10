@@ -6,6 +6,8 @@
 #include "hjBird.h"
 #include "hjApplication.h"
 
+extern hj::Application application;
+
 
 namespace hj {
 
@@ -17,43 +19,36 @@ namespace hj {
 	}
 	void TitleScene::Initialize()
 	{
+		float windowSizeY = (float)application.GetHeight();
+		Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeY / 180.0f);
+
+		//Scene::setAsRatio(asRatio);
+		Image::SetAsRatio(asRatio);
 		BackGround* bg = new BackGround();
 		AddGameObject(bg, eLayerType::BackBG);
 		bg->setAnimation(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f);
 
 		BackGround* bg2 = new BackGround();
 		AddGameObject(bg2, eLayerType::BackBG);
-		bg2->setAnimation(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 15.f);
+		bg2->setAnimation(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 100.f);
 
 		BackGround* bg3 = new BackGround();
 		AddGameObject(bg3, eLayerType::FrontBG);
-		bg3->setAnimation(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 25.f);
+		bg3->setAnimation(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 200.f);
 
 		BackGround* bg4 = new BackGround();
 		AddGameObject(bg4, eLayerType::FrontBG);
 		bg4->setAnimation(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", 0.0f);
 
-		/*for (int i = 0; i < 7; i++)
-		{
-			int j = i;
-			int k = i;
-			if (i == 3)
-				j = 1;
-			if (i >= 4)
-			{
-				j = 6 - i;
-				k = 6 - i;
-			}
-			makeBird((double)(1.0f + abs(i) * 1.0f), Vector2{ -20.0f,500.0f - (j * 70.0f) });
-			makeBird((double)(1.0f + abs(i) * 1.0f), Vector2{ -20.0f,500.0f + (k * 70.0f) });
-		}*/
+
 		for (int i = -2; i < 3; i++)
 		{
-			makeBird((double)(1.0f + abs(i) * 1.0f), Vector2{ -20.0f,500.0f - (i * 30.0f) });
+			makeBird((double)(11.0f + abs(i) * 1.0f), Vector2{ -20.0f,600.0f - (i * 30.0f) });
 		}
 		double temp = 3.1415926535f;
 		int index = 1;
-		for (int i = 0; i < 10; i++)
+		double spawn = 1.0f;
+		for (int i = 0; i < 5; i++)
 		{
 			if (index == 3)
 				index = 1;
@@ -61,10 +56,11 @@ namespace hj {
 			{
 				temp *= 10.0f;
 			}
-			makeBird((double)(5.0f + index++ * i * 1.0f), Vector2{ -20.0f,0.0f + ((UINT)temp * 100.0f) });
+			spawn += (double)(index++) * 4;
+			makeBird(spawn, Vector2{ -20.0f,0.0f + ((UINT)temp * 100.0f) });
 			temp = temp - (UINT)temp;
 		}
-
+		
 		Scene::Initialize();
 
 	}
@@ -76,12 +72,13 @@ namespace hj {
 		{
 			SceneManager::LoadScene(eSceneType::Play);
 		}
+		
+		Scene::Update();
 		Bird* next = nextBird(mTime);
 		if (next != nullptr)
 		{
 			spawnBird(next);
 		}
-		Scene::Update();
 	}
 	void TitleScene::Render(HDC hdc)
 	{
@@ -103,13 +100,24 @@ namespace hj {
 		Bird* bird = new Bird(time, pos);
 		mBirds.push_back(bird);
 		AddGameObject(bird, eLayerType::BGobject);
-		bird->GetComponent<Transform>()->SetScale(Vector2{ 5.0f, 5.0f });
+		
 		bird->setAnimation(L"bird", L"..\\Resource\\Title\\Bird.bmp");
 	}
 	Bird* TitleScene::nextBird(double time)
 	{
-		/*std::map<int, Bird*>::iterator iter
-			= mBirds.find(index);*/
+
+		for (std::vector<Bird*>::iterator bird
+			= mBirds.begin(); bird != mBirds.end();)
+		{
+			if ((*bird)->GetState() == GameObject::eState::Death)
+			{
+				bird = mBirds.erase(bird);
+			}
+			else
+			{
+				bird++;
+			}
+		}
 		for (Bird* bird : mBirds)
 		{
 			if (bird->getSpawn() == false && bird->getSpawnTime() <= time)

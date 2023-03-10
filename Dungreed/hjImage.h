@@ -22,13 +22,14 @@ namespace hj
 		void SetSize(Vector2 size) { mWidth = size.x; mHeight = size.y; }
 		void SetOutputRatio(Vector2 ratio);
 		void matchResolution(Vector2 Resolution = Vector2{ 0.0f, 0.0f });
+		static void SetAsRatio(Vector2 ratio) { mAsRatio = ratio; }
 
 	private:
 		HBITMAP mBitmap;
 		HDC mHdc;
 		UINT mWidth;
 		UINT mHeight;
-		Vector2 mAsRatio;
+		static Vector2 mAsRatio;
 	};
 
 }

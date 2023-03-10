@@ -65,6 +65,9 @@
     <Filter Include="Contents\TitleBird">
       <UniqueIdentifier>{92eac3fc-2f40-40fb-b3c0-37e499aa612d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Platform">
+      <UniqueIdentifier>{2851e63e-6d8d-4345-be42-c4d74eddf395}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -169,6 +172,13 @@
     <ClInclude Include="hjBird.h">
       <Filter>Contents\TitleBird</Filter>
     </ClInclude>
+    <ClInclude Include="hjObject.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="hjPlatform.h">
+      <Filter>Contents\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="hjCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -268,5 +278,9 @@
     <ClCompile Include="hjBird.cpp">
       <Filter>Contents\TitleBird</Filter>
     </ClCompile>
+    <ClCompile Include="hjPlatform.cpp">
+      <Filter>Contents\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="hjCamera.cpp" />
   </ItemGroup>
 </Project>

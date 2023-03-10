@@ -3,6 +3,8 @@
 #include "hjSceneManager.h"
 #include "hjTime.h"
 #include "hjInput.h"
+#include "hjCamera.h"
+#include "hjCollisionManager.h"
 
 namespace hj
 {
@@ -16,7 +18,6 @@ namespace hj
 
 	Application::~Application()
 	{
-		SceneManager::Release();
 	}
 
 	void Application::Initialize(HWND hWnd)
@@ -46,19 +47,24 @@ namespace hj
 		Time::Initialize();
 		Input::Initialize();
 		SceneManager::Initialize();
+		Camera::Initiailize();
 	}
 
 	void Application::Run()
 	{
 		Update();
 		Render();
+		SceneManager::Destroy();
 	}
 
 	void Application::Update()
 	{
 		Time::Update();
 		Input::Update();
+		Camera::Update();
+
 		SceneManager::Update();
+		//CollisionManager:Update();
 	}
 
 	void Application::Render()

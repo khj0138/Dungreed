@@ -13,6 +13,7 @@ enum class eLayerType
 	BackBG,
 	BGobject,
 	FrontBG,
+	Platform,
 	Monster,
 	Player,
 	Bullet,

@@ -153,7 +153,7 @@ namespace hj
 
 
 		mActiveAnimation = FindAnimation(name);
-		//mActiveAnimation->Reset();
+		mActiveAnimation->Reset();
 		mbLoop = loop;
 
 		Animator::Events* events

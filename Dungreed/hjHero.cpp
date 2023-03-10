@@ -18,7 +18,7 @@ namespace hj
 	{
 			
 	}
-
+	
 	void Hero::Initialize()
 	{
 		mAnimator = AddComponent<Animator>();
@@ -101,13 +101,6 @@ namespace hj
 
 
 	}
-	//animator->Play(L"Die", true);
-	//animator->Play(L"Idle", true);
-	//animator->Play(L"FlipedRun", true);
-
-	//animator->Play(L"Run", true);
-
-	//animator->Play(L"Jump", true);
 
 	void Hero::Render(HDC hdc)
 	{
@@ -120,26 +113,26 @@ namespace hj
 		GameObject::Release();
 	}
 
+	void Hero::animChange(eHeroState state, std::wstring anim, bool loop = false)
+	{
+		mState = state;
+		mAnimator->Play(anim, loop);
+		mAnimator->Reset();
+	}
+
 	void Hero::idle()
 	{
 		if (Input::GetKeyDown(eKeyCode::W))
 		{
-			mState = eHeroState::Jump;
-			mAnimator->Play(L"Jump", true);
-			mAnimator->Reset();
+			animChange(eHeroState::Jump, L"Jump", true);
+			//mState = eHeroState::Jump;
+			//mAnimator->Play(L"Jump", true);
+			//mAnimator->Reset();
 		}
 		else {
-		if (Input::GetKey(eKeyCode::D))
+		if (Input::GetKey(eKeyCode::D) || Input::GetKey(eKeyCode::A))
 		{
-			mState = eHeroState::Run;
-			mAnimator->Play(L"Run", true);
-			mAnimator->Reset();
-		}
-		else if (Input::GetKey(eKeyCode::A))
-		{
-			mState = eHeroState::Run;
-			mAnimator->Play(L"FlippedRun", true);
-			mAnimator->Reset();
+			animChange(eHeroState::Run, L"Run", true);
 		}
 		if (flip)
 			mAnimator->Flip(L"FlippedIdle");

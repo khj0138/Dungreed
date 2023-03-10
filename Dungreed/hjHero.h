@@ -23,7 +23,7 @@ namespace hj
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
-		//void StateChange(UINT prev, UINT cur);
+		void animChange(eHeroState state, std::wstring anim, bool loop);
 
 		void idle();
 		void run();

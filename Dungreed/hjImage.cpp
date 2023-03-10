@@ -5,6 +5,7 @@
 extern hj::Application application;
 
 namespace hj {
+	Vector2 Image::mAsRatio = Vector2::One;
 	Image* Image::Create(const std::wstring& name, UINT width, UINT height)
 	{
 		if (width == 0 || height == 0)
@@ -44,6 +45,8 @@ namespace hj {
 
 	Image::~Image()
 	{
+		DeleteObject(mBitmap);
+		DeleteDC(mHdc);
 	}
 
 	HRESULT Image::Load(const std::wstring& path)
@@ -68,31 +71,42 @@ namespace hj {
 			int a = 0;
 		}
 		DeleteObject(oldBitmap);
-
+		matchResolution();
 		return S_OK;
 	}
 
 	void Image::SetOutputRatio(Vector2 ratio)
 	{
-		if ((float)mWidth * ratio.y > (float)mHeight * ratio.x)
+
+		/*if ((float)mWidth * ratio.y > (float)mHeight * ratio.x)
 		{
 			mWidth = mHeight / ratio.y * ratio.x;
 		}
 		else
 		{
 			mHeight = mWidth / ratio.x * ratio.y;
+		}*/
+		if (mWidth > ratio.x)
+		{
+			mWidth = ratio.x;
+		}
+		if (mHeight > ratio.y)
+		{
+			mHeight = ratio.y;
 		}
 	}
 
 	void Image::matchResolution(Vector2 Resolution)
 	{
-		if (Resolution.x == 0.0f && Resolution.y == 0.0f)
-			Resolution = Vector2{ (float)application.GetmWidth(), (float)application.GetmHeight() };
-
-		float width = 1600.0f;
-		float height = 900.0f;
-
-		if ((float)mWidth * Resolution.y > (float)mHeight * Resolution.x)
+		if (!(Resolution.x || Resolution.y))
+			Resolution = mAsRatio;
+		
+		float width = 0.0f;
+		float height = 0.0f;
+		
+		height = (float)mHeight * Resolution.y;
+		width = (float)mWidth * Resolution.x;
+		/*if ((float)mWidth * Resolution.y > (float)mHeight * Resolution.x)
 		{
 			height = (float)Resolution.y;
 			width = (float)mWidth * ((float)Resolution.y / (float)mHeight);
@@ -101,7 +115,7 @@ namespace hj {
 		{
 			width = (float)Resolution.x;
 			height = (float)mHeight * ((float)Resolution.x / (float)mWidth);
-		}
+		}*/
 
 		BITMAP oldBitInfo = {};
 		GetObject(mBitmap, sizeof(BITMAP), &oldBitInfo);
@@ -124,7 +138,7 @@ namespace hj {
 		mWidth = changedBitInfo.bmWidth;
 		mHeight = changedBitInfo.bmHeight;
 
-		SetOutputRatio(Resolution);
+		
 		//HDC mainHdc = application.GetHdc();
 		//TransparentBlt(mainHdc, 0, 0
 		//	, mWidth
