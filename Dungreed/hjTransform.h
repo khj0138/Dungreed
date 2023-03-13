@@ -18,6 +18,7 @@ namespace hj
 		void SetPos(Vector2 pos) { mPos = pos; }
 		void SetScale(Vector2 scale) { mScale = scale; }
 		void SetSize(Vector2 size) { mSize = size; }
+		void SetPlayRate (Vector2 playRate) { mPlayRate = playRate; }
 		
 		// ******rigidbody velocity ***********
 		void SetVelocity(Vector2 velocity) { mVelocity = velocity; }
@@ -27,11 +28,13 @@ namespace hj
 		Vector2 GetPos() { return mPos; }
 		Vector2 GetScale() { return mScale; }
 		Vector2 GetSize() { return mSize; }
+		Vector2 GetPlayRate() { return mPlayRate; }
 	private:
 		Vector2 mPos;
 		Vector2 mScale; 
 		Vector2 mRotation;
 		Vector2 mSize;
+		Vector2 mPlayRate;
 	};
 
 }

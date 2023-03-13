@@ -151,6 +151,7 @@
     <ClInclude Include="hjLayer.h" />
     <ClInclude Include="hjMath.h" />
     <ClInclude Include="hjMonster.h" />
+    <ClInclude Include="hjMouse.h" />
     <ClInclude Include="hjObject.h" />
     <ClInclude Include="hjPlatform.h" />
     <ClInclude Include="hjPlayScene.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="hjLayer.cpp" />
     <ClCompile Include="hjMath.cpp" />
     <ClCompile Include="hjMonster.cpp" />
+    <ClCompile Include="hjMouse.cpp" />
     <ClCompile Include="hjPlatform.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
     <ClCompile Include="hjResource.cpp" />

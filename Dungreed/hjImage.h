@@ -18,7 +18,11 @@ namespace hj
 		HBITMAP GetBitmap() { return  mBitmap; }
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
+		bool GetLoop() { return mLoop; }
+		float GetPlayRate() { return mPlayRate; }
 
+		void SetPlayRate(float rate) { mPlayRate = rate; }
+		void SetLoop(bool loop) { mLoop = loop; }
 		void SetSize(Vector2 size) { mWidth = size.x; mHeight = size.y; }
 		void SetOutputRatio(Vector2 ratio);
 		void matchResolution(Vector2 Resolution = Vector2{ 0.0f, 0.0f });
@@ -30,6 +34,8 @@ namespace hj
 		UINT mWidth;
 		UINT mHeight;
 		static Vector2 mAsRatio;
+		bool mLoop;
+		float mPlayRate;
 	};
 
 }

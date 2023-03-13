@@ -68,6 +68,9 @@
     <Filter Include="Contents\Platform">
       <UniqueIdentifier>{2851e63e-6d8d-4345-be42-c4d74eddf395}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Mouse">
+      <UniqueIdentifier>{6a1888a4-b322-4592-9b1d-6609e288742d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -179,6 +182,7 @@
       <Filter>Contents\Platform</Filter>
     </ClInclude>
     <ClInclude Include="hjCamera.h" />
+    <ClInclude Include="hjMouse.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -282,5 +286,6 @@
       <Filter>Contents\Platform</Filter>
     </ClCompile>
     <ClCompile Include="hjCamera.cpp" />
+    <ClCompile Include="hjMouse.cpp" />
   </ItemGroup>
 </Project>

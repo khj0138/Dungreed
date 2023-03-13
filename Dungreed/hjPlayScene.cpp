@@ -46,11 +46,11 @@ namespace hj
 
 		BackGround* bg2 = new BackGround();
 		AddGameObject(bg2, eLayerType::BackBG);
-		bg2->setAnimation(L"TownBG", L"..\\Resource\\Town\\TownBG_Day.bmp", 0.0f);
+		bg2->setAnimation(L"TownBG", L"..\\Resource\\Town\\TownBG_Day.bmp", 0.2f, true);
 
 		BackGround* bg3 = new BackGround();
 		AddGameObject(bg3, eLayerType::BackBG);
-		bg3->setAnimation(L"TownLayer", L"..\\Resource\\Town\\TownLayer_Day.bmp", 0.0f);
+		bg3->setAnimation(L"TownLayer", L"..\\Resource\\Town\\TownLayer_Day.bmp", 0.5f, true);
 
 		/*BackGround* bg4 = new BackGround();
 		AddGameObject(bg4, eLayerType::BackBG);
@@ -64,10 +64,7 @@ namespace hj
 
 		hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);
-		//Camera::SetTarget(hero);
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
-
-
+		
 		Scene::Initialize();
 	}
 
@@ -93,11 +90,16 @@ namespace hj
 
 	void PlayScene::OnEnter()
 	{
-
+		Camera::SetLookRange(
+			Vector2{ (float)application.GetWidth() * 5.0f, -(float)application.GetHeight() * 5.0f }
+		);
+		Camera::SetTarget(hero);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 
 	void PlayScene::OnExit()
 	{
-
+		Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
+		Camera::SetTarget(nullptr);
 	}
 }

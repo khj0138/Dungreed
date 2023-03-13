@@ -6,6 +6,8 @@
 #include "hjTransform.h"
 #include "hjAnimator.h"
 #include "hjCollider.h"
+#include "hjCamera.h"
+#include "hjMouse.h"
 //#include "hjSpriteRenderer.h"
 
 namespace hj
@@ -25,17 +27,18 @@ namespace hj
 		isJump = false;
 
 		Image* mImage = RscManager::Load<Image>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
+		mImage->SetPlayRate(1.0f);
 		Transform* tr = GetComponent<Transform>();
 		
 		//tr->SetPos(Vector2{ 800.0f, 450.0f });
-		tr->SetPos(Vector2{ 100.0f, 500.0f });
+		tr->SetPos(Vector2{ 0.0f, 450.0f });
 		Vector2 pos = tr->GetPos();
 
 		Vector2 size = Vector2::Zero;
 		size.x = mImage->GetWidth() / 8.0f;
 		size.y = mImage->GetHeight() / 8.0f;
 		tr->SetSize(size);
-		tr->SetVelocity(Vector2{ 200.0f, 0.0f });
+		tr->SetVelocity(Vector2{ 300.0f, 0.0f });
 
 		UINT index = 0;
 		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
@@ -50,7 +53,7 @@ namespace hj
 		mState = eHeroState::Idle;
 		mAnimator->Play(L"Idle", true);
 		flip = false;
-
+		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2{ 36.0f, 56.0f });
 		Vector2 colSize = collider->GetSize();
@@ -66,7 +69,6 @@ namespace hj
 		Vector2 pos = tr->GetPos();
 		pos.y -= tr->GetVelocity().y * Time::DeltaTime();
 		tr->SetPos(pos);
-		POINT cursor;
 
 		switch(mState)
 		{
@@ -85,21 +87,12 @@ namespace hj
 			break;
 		}
 
-		// **********************마우스 쓰는 방법*******************
 		Vector2 size = tr->GetSize();
-		GetCursorPos(&cursor);
-		HWND hWnd = GetForegroundWindow();
-		POINT point = { 0,0 };
-		if (ClientToScreen(hWnd, &point))
-		{
-			if ((cursor.x - point.x ) < tr->GetPos().x)
-				flip = true;
-			else
-				flip = false;
-		}
-		// **********************마우스 쓰는 방법*******************
-
-
+		if (Mouse::GetPos().x < (tr->GetPos().x - (Camera::GetPos().x - application.GetWidth() / 2.0f)))
+			flip = true;
+		else
+			flip = false;
+		
 	}
 
 	void Hero::Render(HDC hdc)

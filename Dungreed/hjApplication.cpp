@@ -5,6 +5,7 @@
 #include "hjInput.h"
 #include "hjCamera.h"
 #include "hjCollisionManager.h"
+#include "hjMouse.h"
 
 namespace hj
 {
@@ -48,6 +49,7 @@ namespace hj
 		Input::Initialize();
 		SceneManager::Initialize();
 		Camera::Initiailize();
+		Mouse::Initialize();
 	}
 
 	void Application::Run()
@@ -62,7 +64,8 @@ namespace hj
 		Time::Update();
 		Input::Update();
 		Camera::Update();
-
+		Mouse::Update();
+		
 		SceneManager::Update();
 		//CollisionManager:Update();
 	}

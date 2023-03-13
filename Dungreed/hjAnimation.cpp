@@ -56,12 +56,19 @@ namespace hj
 			= mAnimator->GetOwner()->GetComponent<Transform>();
 		Vector2 scale = tr->GetScale();
 
-
 		Vector2 pos = tr->GetPos();
-		pos = Camera::CaluatePos(pos);
+		pos = Camera::CaluatePos(pos, mSheetImage->GetPlayRate());
 		pos += mSpriteSheet[mSpriteIndex].offset;
 		pos.x -= mSpriteSheet[mSpriteIndex].size.x / 2.0f;
 		pos.y -= mSpriteSheet[mSpriteIndex].size.y;
+
+			//if (mAnimator->GetOwner()->GetType() == eLayerType::BackBG)
+			//{
+		if(mSheetImage->GetLoop() == true)
+			if (pos.x <= (-tr->GetSize().x))
+				pos.x += ((UINT)(fabs(pos.x) - tr->GetSize().x) / (UINT)(mSpriteSheet[mSpriteIndex].size.x / 2.0f) + 1)
+				* (mSpriteSheet[mSpriteIndex].size.x / 2.0f);
+			//}
 
 		
 		TransparentBlt(hdc, pos.x, pos.y
@@ -71,7 +78,7 @@ namespace hj
 			, mSpriteSheet[mSpriteIndex].leftTop.x, mSpriteSheet[mSpriteIndex].leftTop.y
 			, mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y,
 			RGB(255, 0, 255));
-	}
+ 	}
 
 	void Animation::Create(Image* sheet, Vector2 leftTop
 		, UINT column, UINT row, UINT spriteLength

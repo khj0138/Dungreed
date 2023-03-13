@@ -40,6 +40,8 @@ namespace hj {
 		, mHdc(NULL)
 		, mWidth(0)
 		, mHeight(0)
+		, mLoop(false)
+		, mPlayRate(0.0f)
 	{
 	}
 
@@ -106,16 +108,6 @@ namespace hj {
 		
 		height = (float)mHeight * Resolution.y;
 		width = (float)mWidth * Resolution.x;
-		/*if ((float)mWidth * Resolution.y > (float)mHeight * Resolution.x)
-		{
-			height = (float)Resolution.y;
-			width = (float)mWidth * ((float)Resolution.y / (float)mHeight);
-		}
-		else
-		{
-			width = (float)Resolution.x;
-			height = (float)mHeight * ((float)Resolution.x / (float)mWidth);
-		}*/
 
 		BITMAP oldBitInfo = {};
 		GetObject(mBitmap, sizeof(BITMAP), &oldBitInfo);

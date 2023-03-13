@@ -32,26 +32,18 @@ namespace hj
 		GameObject::Initialize();
 		Transform* tr = GetComponent<Transform>();
 
-		tr->SetPos(Vector2(800.0f, 880.0f));
+		tr->SetPos(Vector2(tr->GetSize().x/2.0f + 800.0f, tr->GetSize().y + 900.0f));
 		tr->SetScale(Vector2(1.0f, 1.0f));
 
 		Vector2 windowSize = Vector2{ (float)application.GetWidth(), (float)application.GetHeight() };
 		Vector2 ImgSize = Vector2{ (float)mImage->GetWidth(), (float)mImage->GetHeight() };
-
-		tr->SetSize(Vector2{ ImgSize.x - windowSize.x, ImgSize.y });
-		//tr->SetPos(tr->GetPos() + Vector2{ windowSize.x / 2.0f, windowSize.y });
-
-		mImage->SetOutputRatio(windowSize);
-
+		tr->SetSize(Vector2{ ImgSize.x, ImgSize.y });
 
 		mAnimator->CreateAnimation(L"output", mImage, Vector2::Zero, 1, 1, 1, Vector2::Zero, 0.1f);
 		mAnimator->Play(L"output", true);
 
-
-
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter();
-		//GameObject::Initialize();
 	}
 
 	void Platform::Update()
@@ -71,6 +63,7 @@ namespace hj
 	void Platform::setAnimation(const std::wstring name, const std::wstring path)
 	{
 		mImage = RscManager::Load<Image>(name, path);
+		mImage->SetPlayRate(1.0f);
 	}
 
 }

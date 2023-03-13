@@ -58,7 +58,7 @@ namespace hj
 	{
 		if (gameObj == nullptr)
 			return;
-
+		
 		mGameObjects.push_back(gameObj);
 	}
 }

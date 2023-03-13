@@ -51,11 +51,14 @@ namespace hj
 			return nullptr;
 		}
 		eState GetState() { return mState; }
+		//eLayerType GetType() { return mType; }
 		void SetState(eState state) { mState = state; }
+		//void SetType(eLayerType type) { mType = type; }
 
 	private:
 		std::vector<Component*> mComponents;
 		eState mState;
+		//eLayerType mType;
 	};
 
 }

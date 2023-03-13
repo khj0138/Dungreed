@@ -172,7 +172,6 @@ namespace hj
 		mActiveAnimation = FindAnimation(name);
 		mActiveAnimation->setIndex(spriteIndex);
 	}
-
 	Animator::Events* Animator::FindEvents(const std::wstring& name)
 	{
 		std::map<std::wstring, Events*>::iterator iter

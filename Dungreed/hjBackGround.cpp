@@ -12,6 +12,7 @@ namespace hj
 {
 	BackGround::BackGround()
 		: mTime(0.0f)
+		, mLoop(false)
 	{
 
 	}
@@ -34,12 +35,16 @@ namespace hj
 	
 		Vector2 ImgSize = Vector2{ (float)mImage->GetWidth(), (float)mImage->GetHeight() };
 
-		tr->SetSize(Vector2{ ImgSize.x - windowSize.x, ImgSize.y });
-		tr->SetPos(tr->GetPos() + Vector2{ windowSize.x / 2.0f, windowSize.y });
+		tr->SetSize(Vector2{ ImgSize.x, ImgSize.y });
+		tr->SetPos(
+			tr->GetPos()
+			//+ Vector2{ windowSize.x / 2.0f, windowSize.y }
+			//+ Vector2{ tr->GetSize().x / 2.0f, tr->GetSize().y }
+			+ Vector2{ tr->GetSize().x / 2.0f, windowSize.y }
+			+ Vector2{0.0f, 0.0f}
+		);
+		tr->SetSize(Vector2{ ImgSize.x / 2.0f, ImgSize.y });
 
-		mImage->SetOutputRatio(windowSize);
-
-		
 		mAnimator->CreateAnimation(L"output", mImage,Vector2::Zero, 1, 1, 1, Vector2::Zero, 0.1f);
 		mAnimator->Play(L"output", true);
 		
@@ -47,30 +52,6 @@ namespace hj
 	void BackGround::Update()
 	{
 		Transform* tr = GetComponent<Transform>();
-	
-		if(mPlayRate != 0.0f)
-		{ 
-			if (mLeftTop.x >= (tr->GetSize().x))
-			{
-				//mLeftTop = Vector2::Zero;
-				mLeftTop -= Vector2{ (float)tr->GetSize().x - 1.0f * (float)mTime * (float)mPlayRate , 0.0f };
-				int a = 0;
-				mAnimator->setActAnimLeftTop(mLeftTop);
-			}
-			else
-			{
-				mTime += Time::DeltaTime();
-				float temp = 1.0f * (float)mTime * (float)mPlayRate;
-
-				if (temp > 1)
-				{
-					mLeftTop += Vector2{(float)((UINT)temp), 0.0f };
-					mTime = 0.0f;
-				}
-				mAnimator->setActAnimLeftTop(mLeftTop);
-			}
-			int a = 0;
-		}
 
 		GameObject::Update();
 	}
@@ -97,10 +78,11 @@ namespace hj
 			tr->SetPos(Vector2{ (float)(iPos.x + pos.x) - width, iPos.y });
 	}
 
-	void BackGround::setAnimation(const std::wstring name, const std::wstring path, float playRate)
+	void BackGround::setAnimation(const std::wstring name, const std::wstring path, float playRate, bool loop)
 	{
 		mImage = RscManager::Load<Image>(name, path);
-		mPlayRate = playRate;
+		mImage->SetPlayRate(playRate);
+		mImage->SetLoop(loop);
 	}
 
 	void BackGround::setScale(Vector2 scale)

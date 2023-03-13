@@ -22,10 +22,9 @@ namespace hj
 
 		void setPos(Vector2 pos);
 		//void setV(double v) { mV = v; }
-		void setAnimation(const std::wstring name, const std::wstring path, float playRate);
+		void setAnimation(const std::wstring name, const std::wstring path, float playRate, bool loop = false);
 		void setScale(Vector2 scale);
-		void setPlayRate(float playRate) { mPlayRate = playRate; }
-
+		bool getLoop() { return mLoop; }
 		Vector2 GetSize();
 		
 	private:
@@ -35,8 +34,8 @@ namespace hj
 		double mTime;
 		Animator* mAnimator;
 		Image* mImage;
-		float mPlayRate;
 		Vector2 mLeftTop;
+		bool mLoop;
 	};
 
 }

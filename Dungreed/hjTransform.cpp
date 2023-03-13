@@ -10,6 +10,7 @@ namespace hj
 		, mRotation(0, 0)
 		, mSize(0, 0)
 		, mVelocity(0, 0)
+		, mPlayRate(0, 0)
 	{
 	}
 	Transform::~Transform()

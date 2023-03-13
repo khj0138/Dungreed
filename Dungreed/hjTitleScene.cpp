@@ -5,6 +5,7 @@
 #include "hjImage.h"
 #include "hjBird.h"
 #include "hjApplication.h"
+#include "hjCamera.h"
 
 extern hj::Application application;
 
@@ -27,15 +28,15 @@ namespace hj {
 		BackGround* bg = new BackGround();
 		AddGameObject(bg, eLayerType::BackBG);
 		bg->setAnimation(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f);
-
+		
 		BackGround* bg2 = new BackGround();
 		AddGameObject(bg2, eLayerType::BackBG);
-		bg2->setAnimation(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 100.f);
-
+		bg2->setAnimation(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 3.f, true);
+		
 		BackGround* bg3 = new BackGround();
 		AddGameObject(bg3, eLayerType::FrontBG);
-		bg3->setAnimation(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 200.f);
-
+		bg3->setAnimation(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 0.5f, true);
+		
 		BackGround* bg4 = new BackGround();
 		AddGameObject(bg4, eLayerType::FrontBG);
 		bg4->setAnimation(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", 0.0f);
@@ -79,6 +80,11 @@ namespace hj {
 		{
 			spawnBird(next);
 		}
+		if (Camera::GetPos().x >= application.GetWidth() * 4.5f)
+			Camera::SetPos(Vector2{ Camera::GetPos().x- application.GetWidth() * 4.0f,Camera::GetPos().y});
+			//Camera::SetPos(Vector2{ Camera::GetPos().x- application.GetWidth() / 2.0f, application.GetHeight() / 2.0f });
+		else
+			Camera::SetPos(Camera::GetPos() + Vector2{ 1.0f, 0.0f });
 	}
 	void TitleScene::Render(HDC hdc)
 	{
@@ -91,9 +97,13 @@ namespace hj {
 	}
 	void TitleScene::OnEnter()
 	{
+		Camera::SetLookRange(
+			Vector2{ (float)application.GetWidth() * 5.0f, -(float)application.GetHeight() * 5.0f }
+		);
 	}
 	void TitleScene::OnExit()
 	{
+		Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 	}
 	void TitleScene::makeBird(int time, Vector2 pos)
 	{
