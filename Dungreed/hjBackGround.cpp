@@ -80,7 +80,7 @@ namespace hj
 
 	void BackGround::setAnimation(const std::wstring name, const std::wstring path, float playRate, bool loop)
 	{
-		mImage = RscManager::Load<Image>(name, path);
+		mImage = RscManager::Load<Img>(name, path);
 		mImage->SetPlayRate(playRate);
 		mImage->SetLoop(loop);
 	}

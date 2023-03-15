@@ -9,7 +9,9 @@
 #include "hjCamera.h"
 #include "hjMouse.h"
 //#include "hjSpriteRenderer.h"
-
+//#include <ole2.h>
+//#include <GdiPlus.h>
+//#pragma comment(lib, "gdiplus.lib")
 namespace hj
 {
 	Hero::Hero()
@@ -23,10 +25,12 @@ namespace hj
 	
 	void Hero::Initialize()
 	{
+		GameObject::Initialize();
 		mAnimator = AddComponent<Animator>();
 		isJump = false;
 
-		Image* mImage = RscManager::Load<Image>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
+		Img* mImage = RscManager::Load<Img>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
+		//Gdiplus::Bitmap* pBitmap = Gdiplus::Bitmap::FromHBITMAP(mImage->GetBitmap(), NULL);
 		mImage->SetPlayRate(1.0f);
 		Transform* tr = GetComponent<Transform>();
 		
@@ -59,7 +63,11 @@ namespace hj
 		Vector2 colSize = collider->GetSize();
 		collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
 
-		GameObject::Initialize();
+		mWeapons = new Wmanager();
+		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
+		mWeapons->SetOwner(this);
+		mWeapons->EquipWeapon(L"Sword");
+
 	}
 
 	void Hero::Update()
@@ -88,17 +96,18 @@ namespace hj
 		}
 
 		Vector2 size = tr->GetSize();
+
 		if (Mouse::GetPos().x < (tr->GetPos().x - (Camera::GetPos().x - application.GetWidth() / 2.0f)))
 			flip = true;
 		else
 			flip = false;
-		
+		mWeapons->Update();
 	}
 
 	void Hero::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
-
+		mWeapons->Render(hdc);
 	}
 
 	void Hero::Release()

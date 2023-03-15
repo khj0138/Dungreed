@@ -160,10 +160,12 @@
     <ClInclude Include="hjScene.h" />
     <ClInclude Include="hjSceneManager.h" />
     <ClInclude Include="hjSpriteRenderer.h" />
+    <ClInclude Include="hjSword.h" />
     <ClInclude Include="hjTime.h" />
     <ClInclude Include="hjTitleScene.h" />
     <ClInclude Include="hjTransform.h" />
     <ClInclude Include="hjWeapon.h" />
+    <ClInclude Include="hjWmanager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -194,10 +196,12 @@
     <ClCompile Include="hjScene.cpp" />
     <ClCompile Include="hjSceneManager.cpp" />
     <ClCompile Include="hjSpriteRenderer.cpp" />
+    <ClCompile Include="hjSword.cpp" />
     <ClCompile Include="hjTime.cpp" />
     <ClCompile Include="hjTitleScene.cpp" />
     <ClCompile Include="hjTransform.cpp" />
     <ClCompile Include="hjWeapon.cpp" />
+    <ClCompile Include="hjWmanager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

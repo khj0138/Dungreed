@@ -157,7 +157,7 @@
     <ClInclude Include="hjAnimator.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
-    <ClInclude Include="hjWeapon.h">
+    <ClInclude Include="hjWmanager.h">
       <Filter>Contents\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="hjBaseBullet.h">
@@ -183,6 +183,12 @@
     </ClInclude>
     <ClInclude Include="hjCamera.h" />
     <ClInclude Include="hjMouse.h" />
+    <ClInclude Include="hjSword.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjWeapon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -264,7 +270,7 @@
     <ClCompile Include="hjAnimator.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
-    <ClCompile Include="hjWeapon.cpp">
+    <ClCompile Include="hjWmanager.cpp">
       <Filter>Contents\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="hjBaseBullet.cpp">
@@ -287,5 +293,11 @@
     </ClCompile>
     <ClCompile Include="hjCamera.cpp" />
     <ClCompile Include="hjMouse.cpp" />
+    <ClCompile Include="hjSword.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjWeapon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

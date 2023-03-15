@@ -33,7 +33,7 @@ namespace hj
 		//double mV;
 		double mTime;
 		Animator* mAnimator;
-		Image* mImage;
+		Img* mImage;
 		Vector2 mLeftTop;
 		bool mLoop;
 	};

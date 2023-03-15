@@ -54,7 +54,7 @@ namespace hj
 	void Bird::setAnimation(const std::wstring name, const std::wstring path)
 	{
 		mAnimator = AddComponent<Animator>();
-		Image* mImage = RscManager::Load<Image>(name, path);
+		Img* mImage = RscManager::Load<Img>(name, path);
 		
 		mAnimator->CreateAnimation(name, mImage, Vector2::Zero, 8, 1, 8, Vector2::Zero, 0.075);
 		mAnimator->Play(name, true);

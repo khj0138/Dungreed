@@ -80,7 +80,7 @@ namespace hj
 			RGB(255, 0, 255));
  	}
 
-	void Animation::Create(Image* sheet, Vector2 leftTop
+	void Animation::Create(Img* sheet, Vector2 leftTop
 		, UINT column, UINT row, UINT spriteLength
 		, Vector2 offset, float duration)
 	{

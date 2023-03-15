@@ -59,7 +59,7 @@ namespace hj
 
 	}
 	void Animator::CreateAnimation(const std::wstring& name
-		, Image* sheet, Vector2 leftTop
+		, Img* sheet, Vector2 leftTop
 		, UINT column, UINT row, UINT spriteLength
 		, Vector2 offset, float duration)
 	{
@@ -85,7 +85,7 @@ namespace hj
 		UINT fileCount = 0;
 
 		std::filesystem::path fs(path);
-		std::vector<Image*> images = {};
+		std::vector<Img*> images = {};
 		for (const auto& p : std::filesystem::recursive_directory_iterator(path))
 		{
 			std::wstring fileName = p.path().filename();
@@ -95,7 +95,7 @@ namespace hj
 			if (ext == L".png")
 				continue;
 
-			Image* image = RscManager::Load<Image>(fileName, fullName);
+			Img* image = RscManager::Load<Img>(fileName, fullName);
 			images.push_back(image);
 			
 			if (width < image->GetWidth())
@@ -111,10 +111,10 @@ namespace hj
 
 		std::wstring key = fs.parent_path().filename();
 		key += fs.filename();
-		mSpriteSheet = Image::Create(key, width + fileCount, height);
+		mSpriteSheet = Img::Create(key, width + fileCount, height);
 
 		int index = 0;
-		for (Image* image : images)
+		for (Img* image : images)
 		{
 			int centerX = (width - image->GetWidth()) / 2;
 			int centerY = (height - image->GetHeight());

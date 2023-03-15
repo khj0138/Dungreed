@@ -5,17 +5,17 @@
 extern hj::Application application;
 
 namespace hj {
-	Vector2 Image::mAsRatio = Vector2::One;
-	Image* Image::Create(const std::wstring& name, UINT width, UINT height)
+	Vector2 Img::mAsRatio = Vector2::One;
+	Img* Img::Create(const std::wstring& name, UINT width, UINT height)
 	{
 		if (width == 0 || height == 0)
 			return nullptr;
 
-		Image* image = RscManager::Find<Image>(name);
+		Img* image = RscManager::Find<Img>(name);
 		if (image != nullptr)
 			return image;
 
-		image = new Image();
+		image = new Img();
 		HDC mainHdc = application.GetHdc();
 
 		image->mBitmap = CreateCompatibleBitmap(mainHdc, width, height);
@@ -29,13 +29,13 @@ namespace hj {
 		image->mHeight = height;
 
 		image->SetKey(name);
-		RscManager::Insert<Image>(name, image);
+		RscManager::Insert<Img>(name, image);
 
 		Rectangle(image->GetHdc(), -1, -1, image->mWidth + 1, image->mHeight + 1);
 
 		return image;
 	}
-	Image::Image()
+	Img::Img()
 		: mBitmap(NULL)
 		, mHdc(NULL)
 		, mWidth(0)
@@ -45,13 +45,13 @@ namespace hj {
 	{
 	}
 
-	Image::~Image()
+	Img::~Img()
 	{
 		DeleteObject(mBitmap);
 		DeleteDC(mHdc);
 	}
 
-	HRESULT Image::Load(const std::wstring& path)
+	HRESULT Img::Load(const std::wstring& path)
 	{
 		mBitmap = (HBITMAP)LoadImageW(nullptr
 			, path.c_str(), IMAGE_BITMAP
@@ -68,6 +68,7 @@ namespace hj {
 		HDC mainDC = application.GetHdc();
 		mHdc = CreateCompatibleDC(mainDC);
 		HBITMAP oldBitmap = (HBITMAP)SelectObject(mHdc, mBitmap);
+
 		if (oldBitmap == mBitmap)
 		{
 			int a = 0;
@@ -77,7 +78,7 @@ namespace hj {
 		return S_OK;
 	}
 
-	void Image::SetOutputRatio(Vector2 ratio)
+	void Img::SetOutputRatio(Vector2 ratio)
 	{
 
 		/*if ((float)mWidth * ratio.y > (float)mHeight * ratio.x)
@@ -98,7 +99,7 @@ namespace hj {
 		}
 	}
 
-	void Image::matchResolution(Vector2 Resolution)
+	void Img::matchResolution(Vector2 Resolution)
 	{
 		if (!(Resolution.x || Resolution.y))
 			Resolution = mAsRatio;

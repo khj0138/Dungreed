@@ -3,7 +3,7 @@
 
 namespace hj
 {
-	class Image;
+	class Img;
 	class Animator;
 	class Animation : public Entity
 	{
@@ -31,7 +31,7 @@ namespace hj
 		void Initialize();
 		void Update();
 		void Render(HDC hdc);
-		void Create(Image* sheet, Vector2 leftTop, UINT column, UINT row, UINT spriteLength, Vector2 offset, float duration);
+		void Create(Img* sheet, Vector2 leftTop, UINT column, UINT row, UINT spriteLength, Vector2 offset, float duration);
 		void Reset();
 
 		bool isComplete() { return mbComplete; }
@@ -45,7 +45,7 @@ namespace hj
 	
 	private:
 		Animator* mAnimator;
-		Image* mSheetImage;
+		Img* mSheetImage;
 		std::vector<Sprite> mSpriteSheet;
 		float mTime;
 		bool mbComplete;

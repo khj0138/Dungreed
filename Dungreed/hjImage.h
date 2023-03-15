@@ -5,12 +5,12 @@ namespace hj
 {
 
 
-	class Image : public Resource
+	class Img : public Resource
 	{
 	public:
-		static Image* Create(const std::wstring& name, UINT width, UINT height);
-		Image();
-		~Image();
+		static Img* Create(const std::wstring& name, UINT width, UINT height);
+		Img();
+		~Img();
 
 		virtual HRESULT Load(const std::wstring& path) override;
 

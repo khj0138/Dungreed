@@ -18,7 +18,7 @@ namespace hj
 
 		void SetSprite(const std::wstring& key, const std::wstring& path)
 		{
-			mSprite = RscManager::Load<Image>(key, path);
+			mSprite = RscManager::Load<Img>(key, path);
 		}
 		void SetFlip(bool flip)
 		{
@@ -33,13 +33,13 @@ namespace hj
 			mIndex = index;
 		}
 
-		Image* GetSprite() { return mSprite; }
+		Img* GetSprite() { return mSprite; }
 		bool checkFlip() { return mFlip; }
 		int getState() { return mState; }
 		int getIndex() { return mIndex; }
 
 	private:
-		Image* mSprite;
+		Img* mSprite;
 		int mState;
 		int mIndex;
 		bool mFlip;

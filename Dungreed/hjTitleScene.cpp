@@ -24,7 +24,7 @@ namespace hj {
 		Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeY / 180.0f);
 
 		//Scene::setAsRatio(asRatio);
-		Image::SetAsRatio(asRatio);
+		Img::SetAsRatio(asRatio);
 		BackGround* bg = new BackGround();
 		AddGameObject(bg, eLayerType::BackBG);
 		bg->setAnimation(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f);

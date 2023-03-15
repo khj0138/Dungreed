@@ -33,3 +33,8 @@ enum class eComponentType
 	End,
 };
 
+enum class eWeaponType {
+	SWORD,
+	GUN,
+	END,
+};

@@ -19,7 +19,7 @@ namespace hj
 
 	private:
 		Animator* mAnimator;
-		Image* mImage;
+		Img* mImage;
 	};
 
 }

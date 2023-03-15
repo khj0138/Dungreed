@@ -57,6 +57,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
+    ULONG_PTR m_gdiplusToken;
+    GdiplusStartupInput gdiplusStartupInput;
+
+    GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -76,6 +80,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             application.Run();
         }
     }
+    GdiplusShutdown(m_gdiplusToken);
     hj::SceneManager::Release();
     hj::RscManager::Release();
 

@@ -29,7 +29,7 @@ namespace hj
 		float windowSizeX = (float)application.GetWidth();
 		Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeX / 960.0f);
 		//Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeY / 146.0f);
-		Image::SetAsRatio(asRatio);
+		Img::SetAsRatio(asRatio);
 
 		hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);
@@ -42,7 +42,7 @@ namespace hj
 		AddGameObject(bg, eLayerType::BackBG);
 		bg->setAnimation(L"back", L"..\\Resource\\SkyDay.bmp", 0.0f);
 
-		Image::SetAsRatio(asRatio * 3.0f);
+		Img::SetAsRatio(asRatio * 3.0f);
 
 		BackGround* bg2 = new BackGround();
 		AddGameObject(bg2, eLayerType::BackBG);
@@ -60,7 +60,7 @@ namespace hj
 		AddGameObject(floor, eLayerType::Platform);
 		floor->setAnimation(L"TownFloor", L"..\\Resource\\Town\\TownFloor.bmp");
 		
-		Image::SetAsRatio(asRatio);
+		Img::SetAsRatio(asRatio);
 
 		hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);

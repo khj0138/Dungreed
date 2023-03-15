@@ -40,7 +40,7 @@ namespace hj
 		virtual void Release() override;
 
 		void CreateAnimation(const std::wstring& name
-			, Image* sheet
+			, Img* sheet
 			, Vector2 leftTop
 			, UINT column, UINT row, UINT spriteLength
 			, Vector2 offset, float duration);
@@ -64,7 +64,7 @@ namespace hj
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
 		Animation* mActiveAnimation;
-		Image* mSpriteSheet;
+		Img* mSpriteSheet;
 		bool mbLoop;
 	};
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "hjGameObject.h"
 #include "hjImage.h"
+#include "hjWmanager.h"
+
 
 namespace hj
 {
@@ -36,6 +38,7 @@ namespace hj
 		Animator* mAnimator;
 		bool flip;
 		bool isJump;
+		Wmanager* mWeapons;
 	};
 
 }

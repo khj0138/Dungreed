@@ -16,4 +16,8 @@
 #include <functional>
 #include <filesystem>
 
+#include <ole2.h>
+#include <GdiPlus.h>
+using namespace Gdiplus;
+#pragma comment(lib, "gdiplus.lib")
 #pragma comment(lib, "Msimg32.lib")

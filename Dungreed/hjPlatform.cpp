@@ -62,7 +62,7 @@ namespace hj
 	}
 	void Platform::setAnimation(const std::wstring name, const std::wstring path)
 	{
-		mImage = RscManager::Load<Image>(name, path);
+		mImage = RscManager::Load<Img>(name, path);
 		mImage->SetPlayRate(1.0f);
 	}
 
