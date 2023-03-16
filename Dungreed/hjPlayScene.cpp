@@ -27,7 +27,8 @@ namespace hj
 
 		//float windowSizeY = (float)application.GetHeight();
 		float windowSizeX = (float)application.GetWidth();
-		Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeX / 960.0f);
+		Vector2 asRatio = Vector2{ 1.0f, 1.0f } * (windowSizeX / 960.0f);
+		//asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeX / 1600.0f);
 		//Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeY / 146.0f);
 		Img::SetAsRatio(asRatio);
 
@@ -62,8 +63,8 @@ namespace hj
 		
 		Img::SetAsRatio(asRatio);
 
-		hero = new Hero();
-		AddGameObject(hero, eLayerType::Player);
+		/*hero = new Hero();
+		AddGameObject(hero, eLayerType::Player);*/
 		
 		Scene::Initialize();
 	}

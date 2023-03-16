@@ -8,6 +8,7 @@
 #include "hjMouse.h"
 #include "hjTime.h"
 #include "hjMath.h"
+#include "hjCamera.h"
 
 //#include <ole2.h>
 //#include <GdiPlus.h>
@@ -42,6 +43,7 @@ namespace hj
 		eWeaponState mWstate;
 		Vector2 mSpawn;
 		Vector2 mSpawnDir;
+		float mSpawnDegree;
 		double mTime;
 		bool isFlip;
 	};

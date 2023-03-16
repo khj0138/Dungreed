@@ -34,12 +34,12 @@ namespace hj
 		};
 		Weapon()
 		{
-			mAnimator = new Animator();
+			//mAnimator = new Animator();
 		}
 		~Weapon()
 		{
-			delete mAnimator;
-			mAnimator = nullptr;
+			//delete mAnimator;
+			//mAnimator = nullptr;
 		}
 
 		virtual void Initialize();
@@ -61,11 +61,6 @@ namespace hj
 		Vector2 GetDir() { return mDir; }
 		Animator* GetAnimator() { return mAnimator; }
 		Wmanager* GetManager() { return mWmanager; }
-		//int getIndex() { return mSpriteIndex; }
-		//void setIndex(int spriteIndex) { mSpriteIndex = spriteIndex; }
-		//void setLeftTop(Vector2 pos) { mSpriteSheet[0].leftTop = pos; }
-		//void SetAnimationName(const std::wstring& name) { mAnimationName = name; }
-		//std::wstring& GetWeaponName() { return mAnimationName; }
 
 	private:
 		Wmanager* mWmanager;

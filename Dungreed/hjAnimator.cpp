@@ -4,6 +4,7 @@
 
 namespace hj
 {
+	
 	Animator::Animator()
 		: Component(eComponentType::Animator)
 		, mActiveAnimation(nullptr)

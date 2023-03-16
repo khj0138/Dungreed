@@ -32,6 +32,8 @@ namespace hj
 		void die();
 		void jump();
 
+		bool checkFlip() { return flip; }
+
 
 	private:
 		eHeroState mState;

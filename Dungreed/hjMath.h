@@ -126,9 +126,18 @@ namespace hj::math
 {
 	inline static Vector2 Rotate(Vector2 vector, float degree)
 	{
-		float radian = (degree / 180.0f) * PI;
-		//vector.Normalize();
-
+		
+		float vectDegree = atan2(vector.y, vector.x);
+		if (vectDegree + degree > 180.0f) 
+		{
+			degree = -360.f + degree;
+		}
+		else if (vectDegree + degree < -180.0f)
+		{
+			degree = 360.f + degree;
+		}
+		float radian = (degree  / 180.0f) * PI;
+		vector.Normalize();
 		float x = vector.x * cosf(radian) - vector.y * sinf(radian);
 		float y = vector.x * sinf(radian) + vector.y * cosf(radian);
 		

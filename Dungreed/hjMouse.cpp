@@ -1,4 +1,6 @@
 #include "hjMouse.h"
+#include "hjApplication.h"
+#include "hjCamera.h"
 namespace hj
 {
 	Vector2 Mouse::mPos = Vector2::Zero;
@@ -13,13 +15,13 @@ namespace hj
 		mRstate = (eKeyState)Input::GetKeyState(eKeyCode::MRIGHT);
 
 		// **********************마우스 쓰는 방법*******************
+		HWND hWnd = application.GetHwnd();
 		POINT cursor;
 		GetCursorPos(&cursor);
-		HWND hWnd = GetForegroundWindow();
-		POINT point = { 0,0 };
-		ClientToScreen(hWnd, &point);
+		ScreenToClient(hWnd, &cursor);
+		mPos = Vector2{ (float)(cursor.x), (float)(cursor.y) };
+		//mPos = Camera::CaluatePos(mPos, -1.f);
 
-		mPos = Vector2{ (float)(cursor.x - point.x), (float)(cursor.y - point.y) };
 		
 		// **********************마우스 쓰는 방법*******************
 	}

@@ -20,7 +20,8 @@ namespace hj
 
 	Hero::~Hero()
 	{
-			
+		delete mWeapons;
+		mWeapons = nullptr;
 	}
 	
 	void Hero::Initialize()

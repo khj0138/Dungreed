@@ -28,8 +28,9 @@ namespace hj
 
 	void Wmanager::Update()
 	{
-		mDir = (Mouse::GetPos() - GetOwner()->GetComponent<Transform>()->GetPos()).Normalize();
 		mPos = GetOwner()->GetComponent<Transform>()->GetPos();
+		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos,1.f)).Normalize();
+		isFlip = Mouse::GetPos().x < Camera::CaluatePos(mPos,1.f).x;
 		if (mActiveWeapon != nullptr)
 		{
 			mActiveWeapon->Update();
