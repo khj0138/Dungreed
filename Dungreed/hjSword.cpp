@@ -1,6 +1,9 @@
 #include "hjSword.h"
-extern GraphicsPath Path;
-extern const GUID ImageFormatBMP;
+#include "hjApplication.h"
+
+extern hj::Application application;
+//extern GraphicsPath Path;
+//extern const GUID ImageFormatBMP;
 namespace hj
 {
 
@@ -46,7 +49,7 @@ namespace hj
 		}
 		else
 		{
-			mSpawnDir = math::Rotate(dir, -170.0f * flipNum + 180.0f * (float)isFlip);
+			mSpawnDir = math::Rotate(dir, -175.0f * flipNum + 180.0f * (float)isFlip);
 			
 			mSpawn = pos
 				+ Vector2{ (xtemp) * heroSize.x * flipNum, (ytemp) * heroSize.y }  // 원 중심 이동
@@ -159,7 +162,10 @@ namespace hj
 
 	void Sword::Create()
 	{
+		Weapon::SetAsRatio(Vector2::One * ((float)application.GetWidth() / 960.0f));
 		mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\BambooSword.bmp");
+		mImage->MatchRatio(Weapon::GetAsRatio());
+		//mImage->MatchRatio
 		//mImage = RscManager::Load<Image>(L"Sword", L"..\\Resource\\Char\\.bmp");
 	}
 

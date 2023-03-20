@@ -11,7 +11,7 @@ namespace hj
 		Scene* scene = SceneManager::GetActiveScene();
 		for (UINT row = 0; row < (UINT)eLayerType::End; row++)
 		{
-			for (UINT col = row; col < (UINT)eLayerType::End; col++)
+			for (UINT col = 0; col < (UINT)eLayerType::End; col++)
 			{
 				if (mMatrix[row] & (1 << col))
 				{
@@ -66,6 +66,7 @@ namespace hj
 			{
 				leftCol->OnCollisionEnter(rightCol);
 				rightCol->OnCollisionEnter(leftCol);
+				iter->second = true;
 			}
 			else
 			{
@@ -93,6 +94,12 @@ namespace hj
 
 		Vector2 leftSize = left->GetSize();
 		Vector2 rightSize = right->GetSize();
+
+		leftPos.x = leftPos.x + leftSize.x / 2.0f;
+		leftPos.y = leftPos.y + leftSize.y / 2.0f;
+
+		rightPos.x = rightPos.x + rightSize.x / 2.0f;
+		rightPos.y = rightPos.y + rightSize.y / 2.0f;
 
 		if (fabs(leftPos.x - rightPos.x) < (leftSize.x / 2.0f) + (rightSize.x / 2.0f)
 			&& fabs(leftPos.y - rightPos.y) < (leftSize.y / 2.0f) + (rightSize.y / 2.0f))

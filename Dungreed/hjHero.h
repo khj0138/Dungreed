@@ -6,6 +6,7 @@
 
 namespace hj
 {
+	class Rigidbody;
 	class Animator;
 	class Hero : public GameObject
 	{
@@ -25,12 +26,19 @@ namespace hj
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
-		void animChange(eHeroState state, std::wstring anim, bool loop);
 
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
+
+	private:
+		void StateChange(eHeroState state, std::wstring anim, bool loop);
+		
 		void idle();
 		void run();
 		void die();
 		void jump();
+		void dash();
 
 		bool checkFlip() { return flip; }
 
@@ -41,6 +49,10 @@ namespace hj
 		bool flip;
 		bool isJump;
 		Wmanager* mWeapons;
+		std::vector<eKeyCode> leftRight;
+		Rigidbody* mRigidbody;
+		UINT mDash;
+		bool bDash;
 	};
 
 }

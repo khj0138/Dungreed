@@ -1,11 +1,11 @@
 #pragma once
 #include "hjScene.h"
-#include "hjBackGround.h";
 #include "hjGameObject.h"
-#include "hjBird.h"
+#include "hjBackGround.h";
 
 namespace hj
 {
+	class Bird;
 	class TitleScene : public Scene
 	{
 	public:
@@ -23,12 +23,9 @@ namespace hj
 		void spawnBird(Bird* bird);
 		Bird* nextBird(double time);
 
-		/*std::map<int, Vector2>::iterator::iter;*/
 	private:
 		double mTime;
 		bool bir = false;
-		/*std::map<std::wstring, Vector2>::iterator iter;*/
-		//std::map<int, Bird*> mBirds;
 		std::vector<Bird*> mBirds;
 	};
 }

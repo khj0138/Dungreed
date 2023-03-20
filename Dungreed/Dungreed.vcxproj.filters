@@ -68,8 +68,26 @@
     <Filter Include="Contents\Platform">
       <UniqueIdentifier>{2851e63e-6d8d-4345-be42-c4d74eddf395}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Mouse">
-      <UniqueIdentifier>{6a1888a4-b322-4592-9b1d-6609e288742d}</UniqueIdentifier>
+    <Filter Include="Engine\Component\Animator">
+      <UniqueIdentifier>{2d97e72f-c421-4a3f-b771-df2548a4eac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Transform">
+      <UniqueIdentifier>{da164047-dfaf-42c8-97ad-d55fc49165ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\SpriteRenderer">
+      <UniqueIdentifier>{83a6e496-a783-4584-b736-757471381864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\RigidBody">
+      <UniqueIdentifier>{dca39a84-4621-455d-89cd-ca137909d594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Camera">
+      <UniqueIdentifier>{ac292fd6-9e54-4701-9f7a-6ef64d12eb61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Mouse">
+      <UniqueIdentifier>{c6df2d12-3a8c-44ef-8790-f739cf66910e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Ground">
+      <UniqueIdentifier>{bdf5f0af-f0c4-46eb-a5fa-a71e5346cf4a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -142,20 +160,8 @@
     <ClInclude Include="hjImage.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="hjSpriteRenderer.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="hjTransform.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="hjTitleScene.h">
       <Filter>Contents\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="hjAnimation.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="hjAnimator.h">
-      <Filter>Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="hjWmanager.h">
       <Filter>Contents\Weapon</Filter>
@@ -181,13 +187,35 @@
     <ClInclude Include="hjPlatform.h">
       <Filter>Contents\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="hjCamera.h" />
-    <ClInclude Include="hjMouse.h" />
     <ClInclude Include="hjSword.h">
       <Filter>Contents\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="hjWeapon.h">
       <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjAnimator.h">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="hjAnimation.h">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="hjTransform.h">
+      <Filter>Engine\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSpriteRenderer.h">
+      <Filter>Engine\Component\SpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="hjCamera.h">
+      <Filter>Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="hjMouse.h">
+      <Filter>Engine\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="hjRigidBody.h">
+      <Filter>Engine\Component\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="hjGround.h">
+      <Filter>Contents\Ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -255,20 +283,8 @@
     <ClCompile Include="hjImage.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="hjSpriteRenderer.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="hjTransform.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="hjTitleScene.cpp">
       <Filter>Contents\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="hjAnimation.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="hjAnimator.cpp">
-      <Filter>Engine\Component</Filter>
     </ClCompile>
     <ClCompile Include="hjWmanager.cpp">
       <Filter>Contents\Weapon</Filter>
@@ -291,13 +307,35 @@
     <ClCompile Include="hjPlatform.cpp">
       <Filter>Contents\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="hjCamera.cpp" />
-    <ClCompile Include="hjMouse.cpp" />
     <ClCompile Include="hjSword.cpp">
       <Filter>Contents\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="hjWeapon.cpp">
       <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjAnimator.cpp">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="hjAnimation.cpp">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="hjTransform.cpp">
+      <Filter>Engine\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSpriteRenderer.cpp">
+      <Filter>Engine\Component\SpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="hjCamera.cpp">
+      <Filter>Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="hjMouse.cpp">
+      <Filter>Engine\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="hjRigidBody.cpp">
+      <Filter>Engine\Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="hjGround.cpp">
+      <Filter>Contents\Ground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@ namespace hj
 
 	private:
 		static UINT ColliderNumber;
+		UINT mCollisionCount;
 		UINT mID;
 		Vector2 mCenter;
 		Vector2 mSize;

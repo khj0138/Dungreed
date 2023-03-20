@@ -131,6 +131,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="hjGround.h" />
     <ClInclude Include="hjAnimation.h" />
     <ClInclude Include="hjAnimator.h" />
     <ClInclude Include="hjApplication.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="hjPlatform.h" />
     <ClInclude Include="hjPlayScene.h" />
     <ClInclude Include="hjResource.h" />
+    <ClInclude Include="hjRigidBody.h" />
     <ClInclude Include="hjRscManager.h" />
     <ClInclude Include="hjScene.h" />
     <ClInclude Include="hjSceneManager.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hjGround.cpp" />
     <ClCompile Include="hjAnimation.cpp" />
     <ClCompile Include="hjAnimator.cpp" />
     <ClCompile Include="hjApplication.cpp" />
@@ -192,6 +195,7 @@
     <ClCompile Include="hjPlatform.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
     <ClCompile Include="hjResource.cpp" />
+    <ClCompile Include="hjRigidBody.cpp" />
     <ClCompile Include="hjRscManager.cpp" />
     <ClCompile Include="hjScene.cpp" />
     <ClCompile Include="hjSceneManager.cpp" />

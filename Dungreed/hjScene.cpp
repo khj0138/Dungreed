@@ -77,7 +77,6 @@ namespace hj
 	}
 	void Scene::AddGameObject(GameObject* obj, eLayerType layer)
 	{
-		//obj->SetType(layer);
 		mLayers[(UINT)layer].AddGameObject(obj);
 	}
 

@@ -9,13 +9,14 @@ namespace hj
 	{
 	public:
 		Platform();
+		Platform(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool Repeat = false);
 		~Platform();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
-		void setAnimation(const std::wstring name, const std::wstring path);
+		void SetImage(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool Repeat = false);
 
 	private:
 		Animator* mAnimator;

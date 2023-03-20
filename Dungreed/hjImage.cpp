@@ -1,11 +1,10 @@
 #include "hjImage.h"
-#include "hjApplication.h"
 #include "hjRscManager.h"
+#include "hjApplication.h"
 
 extern hj::Application application;
 
 namespace hj {
-	Vector2 Img::mAsRatio = Vector2::One;
 	Img* Img::Create(const std::wstring& name, UINT width, UINT height)
 	{
 		if (width == 0 || height == 0)
@@ -40,8 +39,8 @@ namespace hj {
 		, mHdc(NULL)
 		, mWidth(0)
 		, mHeight(0)
-		, mLoop(false)
-		, mPlayRate(0.0f)
+		, mRepeat(false)
+		, mMoveRate(0.0f)
 	{
 	}
 
@@ -56,6 +55,7 @@ namespace hj {
 		mBitmap = (HBITMAP)LoadImageW(nullptr
 			, path.c_str(), IMAGE_BITMAP
 			, 0, 0, LR_LOADFROMFILE| LR_CREATEDIBSECTION);
+
 		if (mBitmap == nullptr)
 			return E_FAIL;
 
@@ -74,73 +74,49 @@ namespace hj {
 			int a = 0;
 		}
 		DeleteObject(oldBitmap);
-		matchResolution();
 		return S_OK;
 	}
 
-	void Img::SetOutputRatio(Vector2 ratio)
+	void Img::SetOutputSize(Vector2 size)
 	{
-
-		/*if ((float)mWidth * ratio.y > (float)mHeight * ratio.x)
+		if (mWidth > size.x)
 		{
-			mWidth = mHeight / ratio.y * ratio.x;
+			mWidth = size.x;
 		}
-		else
+		if (mHeight > size.y)
 		{
-			mHeight = mWidth / ratio.x * ratio.y;
-		}*/
-		if (mWidth > ratio.x)
-		{
-			mWidth = ratio.x;
-		}
-		if (mHeight > ratio.y)
-		{
-			mHeight = ratio.y;
+			mHeight = size.y;
 		}
 	}
 
-	void Img::matchResolution(Vector2 Resolution)
+	void Img::MatchRatio(Vector2 ratio)
 	{
-		if (!(Resolution.x || Resolution.y))
-			Resolution = mAsRatio;
+		if (!(ratio.x && ratio.y))
+			return;
 		
-		float width = 0.0f;
-		float height = 0.0f;
+		float height = (float)mHeight * ratio.y;
+		float width = (float)mWidth * ratio.x;
 		
-		height = (float)mHeight * Resolution.y;
-		width = (float)mWidth * Resolution.x;
-
 		BITMAP oldBitInfo = {};
 		GetObject(mBitmap, sizeof(BITMAP), &oldBitInfo);
 
-		HDC bufferDC = CreateCompatibleDC(mHdc);
-		HBITMAP changedMap = CreateCompatibleBitmap(mHdc, width, height);
+		HDC memDC = CreateCompatibleDC(mHdc);
+		HBITMAP memBitmap = CreateCompatibleBitmap(mHdc, width, height);
 
-		DeleteObject((HBITMAP)SelectObject(bufferDC, changedMap));
+		DeleteObject((HBITMAP)SelectObject(memDC, memBitmap));
 		
-		StretchBlt(bufferDC, 0, 0, width, height, mHdc, 0, 0, oldBitInfo.bmWidth, oldBitInfo.bmHeight, SRCCOPY);
+		StretchBlt(memDC, 0, 0, width, height, mHdc, 0, 0, oldBitInfo.bmWidth, oldBitInfo.bmHeight, SRCCOPY);
 
 		DeleteDC(mHdc);
 		
-		mHdc = bufferDC;
-		mBitmap = changedMap;
+		mHdc = memDC;
+		mBitmap = memBitmap;
 
 		BITMAP changedBitInfo = {};
-		GetObject(changedMap, sizeof(BITMAP), &changedBitInfo);
+		GetObject(memBitmap, sizeof(BITMAP), &changedBitInfo);
 
 		mWidth = changedBitInfo.bmWidth;
 		mHeight = changedBitInfo.bmHeight;
-
-		
-		//HDC mainHdc = application.GetHdc();
-		//TransparentBlt(mainHdc, 0, 0
-		//	, mWidth
-		//	, mHeight
-		//	, mHdc
-		//	, 0,0
-		//	//, 200, 180,
-		//	, width, height,
-		//	RGB(255, 255, 255));
 	}
 
 }

@@ -8,10 +8,10 @@
 #include "hjCollider.h"
 #include "hjCamera.h"
 #include "hjMouse.h"
-//#include "hjSpriteRenderer.h"
-//#include <ole2.h>
-//#include <GdiPlus.h>
-//#pragma comment(lib, "gdiplus.lib")
+#include "hjApplication.h"
+#include "hjRigidBody.h"
+
+extern hj::Application application;
 namespace hj
 {
 	Hero::Hero()
@@ -26,24 +26,24 @@ namespace hj
 	
 	void Hero::Initialize()
 	{
-		GameObject::Initialize();
 		mAnimator = AddComponent<Animator>();
 		isJump = false;
-
+		mDash = 0;
+		bDash = true;
+		Vector2 asRatio = Vector2::One * ( (float)application.GetWidth()/ 960.0f);
 		Img* mImage = RscManager::Load<Img>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
-		//Gdiplus::Bitmap* pBitmap = Gdiplus::Bitmap::FromHBITMAP(mImage->GetBitmap(), NULL);
-		mImage->SetPlayRate(1.0f);
-		Transform* tr = GetComponent<Transform>();
-		
-		//tr->SetPos(Vector2{ 800.0f, 450.0f });
-		tr->SetPos(Vector2{ 0.0f, 450.0f });
-		Vector2 pos = tr->GetPos();
-
+		mImage->MatchRatio(asRatio);
+		mImage->SetMoveRate(1.0f);
 		Vector2 size = Vector2::Zero;
 		size.x = mImage->GetWidth() / 8.0f;
 		size.y = mImage->GetHeight() / 8.0f;
+
+		Transform* tr = GetComponent<Transform>();
 		tr->SetSize(size);
 		tr->SetVelocity(Vector2{ 300.0f, 0.0f });
+		tr->SetPos(Vector2{ 3200.0f, 450.0f });
+
+		Vector2 pos = tr->GetPos();
 
 		UINT index = 0;
 		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
@@ -64,20 +64,41 @@ namespace hj
 		Vector2 colSize = collider->GetSize();
 		collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
 
+		mRigidbody = AddComponent<Rigidbody>();
+		mRigidbody->SetMass(1.0f);
+
 		mWeapons = new Wmanager();
 		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
 		mWeapons->SetOwner(this);
 		mWeapons->EquipWeapon(L"Sword");
 
+		GameObject::Initialize();
+		
+
 	}
 
 	void Hero::Update()
 	{
-		GameObject::Update();
-		Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-		pos.y -= tr->GetVelocity().y * Time::DeltaTime();
-		tr->SetPos(pos);
+		
+
+		if (Input::GetKey(eKeyCode::A))
+		{
+			if (find(leftRight.begin(), leftRight.end(), eKeyCode::A) == leftRight.end())
+				leftRight.push_back(eKeyCode::A);
+		}
+		else if (Input::GetKeyUp(eKeyCode::A))
+		{
+			leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::A));
+		}
+		if (Input::GetKey(eKeyCode::D))
+		{
+			if (find(leftRight.begin(), leftRight.end(), eKeyCode::D) == leftRight.end())
+				leftRight.push_back(eKeyCode::D);
+		}
+		else if (Input::GetKeyUp(eKeyCode::D))
+		{
+			leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::D));
+		}
 
 		switch(mState)
 		{
@@ -96,6 +117,7 @@ namespace hj
 			break;
 		}
 
+		Transform* tr = GetComponent<Transform>();
 		Vector2 size = tr->GetSize();
 
 		if (Mouse::GetPos().x < (tr->GetPos().x - (Camera::GetPos().x - application.GetWidth() / 2.0f)))
@@ -103,6 +125,7 @@ namespace hj
 		else
 			flip = false;
 		mWeapons->Update();
+		GameObject::Update();
 	}
 
 	void Hero::Render(HDC hdc)
@@ -116,32 +139,59 @@ namespace hj
 		GameObject::Release();
 	}
 
-	void Hero::animChange(eHeroState state, std::wstring anim, bool loop = false)
+	void Hero::StateChange(eHeroState state, std::wstring anim, bool loop = false)
 	{
 		mState = state;
 		mAnimator->Play(anim, loop);
 		mAnimator->Reset();
 	}
 
+	void Hero::OnCollisionEnter(Collider* other)
+	{
+		int a = 0;
+	}
+
+	void Hero::OnCollisionStay(Collider* other)
+	{
+
+	}
+
+	void Hero::OnCollisionExit(Collider* other)
+	{
+
+	}
 	void Hero::idle()
 	{
-		if (Input::GetKeyDown(eKeyCode::W))
+		if ((Mouse::GetRstate() == eKeyState::Down) && bDash)
 		{
-			animChange(eHeroState::Jump, L"Jump", true);
-			//mState = eHeroState::Jump;
-			//mAnimator->Play(L"Jump", true);
-			//mAnimator->Reset();
+			
+			dash();
 		}
-		else {
-		if (Input::GetKey(eKeyCode::D) || Input::GetKey(eKeyCode::A))
+		else if (Input::GetKeyDown(eKeyCode::W))
 		{
-			animChange(eHeroState::Run, L"Run", true);
+			Vector2 velocity = mRigidbody->GetVelocity();
+			velocity.y -= 2000.0f;
+			mRigidbody->SetVelocity(velocity);
+			mRigidbody->SetGround(false);
+			if (flip)
+				StateChange(eHeroState::Jump, L"FlippedJump", true);
+			else
+				StateChange(eHeroState::Jump, L"Jump", true);
 		}
-		if (flip)
-			mAnimator->Flip(L"FlippedIdle");
-		else
-			mAnimator->Flip(L"Idle");
+		else if (!leftRight.empty())
+		{
+			if (flip)
+				StateChange(eHeroState::Run, L"FlippedRun", true);
+			else
+				StateChange(eHeroState::Run, L"Run", true);
+		}
 
+		else
+		{
+			if (flip)
+				mAnimator->Flip(L"FlippedIdle");
+			else
+				mAnimator->Flip(L"Idle");
 		}
 	}
 
@@ -151,34 +201,48 @@ namespace hj
 
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		
-		if (Input::GetKeyDown(eKeyCode::W))
+		if (Mouse::GetRstate() == eKeyState::Down && bDash)
 		{
-			mState = eHeroState::Jump;
-			mAnimator->Play(L"Jump", true);
-			mAnimator->Reset();
+			dash();
+		}
+		else if (Input::GetKeyDown(eKeyCode::W))
+		{
+			Vector2 velocity = mRigidbody->GetVelocity();
+			velocity.y -= 2000.0f;
+			mRigidbody->SetVelocity(velocity);
+			mRigidbody->SetGround(false);
+			if (flip)
+				StateChange(eHeroState::Jump, L"FlippedJump", true);
+			else
+				StateChange(eHeroState::Jump, L"Jump", true);
 		}
 		else {
-			if (!Input::GetKeyDown(eKeyCode::A)
-				&& !Input::GetKeyDown(eKeyCode::D)
-				&& !Input::GetKey(eKeyCode::A)
-				&& !Input::GetKey(eKeyCode::D))
+			if (leftRight.empty())
 			{
-				mState = eHeroState::Idle;
-				mAnimator->Play(L"Idle", true);
-				mAnimator->Reset();
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.x = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+				if (flip)
+					StateChange(eHeroState::Idle, L"FlippedIdle", true);
+				else
+					StateChange(eHeroState::Idle, L"Idle", true);
 			}
-			else if (Input::GetKey(eKeyCode::A))
+			else if (leftRight.back() == eKeyCode::A)
 			{
-				//pos.x -= 100.0f * Time::DeltaTime();
-				Vector2 velocity = tr->GetVelocity();
-				pos.x -= tr->GetVelocity().x * Time::DeltaTime();
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.x = -200.0f;
+				mRigidbody->SetVelocity(velocity);
+				//Vector2 velocity = tr->GetVelocity();
+
+				//pos.x -= tr->GetVelocity().x * Time::DeltaTime();
 			}
-			else if (Input::GetKey(eKeyCode::D))
+			else if (leftRight.back() == eKeyCode::D)
 			{
-				//pos.x -= 100.0f * Time::DeltaTime();
-				Vector2 velocity = tr->GetVelocity();
-				pos.x += tr->GetVelocity().x * Time::DeltaTime();
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.x = 200.0f;
+				mRigidbody->SetVelocity(velocity);
+				/*Vector2 velocity = tr->GetVelocity();
+				pos.x += tr->GetVelocity().x * Time::DeltaTime();*/
 			}
 		
 
@@ -199,7 +263,6 @@ namespace hj
 		//	mAnimator->Flip(L"Run");
 		//}
 
-		tr->SetPos(pos);
 	}
 
 	void Hero::die()
@@ -210,48 +273,87 @@ namespace hj
 	{
 
 		Transform* tr = GetComponent<Transform>();
-		Vector2 velocity = tr->GetVelocity();
-		Vector2 pos = tr->GetPos();
-		float speed = 600.0f;
-		if (isJump == false && (velocity.y <= 0.001 && velocity.y >= -0.001))
+		Vector2 velocity = mRigidbody->GetVelocity();
+		if (Mouse::GetRstate() == eKeyState::Down && bDash)
 		{
-			isJump = true;
-			tr->SetVelocity(Vector2{ velocity.x,   speed });
+			dash();
 		}
-
-		else if (isJump == true && velocity.y <= (-1.f) * speed)
-		{ 
-			isJump = false;
-			tr->SetVelocity(Vector2{ velocity.x, (float)0});
-		//	tr->SetPos(Vector2{ pos.x, 449.9f });
-			mState = eHeroState::Idle;
-			mAnimator->Play(L"Idle", true);
+		if (mDash > 0)
+		{
+			mDash--;
+			if (mDash == 0)
+			{
+				velocity.y = 0.0f;
+			}
 		}
+		
 		else
 		{
-			float n = 0.65f;
-			tr->SetVelocity(Vector2{ velocity.x, velocity.y - (2.0f * speed / n) * (float)Time::DeltaTime() });
-			if (flip)
-				mAnimator->Flip(L"FlippedJump");
+			mRigidbody->SetGravity(true);
+			//if (velocity.y >= 500.0f)
+			if (mRigidbody->GetGround())
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+				//mRigidbody->SetGround(true);
+				bDash = true;
+				if (flip)
+					StateChange(eHeroState::Idle, L"FlippedIdle", true);
+				else
+					StateChange(eHeroState::Idle, L"Idle", true);
+			}
+			if (leftRight.empty())
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.x = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+			}
 			else
-				mAnimator->Flip(L"Jump");
-
+			{
+				if (leftRight.back() == eKeyCode::D)
+				{
+					Vector2 velocity = mRigidbody->GetVelocity();
+					velocity.x = 200.0f;
+					mRigidbody->SetVelocity(velocity);
+					//Vector2 velocity = tr->GetVelocity();
+					//pos.x += tr->GetVelocity().x * Time::DeltaTime();
+					//tr->SetPos(pos);
+				}
+				else if (leftRight.back() == eKeyCode::A)
+				{
+					Vector2 velocity = mRigidbody->GetVelocity();
+					velocity.x = -200.0f;
+					mRigidbody->SetVelocity(velocity);
+					//Vector2 velocity = tr->GetVelocity();
+					//pos.x -= tr->GetVelocity().x * Time::DeltaTime();
+					//tr->SetPos(pos);
+				}
+			}
 		}
-		if (Input::GetKey(eKeyCode::D))
-		{
-			Vector2 velocity = tr->GetVelocity();
-			pos.x += tr->GetVelocity().x * Time::DeltaTime();
-			tr->SetPos(pos);
-		}
-		else if (Input::GetKey(eKeyCode::A))
-		{
-			Vector2 velocity = tr->GetVelocity();
-			pos.x -= tr->GetVelocity().x * Time::DeltaTime();
-			tr->SetPos(pos);
-		}
+		if (flip)
+			mAnimator->Flip(L"FlippedJump");
+		else
+			mAnimator->Flip(L"Jump");
 
-		
+	}
 
+	void Hero::dash()
+	{
+		bDash = false;
+		Transform* tr = GetComponent<Transform>();
+		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), 1.f)).Normalize();
+		dir = dir * 16.0f;
+		Vector2 velocity = mRigidbody->GetVelocity();
+		velocity = dir;
+		mRigidbody->SetVelocity(velocity);
+		mDash = 16;
+		mRigidbody->SetGravity(false);
+		mRigidbody->SetGround(false);
+		if (flip)
+			StateChange(eHeroState::Jump, L"FlippedJump", true);
+		else
+			StateChange(eHeroState::Jump, L"Jump", true);
 	}
 
 }

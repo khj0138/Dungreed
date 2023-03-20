@@ -29,6 +29,17 @@ namespace hj::object
 	}
 
 	template <typename T>
+	static inline T* Instantiate(Vector2 pos, eLayerType type, eSceneType sType)
+	{
+		T* gameObj = new T();
+		Scene* scene = SceneManager::FindScene(sType);
+		scene->AddGameObject(gameObj, type);
+		gameObj->Initialize();
+		gameObj->GameObject::GetComponent<Transform>()->SetPos(pos);
+		return gameObj;
+	}
+
+	template <typename T>
 	static inline T* Instantiate(Vector2 pos, eLayerType type, Vector2 col)
 	{
 		T* gameObj = new T();
@@ -45,12 +56,12 @@ namespace hj::object
 		return gameObj;
 	}
 	template <typename T>
-	static inline T* Instantiate(eLayerType type, const std::wstring name, const std::wstring path, float playRate)
+	static inline T* Instantiate(eLayerType type, const std::wstring name, const std::wstring path, float moveRate = 0.0f)
 	{
 		T* gameObj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
 		scene->AddGameObject(gameObj, type);
-		gameObj->setAnimation(name, path, 0.0f);
+		//gameObj->setAnimation(name, path, moveRate);
 		gameObj->Initialize();
 		return gameObj;
 	}

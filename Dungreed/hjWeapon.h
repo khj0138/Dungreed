@@ -6,6 +6,7 @@
 #include "hjTransform.h"
 #include "hjTime.h"
 
+
 namespace hj
 {
 	class Image;
@@ -56,11 +57,13 @@ namespace hj
 		void SetWmanager(Wmanager* manager) { mWmanager = manager; }
 		void SetDir(Vector2 direction) { mDir = direction; }
 		void SetState(UINT state) { mWstate = (eWeaponState)state; }
+		void SetAsRatio(Vector2 asRatio) { mAsRatio = asRatio; }
 
 		eWeaponState GetState() { return mWstate; }
 		Vector2 GetDir() { return mDir; }
 		Animator* GetAnimator() { return mAnimator; }
 		Wmanager* GetManager() { return mWmanager; }
+		Vector2 GetAsRatio() { return mAsRatio; }
 
 	private:
 		Wmanager* mWmanager;
@@ -71,6 +74,7 @@ namespace hj
 		Vector2 mDir;
 		eWeaponState mWstate;
 		double mTime;
+		Vector2 mAsRatio;
 	};
 
 }

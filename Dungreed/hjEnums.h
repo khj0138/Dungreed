@@ -5,7 +5,7 @@ enum class eSceneType
 	Title,
 	Play,
 	Ending,
-	Max,
+	End,
 };
 
 enum class eLayerType
@@ -14,6 +14,7 @@ enum class eLayerType
 	BGobject,
 	FrontBG,
 	Platform,
+	Ground,
 	Monster,
 	Player,
 	Bullet,
@@ -29,6 +30,7 @@ enum class eComponentType
 	SpriteRenderer,
 	Animator,
 	Collider,
+	Rigidbody,
 	Audio,
 	End,
 };

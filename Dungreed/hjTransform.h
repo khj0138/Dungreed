@@ -20,11 +20,11 @@ namespace hj
 		void SetSize(Vector2 size) { mSize = size; }
 		void SetPlayRate (Vector2 playRate) { mPlayRate = playRate; }
 		
-		// ******rigidbody velocity ***********
+		// ******Rigidbody velocity ***********
 		void SetVelocity(Vector2 velocity) { mVelocity = velocity; }
 		Vector2 GetVelocity() { return mVelocity; }
 		Vector2 mVelocity;
-		// ******rigidbody velocity ***********
+		// ******Rigidbody velocity ***********
 		Vector2 GetPos() { return mPos; }
 		Vector2 GetScale() { return mScale; }
 		Vector2 GetSize() { return mSize; }

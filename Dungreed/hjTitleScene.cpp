@@ -21,25 +21,20 @@ namespace hj {
 	void TitleScene::Initialize()
 	{
 		float windowSizeY = (float)application.GetHeight();
-		Vector2 asRatio = Vector2{ 1.0f, 1.0f } *(windowSizeY / 180.0f);
+		SetAsRatio(Vector2{ 1.0f, 1.0f } *(windowSizeY / 180.0f));
+		Vector2 asRatio = GetAsRatio();
 
-		//Scene::setAsRatio(asRatio);
-		Img::SetAsRatio(asRatio);
-		BackGround* bg = new BackGround();
+		BackGround* bg = new BackGround(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f, asRatio);
 		AddGameObject(bg, eLayerType::BackBG);
-		bg->setAnimation(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f);
 		
-		BackGround* bg2 = new BackGround();
+		BackGround* bg2 = new BackGround(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 3.f, asRatio, true);
 		AddGameObject(bg2, eLayerType::BackBG);
-		bg2->setAnimation(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 3.f, true);
 		
-		BackGround* bg3 = new BackGround();
+		BackGround* bg3 = new BackGround(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 0.5f, asRatio, true);
 		AddGameObject(bg3, eLayerType::FrontBG);
-		bg3->setAnimation(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 0.5f, true);
 		
-		BackGround* bg4 = new BackGround();
+		BackGround* bg4 = new BackGround(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", 0.0f, asRatio);
 		AddGameObject(bg4, eLayerType::FrontBG);
-		bg4->setAnimation(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", 0.0f);
 
 
 		for (int i = -2; i < 3; i++)
@@ -61,7 +56,7 @@ namespace hj {
 			makeBird(spawn, Vector2{ -20.0f,0.0f + ((UINT)temp * 100.0f) });
 			temp = temp - (UINT)temp;
 		}
-		
+		Camera::SetLookRange(Vector2{ (float)application.GetWidth() * 8, 0.f });
 		Scene::Initialize();
 
 	}
@@ -80,9 +75,9 @@ namespace hj {
 		{
 			spawnBird(next);
 		}
-		if (Camera::GetPos().x >= application.GetWidth() * 4.5f)
-			Camera::SetPos(Vector2{ Camera::GetPos().x- application.GetWidth() * 4.0f,Camera::GetPos().y});
-			//Camera::SetPos(Vector2{ Camera::GetPos().x- application.GetWidth() / 2.0f, application.GetHeight() / 2.0f });
+		if (Camera::GetPos().x >= application.GetWidth() * (0.5f + 2.0f/0.5f))
+			Camera::SetPos(Vector2{ Camera::GetPos().x- application.GetWidth() * (2.0f / 0.5f),Camera::GetPos().y});
+			
 		else
 			Camera::SetPos(Camera::GetPos() + Vector2{ 1.0f, 0.0f });
 	}
@@ -95,23 +90,24 @@ namespace hj {
 
 		Scene::Release();
 	}
+
 	void TitleScene::OnEnter()
 	{
-		Camera::SetLookRange(
-			Vector2{ (float)application.GetWidth() * 5.0f, -(float)application.GetHeight() * 5.0f }
-		);
+		Camera::SetLookRange(Vector2{ (float)application.GetWidth() * 8, 0.f });
 	}
+
+	
 	void TitleScene::OnExit()
 	{
 		Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 	}
+
 	void TitleScene::makeBird(int time, Vector2 pos)
 	{
-		Bird* bird = new Bird(time, pos);
+		Bird* bird = new Bird(time, pos, L"bird", L"..\\Resource\\Title\\Bird.bmp", GetAsRatio());
 		mBirds.push_back(bird);
 		AddGameObject(bird, eLayerType::BGobject);
 		
-		bird->setAnimation(L"bird", L"..\\Resource\\Title\\Bird.bmp");
 	}
 	Bird* TitleScene::nextBird(double time)
 	{
@@ -139,7 +135,6 @@ namespace hj {
 	}
 	void TitleScene::spawnBird(Bird* bird)
 	{
-		//Bird* bird = nextBird(mTime);
 		Vector2 spawnPos = bird->getPos();
 		bird->spawn();
 		bird->GetComponent<Transform>()->SetPos(spawnPos);

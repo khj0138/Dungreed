@@ -11,15 +11,10 @@ namespace hj
 
 	void SceneManager::Initialize()
 	{
-		mScenes.resize((UINT)eSceneType::Max);
+		mScenes.resize((UINT)eSceneType::End);
 
-		mScenes[(UINT)eSceneType::Play] = new PlayScene();
-		//mScenes[(UINT)eSceneType::Play]->SetName(L"PLAYER");
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
-
-		mActiveScene = mScenes[(UINT)eSceneType::Title];
-		LoadScene(eSceneType::Title);
-		//mActiveScene = mScenes[(UINT)eSceneType::Play];
+		mScenes[(UINT)eSceneType::Play] = new PlayScene();
 
 		for (Scene* scene : mScenes)
 		{
@@ -28,6 +23,8 @@ namespace hj
 
 			scene->Initialize();
 		}
+		mActiveScene = mScenes[(UINT)eSceneType::Title];
+		//LoadScene(eSceneType::Title);
 	}
 
 	void SceneManager::Update()
@@ -38,6 +35,11 @@ namespace hj
 	void SceneManager::Render(HDC hdc)
 	{
 		mActiveScene->Render(hdc);
+	}
+
+	void SceneManager::Destroy()
+	{
+		mActiveScene->Destroy();
 	}
 
 	void SceneManager::Release()
@@ -51,20 +53,17 @@ namespace hj
 		}
 	}
 
-	void SceneManager::Destroy()
-	{
-		mActiveScene->Destroy();
-	}
-
 	void SceneManager::LoadScene(eSceneType type)
 	{
 		Camera::Clear();
+
 		//ÇöÀç¾À
 		if (mActiveScene != nullptr)
 			mActiveScene->OnExit();
 
-		//´ÙÀ½¾À
 		CollisionManager::Clear();
+		
+		//´ÙÀ½¾À
 		mActiveScene = mScenes[(UINT)type];
 		mActiveScene->OnEnter();
 	}

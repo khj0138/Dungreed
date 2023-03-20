@@ -67,7 +67,7 @@ namespace hj
 		Mouse::Update();
 		
 		SceneManager::Update();
-		//CollisionManager:Update();
+		CollisionManager::Update();
 	}
 
 	void Application::Render()
@@ -79,4 +79,14 @@ namespace hj
 
 		BitBlt(mHdc, 0, 0, mWidth, mHeight, mBackHDC, 0, 0, SRCCOPY);
 	}
+
+	/*
+	void Application::clear()
+	{
+		HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
+		HBRUSH oldBrush = (HBRUSH)SelectObject(mBackHDC, grayBrush);
+		Rectangle(mBackHDC, -1, -1, 1602, 902);
+		SelectObject(mBackHDC, oldBrush);
+		DeleteObject(grayBrush);
+	}*/
 }

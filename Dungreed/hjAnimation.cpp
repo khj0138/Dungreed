@@ -57,14 +57,14 @@ namespace hj
 		Vector2 scale = tr->GetScale();
 
 		Vector2 pos = tr->GetPos();
-		pos = Camera::CaluatePos(pos, mSheetImage->GetPlayRate());
+		pos = Camera::CaluatePos(pos, mSheetImage->GetMoveRate());
 		pos += mSpriteSheet[mSpriteIndex].offset;
 		pos.x -= mSpriteSheet[mSpriteIndex].size.x / 2.0f;
 		pos.y -= mSpriteSheet[mSpriteIndex].size.y;
 
 			//if (mAnimator->GetOwner()->GetType() == eLayerType::BackBG)
 			//{
-		if(mSheetImage->GetLoop() == true)
+		if(mSheetImage->GetRepeat() == true)
 			if (pos.x <= (-tr->GetSize().x))
 				pos.x += ((UINT)(fabs(pos.x) - tr->GetSize().x) / (UINT)(mSpriteSheet[mSpriteIndex].size.x / 2.0f) + 1)
 				* (mSpriteSheet[mSpriteIndex].size.x / 2.0f);

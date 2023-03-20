@@ -67,6 +67,13 @@ struct Vector2
 		temp.y = y / other.y;
 		return temp;
 	}
+	Vector2 operator-(const float& other)
+	{
+		Vector2 temp;
+		temp.x = x - other;
+		temp.y = y - other;
+		return temp;
+	}
 	Vector2 operator*(const float& other)
 	{
 		Vector2 temp;
@@ -82,6 +89,28 @@ struct Vector2
 		temp.x = x / other;
 		temp.y = y / other;
 		return temp;
+	}
+	void operator+=(const float& other)
+	{
+		x = x + other;
+		y = y + other;
+	}
+	void operator-=(const float& other)
+	{
+		x = x - other;
+		y = y - other;
+	}
+	void operator*=(const float& other)
+	{
+		x = x * other;
+		y = y * other;
+	}
+	void operator/=(const float& other)
+	{
+		if (other == 0.0f)
+			return;
+		x = x / other;
+		y = y / other;
 	}
 
 	void operator+=(const Vector2& other)
@@ -107,6 +136,16 @@ struct Vector2
 		y = y / other.y;
 	}
 
+	bool operator==(const Vector2& other)
+	{
+		return (x == other.x && y == other.y);
+	}
+	void Clear()
+	{
+		x = 0.0f;
+		y = 0.0f;
+	}
+
 	float Length()
 	{
 		return sqrtf(x * x + y * y);
@@ -126,21 +165,21 @@ namespace hj::math
 {
 	inline static Vector2 Rotate(Vector2 vector, float degree)
 	{
-		
-		float vectDegree = atan2(vector.y, vector.x);
-		if (vectDegree + degree > 180.0f) 
-		{
-			degree = -360.f + degree;
-		}
-		else if (vectDegree + degree < -180.0f)
-		{
-			degree = 360.f + degree;
-		}
 		float radian = (degree  / 180.0f) * PI;
 		vector.Normalize();
 		float x = vector.x * cosf(radian) - vector.y * sinf(radian);
 		float y = vector.x * sinf(radian) + vector.y * cosf(radian);
 		
 		return Vector2(x, y);
+	}
+
+	inline static float Dot(Vector2& v1, Vector2& v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y;
+	}
+
+	inline static float Cross(Vector2& v1, Vector2& v2)
+	{
+		return v1.x * v2.y - v1.y * v2.x;
 	}
 }

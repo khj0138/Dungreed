@@ -1,6 +1,7 @@
 #include "hjCollider.h"
 #include "hjTransform.h"
 #include "hjGameObject.h"
+#include "hjCamera.h"
 
 namespace hj
 {
@@ -12,6 +13,7 @@ namespace hj
 		, mPos(Vector2::Zero)
 		, mSize(100.0f, 100.0f)
 		, mID(ColliderNumber++)
+		, mCollisionCount(0)
 	{
 	}
 
@@ -21,6 +23,8 @@ namespace hj
 
 	void Collider::Initialize()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		mPos = tr->GetPos() + mCenter;
 	}
 
 	void Collider::Update()
@@ -31,16 +35,24 @@ namespace hj
 
 	void Collider::Render(HDC hdc)
 	{
-		HPEN pen = CreatePen(BS_SOLID, 2, RGB(0, 255, 0));
+		HPEN pen = NULL;
+		if (mCollisionCount <= 0)
+			pen = CreatePen(BS_SOLID, 2, RGB(0, 255, 0));
+		else
+			pen = CreatePen(BS_SOLID, 2, RGB(255, 0, 0));
+
 		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 		HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
-		Rectangle(hdc, mPos.x, mPos.y, mPos.x + mSize.x, mPos.y + mSize.y);
+		Vector2 pos = Camera::CaluatePos(mPos, 1.0f);
+		Rectangle(hdc, pos.x, pos.y, pos.x + mSize.x, pos.y + mSize.y);
 
 		(HPEN)SelectObject(hdc, oldPen);
 		(HBRUSH)SelectObject(hdc, oldBrush);
 		DeleteObject(pen);
+		
+		mCollisionCount = 0;
 	}
 
 	void Collider::Release()
@@ -54,6 +66,7 @@ namespace hj
 
 	void Collider::OnCollisionStay(Collider* other)
 	{
+		mCollisionCount = 1;
 		GetOwner()->OnCollisionStay(other);
 	}
 

@@ -18,11 +18,9 @@ namespace hj
 
 		static void SetTarget(GameObject* target) { mTarget = target; }
 		static void SetLookRange(Vector2 range) { mLookRange = range; }
-		static Vector2 CaluatePos(Vector2 pos, float playRate)
+		static Vector2 CaluatePos(Vector2 pos, float moveRate)
 		{
-			//if (playRate == 0.0f)
-				//return pos - Vector2{ (float)application.GetWidth()/2.0f, (float)application.GetHeight() / 2.0f };
-			return pos - mDistance * playRate; 
+			return pos - mDistance * moveRate; 
 		}
 		static void SetPos(Vector2 pos) { mLookPosition = pos; }
 

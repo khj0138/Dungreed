@@ -8,13 +8,21 @@ extern hj::Application application;
 
 namespace hj
 {
-	Bird::Bird(double time, Vector2 pos)
+	Bird::Bird(double time, Vector2 pos, const std::wstring name, const std::wstring path, Vector2 asRatio)
 		: spawnPos(0.0f, 0.0f)
 		, spawnTime(0.0f)
 		, isSpawn(false)
 	{
 		spawnPos = pos;
 		spawnTime = time;
+
+		mAnimator = AddComponent<Animator>();
+		Img* mImage = RscManager::Load<Img>(name, path);
+		if (mImage->GetHeight() < 40)
+			mImage->MatchRatio(asRatio);
+
+		mAnimator->CreateAnimation(name, mImage, Vector2::Zero, 8, 1, 8, Vector2::Zero, 0.075);
+		mAnimator->Play(name, true);
 	}
 	Bird::~Bird()
 	{
@@ -51,10 +59,13 @@ namespace hj
 	void Bird::Release()
 	{
 	}
-	void Bird::setAnimation(const std::wstring name, const std::wstring path)
+	
+	void Bird::setAnimation(const std::wstring name, const std::wstring path, Vector2 asRatio)
 	{
 		mAnimator = AddComponent<Animator>();
 		Img* mImage = RscManager::Load<Img>(name, path);
+		if (mImage->GetHeight() < 40)
+			mImage->MatchRatio(asRatio);
 		
 		mAnimator->CreateAnimation(name, mImage, Vector2::Zero, 8, 1, 8, Vector2::Zero, 0.075);
 		mAnimator->Play(name, true);
