@@ -11,6 +11,7 @@ namespace hj
 		, mActiveWeapon(nullptr)
 		, mPos(Vector2::Zero)
 	{
+		AddComponent<Collider>();
 	}
 
 	Wmanager::~Wmanager()
@@ -49,6 +50,21 @@ namespace hj
 	{
 	}
 
+	void Wmanager::OnCollisionEnter(Collider* other)
+	{
+		mActiveWeapon->OnCollisionEnter(other);
+	}
+
+	void Wmanager::OnCollisionStay(Collider* other)
+	{
+		mActiveWeapon->OnCollisionEnter(other);
+	}
+
+	void Wmanager::OnCollisionExit(Collider* other)
+	{
+		mActiveWeapon->OnCollisionExit(other);
+	}
+
 	void Wmanager::CreateWeapon(const std::wstring& name, eWeaponType wType)
 	{
 		Weapon* newWeapon = nullptr;
@@ -60,11 +76,11 @@ namespace hj
 		}
 		if (newWeapon != nullptr)
 		{
-			newWeapon->Create();
 			newWeapon->SetWmanager(this);
+			newWeapon->Create();
 			mWeapons.insert(std::make_pair(name, newWeapon));
-
 		}
+		
 	}
 
 	Weapon* Wmanager::FindWeapon(const std::wstring& name)

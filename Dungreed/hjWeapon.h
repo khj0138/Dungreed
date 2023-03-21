@@ -1,17 +1,18 @@
 #pragma once
-#include "hjEntity.h"
+//#include "hjEntity.h"
 #include "hjMath.h"
 #include "hjAnimator.h"
 #include "hjCollider.h"
 #include "hjTransform.h"
 #include "hjTime.h"
+#include "hjGameObject.h"
 
 
 namespace hj
 {
 	class Image;
 	class Wmanager;
-	class Weapon : public Entity 
+	class Weapon : public GameObject
 	{
 	public:
 		
@@ -50,6 +51,10 @@ namespace hj
 		virtual void Idle();
 		virtual void Attack();
 		virtual void Reload();
+
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
 		
 		//virtual void Reset();
 

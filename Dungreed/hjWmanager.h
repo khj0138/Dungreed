@@ -7,6 +7,7 @@
 #include "hjSword.h"
 #include "hjComponent.h"
 #include "hjTransform.h"
+#include "hjCollider.h"
 
 namespace hj
 {
@@ -25,6 +26,11 @@ namespace hj
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
+
+
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
 
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void CreateWeapon(const std::wstring& name, eWeaponType wType);

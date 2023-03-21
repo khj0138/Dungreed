@@ -2,6 +2,7 @@
 #include "hjGameObject.h"
 #include "hjImage.h"
 #include "hjWmanager.h"
+#include "hjEmanager.h"
 
 
 namespace hj
@@ -49,6 +50,7 @@ namespace hj
 		bool flip;
 		bool isJump;
 		Wmanager* mWeapons;
+		Emanager* mEffects;
 		std::vector<eKeyCode> leftRight;
 		Rigidbody* mRigidbody;
 		UINT mDash;

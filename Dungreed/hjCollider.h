@@ -34,8 +34,10 @@ namespace hj
 		};
 		Vector2 GetPos() { return mPos; }
 		Vector2 GetSize() { return mSize; }
+		Vector2 GetCenter() { return mCenter; }
 		void SetScale(Vector2 scale) { mScale = scale; };
 		void SetPos(Vector2 pos) { mPos = pos; }
+
 		UINT GetID() { return mID; }
 
 	private:

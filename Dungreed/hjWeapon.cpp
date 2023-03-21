@@ -22,4 +22,13 @@ namespace hj
 	void Weapon::Reload()
 	{
 	}
+	void Weapon::OnCollisionEnter(Collider* other)
+	{
+	}
+	void Weapon::OnCollisionStay(Collider* other)
+	{
+	}
+	void Weapon::OnCollisionExit(Collider* other)
+	{
+	}
 }

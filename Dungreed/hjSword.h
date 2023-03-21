@@ -32,6 +32,11 @@ namespace hj
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Create();
+
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
+		bool AttackCheck(class Collider* other);
 		void Idle();
 		void Attack();
 		void Reload();
@@ -46,6 +51,10 @@ namespace hj
 		float mSpawnDegree;
 		double mTime;
 		bool isFlip;
+		std::vector<Vector2> posCol;
+		bool bRender;
+		bool bAttack;
+		bool bCollision;
 	};
 }
 

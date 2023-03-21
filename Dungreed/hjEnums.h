@@ -40,3 +40,9 @@ enum class eWeaponType {
 	GUN,
 	END,
 };
+
+enum class eEffectType{
+	SWORD,
+	GUN,
+	END,
+};

@@ -84,6 +84,7 @@ namespace hj
 		);
 		Camera::SetTarget(hero);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
+		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Ground, true);
 	}
 
 	void PlayScene::OnExit()

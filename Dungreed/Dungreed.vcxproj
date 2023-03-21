@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -131,6 +132,8 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="hjEffect.h" />
+    <ClInclude Include="hjEmanager.h" />
     <ClInclude Include="hjGround.h" />
     <ClInclude Include="hjAnimation.h" />
     <ClInclude Include="hjAnimator.h" />
@@ -172,6 +175,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hjEffect.cpp" />
+    <ClCompile Include="hjEmanager.cpp" />
     <ClCompile Include="hjGround.cpp" />
     <ClCompile Include="hjAnimation.cpp" />
     <ClCompile Include="hjAnimator.cpp" />

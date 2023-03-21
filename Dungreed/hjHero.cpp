@@ -20,8 +20,8 @@ namespace hj
 
 	Hero::~Hero()
 	{
-		delete mWeapons;
-		mWeapons = nullptr;
+		//delete mWeapons;
+		//mWeapons = nullptr;
 	}
 	
 	void Hero::Initialize()
@@ -68,12 +68,16 @@ namespace hj
 		mRigidbody->SetMass(1.0f);
 
 		mWeapons = new Wmanager();
-		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
 		mWeapons->SetOwner(this);
-		mWeapons->EquipWeapon(L"Sword");
+		SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
+		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
+ 		mWeapons->EquipWeapon(L"Sword");
+
+		mEffects = new Emanager();
+		mEffects->SetOwner(this);
+		mEffects->CreateEffect(L"RunEffect", L"..\\Resource\\Char\\RunEffect.bmp", true, false, 5);
 
 		GameObject::Initialize();
-		
 
 	}
 
@@ -124,14 +128,16 @@ namespace hj
 			flip = true;
 		else
 			flip = false;
-		mWeapons->Update();
+		//mWeapons->Update();
 		GameObject::Update();
 	}
 
 	void Hero::Render(HDC hdc)
 	{
-		GameObject::Render(hdc);
 		mWeapons->Render(hdc);
+		GameObject::Render(hdc);
+		//mWeapons->Render(hdc);
+		mEffects->Render(hdc);
 	}
 
 	void Hero::Release()
