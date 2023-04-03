@@ -18,7 +18,7 @@ namespace hj
 
 		static void SetTarget(GameObject* target) { mTarget = target; }
 		static void SetLookRange(Vector2 range) { mLookRange = range; }
-		static Vector2 CaluatePos(Vector2 pos, float moveRate)
+		static Vector2 CaluatePos(Vector2 pos, float moveRate = 1.f)
 		{
 			return pos - mDistance * moveRate; 
 		}

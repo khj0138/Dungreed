@@ -16,6 +16,19 @@ namespace hj::object
 		gameObj->Initialize();
 		return gameObj;
 	}
+	template <typename T>
+	static inline T* Instantiate(eLayerType type, eSceneType sType)
+	{
+		T* gameObj;
+		/*if (type == eLayerType::Tile)
+			gameObj = new T(Vector2{ 0,0 }, true);
+		else*/
+		gameObj = new T();
+		Scene* scene = SceneManager::FindScene(sType);
+		scene->AddGameObject(gameObj, type);
+		gameObj->Initialize();
+		return gameObj;
+	}
 
 	template <typename T>
 	static inline T* Instantiate(Vector2 pos, eLayerType type)

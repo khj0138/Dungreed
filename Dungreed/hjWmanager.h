@@ -1,22 +1,14 @@
 #pragma once
 #include "hjGameObject.h"
-#include "hjMouse.h"
-#include "hjMath.h"
-#include "hjMouse.h"
-#include "hjWeapon.h"
-#include "hjSword.h"
-#include "hjComponent.h"
-#include "hjTransform.h"
-#include "hjCollider.h"
 
 namespace hj
 {
 
 
+	class Weapon;
 	
 	class Wmanager : public GameObject
 	{
-		
 		
 	public:
 		Wmanager();

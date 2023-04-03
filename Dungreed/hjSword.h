@@ -15,7 +15,7 @@
 //#pragma comment(lib, "gdiplus.lib")
 namespace hj
 {
-
+	class Emanager;
 	class Sword : public Weapon
 	{
 		
@@ -55,6 +55,7 @@ namespace hj
 		bool bRender;
 		bool bAttack;
 		bool bCollision;
+		Emanager* mEffects;
 	};
 }
 

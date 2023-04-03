@@ -1,4 +1,5 @@
 //origin
+#include "resource.h"
 #include "hjApplication.h"
 #include "hjSceneManager.h"
 #include "hjTime.h"
@@ -40,6 +41,7 @@ namespace hj
 
 		mBackBuffer = CreateCompatibleBitmap(mHdc, mWidth, mHeight);
 		mBackHDC = CreateCompatibleDC(mHdc);
+		mMenubar = LoadMenu(nullptr, MAKEINTRESOURCE(IDI_DUNGREED));
 
 		HBITMAP defaultBitmap
 			= (HBITMAP)SelectObject(mBackHDC, mBackBuffer);
@@ -73,14 +75,32 @@ namespace hj
 	void Application::Render()
 	{
 		// clear
+		clear();
+
 		Time::Render(mBackHDC);
 		Input::Render(mBackHDC);
 		SceneManager::Render(mBackHDC);
+		//Camera::Render(mBackHDC);
 
 		BitBlt(mHdc, 0, 0, mWidth, mHeight, mBackHDC, 0, 0, SRCCOPY);
 	}
 
-	/*
+	void Application::SetMenuBar(bool power)
+	{
+		SetMenu(mHwnd, mMenubar);
+
+		RECT rect = { 0, 0, mWidth , mHeight };
+		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, power);
+
+		// 윈도우 크기 변경및 출력 설정
+		SetWindowPos(mHwnd
+			, nullptr, 0, 0
+			, rect.right - rect.left
+			, rect.bottom - rect.top
+			, 0);
+		ShowWindow(mHwnd, true);
+	}
+
 	void Application::clear()
 	{
 		HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
@@ -88,5 +108,5 @@ namespace hj
 		Rectangle(mBackHDC, -1, -1, 1602, 902);
 		SelectObject(mBackHDC, oldBrush);
 		DeleteObject(grayBrush);
-	}*/
+	}
 }

@@ -40,14 +40,16 @@ namespace hj
 		void die();
 		void jump();
 		void dash();
-
-		bool checkFlip() { return flip; }
+		void downJump(Collider* other);
+		
+		void Flip(std::wstring name);
+		bool checkFlip() { return mFlip; }
 
 
 	private:
 		eHeroState mState;
 		Animator* mAnimator;
-		bool flip;
+		bool mFlip;
 		bool isJump;
 		Wmanager* mWeapons;
 		Emanager* mEffects;
@@ -55,6 +57,8 @@ namespace hj
 		Rigidbody* mRigidbody;
 		UINT mDash;
 		bool bDash;
+		UINT cJump;
+		bool bDjump;
 	};
 
 }

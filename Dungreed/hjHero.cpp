@@ -10,6 +10,8 @@
 #include "hjMouse.h"
 #include "hjApplication.h"
 #include "hjRigidBody.h"
+#include "hjEffect.h"
+#include "hjTile.h"
 
 extern hj::Application application;
 namespace hj
@@ -22,6 +24,8 @@ namespace hj
 	{
 		//delete mWeapons;
 		//mWeapons = nullptr;
+		delete mEffects;
+		mEffects = nullptr;
 	}
 	
 	void Hero::Initialize()
@@ -30,6 +34,12 @@ namespace hj
 		isJump = false;
 		mDash = 0;
 		bDash = true;
+		bDjump = true;
+		if (bDjump == true)
+			cJump = 2;
+		else
+			cJump = 1;
+
 		Vector2 asRatio = Vector2::One * ( (float)application.GetWidth()/ 960.0f);
 		Img* mImage = RscManager::Load<Img>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
 		mImage->MatchRatio(asRatio);
@@ -55,9 +65,8 @@ namespace hj
 		mAnimator->CreateAnimation(L"Jump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"FlippedJump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 
-		mState = eHeroState::Idle;
-		mAnimator->Play(L"Idle", true);
-		flip = false;
+		mFlip =  false;
+		StateChange(eHeroState::Idle, L"Idle", true);
 		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2{ 36.0f, 56.0f });
@@ -75,7 +84,11 @@ namespace hj
 
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
-		mEffects->CreateEffect(L"RunEffect", L"..\\Resource\\Char\\RunEffect.bmp", true, false, 5);
+		
+		mEffects->RegisterEffect(L"RunEffect", L"..\\Resource\\Char\\RunEffect.bmp", false, false, 5, Vector2{ (-1.5f)* colSize.x, 0.0f }, 0.07f);
+		mEffects->RegisterEffect(L"DashEffect", L"..\\Resource\\Char\\DashEffect.bmp", true, false, 1, Vector2{ 0.0f, 0.0f }, 0.1f , Vector2::One * ((float)application.GetWidth() / 960.0f));
+		mEffects->RegisterEffect(L"JumpEffect", L"..\\Resource\\Char\\JumpFX.bmp", false, false, 5, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.07f);
+		mEffects->RegisterEffect(L"DJumpEffect", L"..\\Resource\\Char\\DoubleJumpFX.bmp", false, false, 6, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.07f);
 
 		GameObject::Initialize();
 
@@ -104,6 +117,14 @@ namespace hj
 			leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::D));
 		}
 
+		if (Input::GetKey(eKeyCode::R))
+		{
+			GetComponent<Transform>()->SetPos(Vector2{
+				GetComponent<Transform>()->GetPos().x,
+				800.0f
+				});
+		}
+
 		switch(mState)
 		{
 
@@ -125,10 +146,11 @@ namespace hj
 		Vector2 size = tr->GetSize();
 
 		if (Mouse::GetPos().x < (tr->GetPos().x - (Camera::GetPos().x - application.GetWidth() / 2.0f)))
-			flip = true;
+			mFlip = true;
 		else
-			flip = false;
+			mFlip = false;
 		//mWeapons->Update();
+		mEffects->Update();
 		GameObject::Update();
 	}
 
@@ -137,7 +159,7 @@ namespace hj
 		mWeapons->Render(hdc);
 		GameObject::Render(hdc);
 		//mWeapons->Render(hdc);
-		mEffects->Render(hdc);
+		//mEffects->Render(hdc);
 	}
 
 	void Hero::Release()
@@ -148,18 +170,50 @@ namespace hj
 	void Hero::StateChange(eHeroState state, std::wstring anim, bool loop = false)
 	{
 		mState = state;
-		mAnimator->Play(anim, loop);
+		switch (state)
+		{
+		case eHeroState::Jump:
+		{
+			if (bDash)
+			{
+				mEffects->CreateEffect(L"JumpEffect");
+				cJump--;
+			}
+			break;
+		}
+		case eHeroState::Run:
+		{
+			mEffects->CreateEffect(L"RunEffect");
+			break;
+		}
+		}
+		if(mFlip)
+		{
+			std::wstring flipAnim = L"Flipped";
+			flipAnim.append(anim);
+			mAnimator->Play(flipAnim, loop);
+		}
+		else
+		{
+			mAnimator->Play(anim, loop);
+		}
 		mAnimator->Reset();
 	}
 
 	void Hero::OnCollisionEnter(Collider* other)
 	{
-		int a = 0;
+		if (Input::GetKeyDown(eKeyCode::S))
+		{
+			downJump(other);
+		}
 	}
 
 	void Hero::OnCollisionStay(Collider* other)
 	{
-
+		if (Input::GetKeyDown(eKeyCode::S))
+		{
+			downJump(other);
+		}
 	}
 
 	void Hero::OnCollisionExit(Collider* other)
@@ -176,37 +230,37 @@ namespace hj
 		else if (Input::GetKeyDown(eKeyCode::W))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y -= 2000.0f;
+			velocity.y = -1400.0f;
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
-			if (flip)
-				StateChange(eHeroState::Jump, L"FlippedJump", true);
-			else
-				StateChange(eHeroState::Jump, L"Jump", true);
+			StateChange(eHeroState::Jump, L"Jump", true);
+
 		}
+		/*else if (Input::GetKeyDown(eKeyCode::S))
+		{
+			Vector2 velocity = mRigidbody->GetVelocity();
+			velocity.y = 1100.0f;
+			mRigidbody->SetVelocity(velocity);
+			mRigidbody->SetGround(false);
+			StateChange(eHeroState::Jump, L"Jump", true);
+
+		}*/
 		else if (!leftRight.empty())
 		{
-			if (flip)
-				StateChange(eHeroState::Run, L"FlippedRun", true);
-			else
-				StateChange(eHeroState::Run, L"Run", true);
+			StateChange(eHeroState::Run, L"Run", true);
 		}
 
 		else
 		{
-			if (flip)
-				mAnimator->Flip(L"FlippedIdle");
-			else
-				mAnimator->Flip(L"Idle");
+			Flip(L"Idle");
 		}
 	}
 
 	void Hero::run()
 	{
-		
-
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
+		mEffects->CreateEffect(L"RunEffect");
 		if (Mouse::GetRstate() == eKeyState::Down && bDash)
 		{
 			dash();
@@ -214,60 +268,45 @@ namespace hj
 		else if (Input::GetKeyDown(eKeyCode::W))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y -= 2000.0f;
+			velocity.y = -1400.0f;
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
-			if (flip)
-				StateChange(eHeroState::Jump, L"FlippedJump", true);
-			else
-				StateChange(eHeroState::Jump, L"Jump", true);
+			StateChange(eHeroState::Jump, L"Jump", true);
 		}
+		/*else if (Input::GetKeyDown(eKeyCode::S))
+		{
+			Vector2 velocity = mRigidbody->GetVelocity();
+			velocity.y = 1100.0f;
+			mRigidbody->SetVelocity(velocity);
+			mRigidbody->SetGround(false);
+			mRigidbody->SetGravity(false);
+			StateChange(eHeroState::Jump, L"Jump", true);
+
+		}*/
 		else {
 			if (leftRight.empty())
 			{
+				//mEffects->Clear();
 				Vector2 velocity = mRigidbody->GetVelocity();
 				velocity.x = 0.0f;
 				mRigidbody->SetVelocity(velocity);
-				if (flip)
-					StateChange(eHeroState::Idle, L"FlippedIdle", true);
-				else
-					StateChange(eHeroState::Idle, L"Idle", true);
+				StateChange(eHeroState::Idle, L"Idle", true);
 			}
 			else if (leftRight.back() == eKeyCode::A)
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = -200.0f;
+				velocity.x = -300.0f;
 				mRigidbody->SetVelocity(velocity);
-				//Vector2 velocity = tr->GetVelocity();
-
-				//pos.x -= tr->GetVelocity().x * Time::DeltaTime();
 			}
 			else if (leftRight.back() == eKeyCode::D)
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = 200.0f;
+				velocity.x = 300.0f;
 				mRigidbody->SetVelocity(velocity);
-				/*Vector2 velocity = tr->GetVelocity();
-				pos.x += tr->GetVelocity().x * Time::DeltaTime();*/
 			}
-		
-
-		if (flip)
-			mAnimator->Flip(L"FlippedRun");
-		else
-			mAnimator->Flip(L"Run");
+		Flip(L"Run");
 		}
 
-		//else if (Input::GetKeyDown(eKeyCode::A))
-		//{
-		//	//pos.x -= 1.0f * Time::DeltaTime();
-		//	mAnimator->Flip(L"FlipedRun");
-		//}
-		//else if (Input::GetKeyDown(eKeyCode::D))
-		//{
-		//	//pos.x -= 1.0f * Time::DeltaTime();
-		//	mAnimator->Flip(L"Run");
-		//}
 
 	}
 
@@ -277,37 +316,56 @@ namespace hj
 
 	void Hero::jump()
 	{
-
+		
 		Transform* tr = GetComponent<Transform>();
 		Vector2 velocity = mRigidbody->GetVelocity();
 		if (Mouse::GetRstate() == eKeyState::Down && bDash)
 		{
 			dash();
 		}
+
 		if (mDash > 0)
 		{
+			if((UINT)mDash % 4 == 0)
+				mEffects->CreateEffect(L"DashEffect");
 			mDash--;
 			if (mDash == 0)
 			{
 				velocity.y = 0.0f;
 			}
 		}
-		
 		else
 		{
+			if (Input::GetKeyDown(eKeyCode::W) && (cJump > 0))
+			{
+				if (--cJump)
+					mEffects->CreateEffect(L"JumpEffect");
+				else
+					mEffects->CreateEffect(L"DJumpEffect");
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y = -1400.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+			}
+			else if (Input::GetKey(eKeyCode::W))
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				if (velocity.y < 0.0f && !(mRigidbody->GetGround()))
+					velocity.y = velocity.y - 100.0f * Time::DeltaTime();
+				mRigidbody->SetVelocity(velocity);
+			}
 			mRigidbody->SetGravity(true);
-			//if (velocity.y >= 500.0f)
 			if (mRigidbody->GetGround())
 			{
+				if (bDjump)
+					cJump = 2;
+				else
+					cJump = 1;
 				Vector2 velocity = mRigidbody->GetVelocity();
 				velocity.y = 0.0f;
 				mRigidbody->SetVelocity(velocity);
-				//mRigidbody->SetGround(true);
 				bDash = true;
-				if (flip)
-					StateChange(eHeroState::Idle, L"FlippedIdle", true);
-				else
-					StateChange(eHeroState::Idle, L"Idle", true);
+				StateChange(eHeroState::Run, L"Run", true);
 			}
 			if (leftRight.empty())
 			{
@@ -320,28 +378,18 @@ namespace hj
 				if (leftRight.back() == eKeyCode::D)
 				{
 					Vector2 velocity = mRigidbody->GetVelocity();
-					velocity.x = 200.0f;
+					velocity.x = 300.0f;
 					mRigidbody->SetVelocity(velocity);
-					//Vector2 velocity = tr->GetVelocity();
-					//pos.x += tr->GetVelocity().x * Time::DeltaTime();
-					//tr->SetPos(pos);
 				}
 				else if (leftRight.back() == eKeyCode::A)
 				{
 					Vector2 velocity = mRigidbody->GetVelocity();
-					velocity.x = -200.0f;
+					velocity.x = -300.0f;
 					mRigidbody->SetVelocity(velocity);
-					//Vector2 velocity = tr->GetVelocity();
-					//pos.x -= tr->GetVelocity().x * Time::DeltaTime();
-					//tr->SetPos(pos);
 				}
 			}
 		}
-		if (flip)
-			mAnimator->Flip(L"FlippedJump");
-		else
-			mAnimator->Flip(L"Jump");
-
+		Flip(L"Jump");
 	}
 
 	void Hero::dash()
@@ -356,10 +404,42 @@ namespace hj
 		mDash = 16;
 		mRigidbody->SetGravity(false);
 		mRigidbody->SetGround(false);
-		if (flip)
-			StateChange(eHeroState::Jump, L"FlippedJump", true);
+		StateChange(eHeroState::Jump, L"Jump", true);
+	}
+	void Hero::downJump(Collider* other)
+	{
+		Tile* tile = dynamic_cast<Tile*>(other->GetOwner());
+		if (tile != nullptr)
+		{
+			if (tile->Index() == 3 && (mState != eHeroState::Jump))
+			{
+				/*Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y = 1200.0f;
+				mRigidbody->SetVelocity(velocity);*/
+				mRigidbody->SetGround(false);
+				GetComponent<Transform>()->SetPos(
+					Vector2{
+						GetComponent<Transform>()->GetPos().x,
+						GetComponent<Transform>()->GetPos().y + 1200.0f * 0.02f
+					}
+				);
+				StateChange(eHeroState::Jump, L"Jump", true);
+				cJump--;
+				
+			}
+		}
+	}
+
+	void Hero::Flip(std::wstring Anim)
+	{
+		if (mFlip)
+		{
+			std::wstring flipAnim = L"Flipped";
+			flipAnim.append(Anim);
+			mAnimator->Flip(flipAnim);
+		}
 		else
-			StateChange(eHeroState::Jump, L"Jump", true);
+			mAnimator->Flip(Anim);
 	}
 
 }

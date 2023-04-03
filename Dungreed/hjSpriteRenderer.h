@@ -37,12 +37,20 @@ namespace hj
 		bool checkFlip() { return mFlip; }
 		int getState() { return mState; }
 		int getIndex() { return mIndex; }
+		bool getRotate() { return bRotate; }
+		Vector2 getDir() { return mDir; }
+
+		void rotateRender(HDC hdc, HDC ImgHdc, Vector2 size, float degree, Vector2 pos);
+		void SetRotate(bool rotate) { bRotate = rotate; }
+		void SetDir(Vector2 direction) { mDir = direction;	}
 
 	private:
 		Img* mSprite;
 		int mState;
 		int mIndex;
 		bool mFlip;
+		bool bRotate;
+		Vector2 mDir;
 	};
 
 }

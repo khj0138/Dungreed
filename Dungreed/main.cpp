@@ -20,9 +20,10 @@ WCHAR       szWindowClass[MAX_LOADSTRING]; // 기본 창 클래스
 hj::Application application;
 
 // Data for using Window functions
-ATOM                MyRegisterClass(HINSTANCE hInstance);
+ATOM                MyRegisterClass(HINSTANCE hInstance, LPCWSTR name, WNDPROC proc);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK    AtlasWndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
@@ -50,7 +51,12 @@ int APIENTRY wWinMain(
     // 윈도우 제목 임의로 초기화
     wcsncpy_s(szTitle, L"Dungreed", MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_DUNGREED, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+    // main window
+    MyRegisterClass(hInstance, szWindowClass, WndProc);
+
+    // main window
+    MyRegisterClass(hInstance, L"AtlasWindow", AtlasWndProc);
+    
 
     // 애플리케이션 초기화
     if (!InitInstance(hInstance, nCmdShow))
@@ -68,6 +74,7 @@ int APIENTRY wWinMain(
 
     // Start GDI+
     GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
+
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -100,13 +107,13 @@ int APIENTRY wWinMain(
 //  Func(): MyRegisterClass()
 //  Purpose: Register Window Class
 //
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM MyRegisterClass(HINSTANCE hInstance, LPCWSTR name, WNDPROC proc)
 {
     WNDCLASSEXW wcex;
 
     wcex.cbSize        = sizeof(WNDCLASSEX);
     wcex.style         = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc   = WndProc;
+    wcex.lpfnWndProc   = proc;
     wcex.cbClsExtra    = 0;
     wcex.cbWndExtra    = 0;
     wcex.hInstance     = hInstance;
@@ -114,7 +121,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hCursor       = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName  = MAKEINTRESOURCEW(IDC_DUNGREED);
-    wcex.lpszClassName = szWindowClass;
+    wcex.lpszClassName = name;
     wcex.hIconSm       = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
@@ -136,7 +143,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
     HWND hWnd = CreateWindowW(
         szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, 1600, 900,
+        0, 0, 1600, 900,
+        nullptr, nullptr, hInstance, nullptr);
+
+    HWND hWnd2 = CreateWindowW(
+        L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
+        1600, 0, 500, 500,
         nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
@@ -147,9 +159,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     // 윈도우를 띄운 후 업데이트 수행
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
+    
+    ShowWindow(hWnd2, nCmdShow);
+    UpdateWindow(hWnd2);
 
     // Dungreed 게임 초기화
     application.Initialize(hWnd);
+    application.SetToolHwnd(hWnd2);
 
     return TRUE;
 }

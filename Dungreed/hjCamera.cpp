@@ -48,9 +48,9 @@ namespace hj
 			mLookPosition.x = (mResolution.x / 2.0f);
 		if (mLookPosition.x >= mLookRange.x - mResolution.x / 2.0f)
 			mLookPosition.x = mLookRange.x - mResolution.x / 2.0f;
-		if (mLookPosition.y <= mLookRange.y + mResolution.y / 2.0f)
+		if (mLookPosition.y >= mLookRange.y + mResolution.y / 2.0f)
 			mLookPosition.y = mLookRange.y + mResolution.y / 2.0f;
-		if (mLookPosition.y >= (mResolution.y / 2.0f))
+		if (mLookPosition.y <= (mResolution.y / 2.0f))
 			mLookPosition.y = (mResolution.y / 2.0f);
 
 		mDistance = mLookPosition - (mResolution / 2.0f);

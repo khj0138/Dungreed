@@ -13,6 +13,7 @@ namespace hj
 			delete gameObj;
 			gameObj = nullptr;
 		}
+		mGameObjects.clear();
 	}
 	void Layer::Initialize()
 	{

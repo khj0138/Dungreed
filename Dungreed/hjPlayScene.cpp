@@ -9,6 +9,7 @@
 #include "hjPlatform.h"
 #include "hjCamera.h"
 #include "hjGround.h"
+#include "hjTilePalatte.h"
 
 extern hj::Application application;
 
@@ -31,7 +32,7 @@ namespace hj
 		Scene::SetAsRatio(Vector2::One *(windowSizeX / 960.0f));
 		Vector2 asRatio = Scene::GetAsRatio();
 		
-
+		//Hero* a = object::Instantiate<Hero>(Vector2{ 3200.0f, 450.0f }, eLayerType::Player);
 		hero = new Hero();
 		AddGameObject(hero, eLayerType::Player);
 		
@@ -54,7 +55,7 @@ namespace hj
 		asRatio = asRatio / 3.f;
 		
 		Scene::Initialize();
-		object::Instantiate<Ground>(Vector2(0.0f, 800.0f), eLayerType::Ground, eSceneType::Play);
+		//object::Instantiate<Ground>(Vector2(0.0f, 800.0f), eLayerType::Ground, eSceneType::Play);
 	}
 
 	void PlayScene::Update()
@@ -62,8 +63,13 @@ namespace hj
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Title);
+			return;
 		}
-
+		if (Input::GetKeyState(eKeyCode::Q) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Tool);
+			return;
+		}
 		Scene::Update();
 	}
 
@@ -83,15 +89,28 @@ namespace hj
 			Vector2{ (float)application.GetWidth() * 5.0f, -(float)application.GetHeight() * 5.0f }
 		);
 		Camera::SetTarget(hero);
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
-		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Ground, true);
+		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
+		//CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Ground, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
+
+		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
+		{
+			delete gameObj;
+			gameObj = nullptr;
+		}*/
+		//SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile).clear();
+		wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
+		TilePalatte::Load(a);
 	}
 
 	void PlayScene::OnExit()
 	{
-		Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
+		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
+		//TilePalatte::clear();
+
+		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
 	}
 }

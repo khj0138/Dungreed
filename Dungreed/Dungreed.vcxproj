@@ -166,8 +166,11 @@
     <ClInclude Include="hjSceneManager.h" />
     <ClInclude Include="hjSpriteRenderer.h" />
     <ClInclude Include="hjSword.h" />
+    <ClInclude Include="hjTile.h" />
+    <ClInclude Include="hjTilePalatte.h" />
     <ClInclude Include="hjTime.h" />
     <ClInclude Include="hjTitleScene.h" />
+    <ClInclude Include="hjToolScene.h" />
     <ClInclude Include="hjTransform.h" />
     <ClInclude Include="hjWeapon.h" />
     <ClInclude Include="hjWmanager.h" />
@@ -206,8 +209,11 @@
     <ClCompile Include="hjSceneManager.cpp" />
     <ClCompile Include="hjSpriteRenderer.cpp" />
     <ClCompile Include="hjSword.cpp" />
+    <ClCompile Include="hjTile.cpp" />
+    <ClCompile Include="hjTilePalatte.cpp" />
     <ClCompile Include="hjTime.cpp" />
     <ClCompile Include="hjTitleScene.cpp" />
+    <ClCompile Include="hjToolScene.cpp" />
     <ClCompile Include="hjTransform.cpp" />
     <ClCompile Include="hjWeapon.cpp" />
     <ClCompile Include="hjWmanager.cpp" />

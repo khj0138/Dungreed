@@ -68,6 +68,10 @@ namespace hj {
 		{
 			SceneManager::LoadScene(eSceneType::Play);
 		}
+		if (Input::GetKeyState(eKeyCode::Q) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Tool);
+		}
 		
 		Scene::Update();
 		Bird* next = nextBird(mTime);

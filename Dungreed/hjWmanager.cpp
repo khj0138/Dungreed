@@ -1,8 +1,16 @@
 #include "hjWmanager.h"
-
+#include "hjMouse.h"
+#include "hjMath.h"
+#include "hjMouse.h"
+#include "hjWeapon.h"
+#include "hjSword.h"
+#include "hjComponent.h"
+#include "hjTransform.h"
+#include "hjCollider.h"
 
 namespace hj
 {
+	
 
 	Wmanager::Wmanager()
 		: GameObject()
@@ -10,12 +18,14 @@ namespace hj
 		, mDir(Vector2::Zero)
 		, mActiveWeapon(nullptr)
 		, mPos(Vector2::Zero)
+		, isFlip(false)
 	{
 		AddComponent<Collider>();
 	}
 
 	Wmanager::~Wmanager()
 	{
+		//for (std::pair<std::wstring, Weapon*> weapon : mWeapons)
 		for (auto weapon : mWeapons)
 		{
 			delete weapon.second;
@@ -45,7 +55,7 @@ namespace hj
 			mActiveWeapon->Render(hdc);
 		}
 	}
-
+	
 	void Wmanager::Release()
 	{
 	}

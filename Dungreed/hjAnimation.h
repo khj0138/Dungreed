@@ -32,6 +32,7 @@ namespace hj
 		void Update();
 		void Render(HDC hdc);
 		void Create(Img* sheet, Vector2 leftTop, UINT column, UINT row, UINT spriteLength, Vector2 offset, float duration);
+		void Create(Img* sheet, UINT leftTopIdx, UINT column, UINT row, UINT spriteLength, Vector2 offset, float duration);
 		void Reset();
 
 		bool isComplete() { return mbComplete; }
@@ -40,6 +41,8 @@ namespace hj
 		void setIndex(int spriteIndex) { mSpriteIndex = spriteIndex; }
 		void setLeftTop(Vector2 pos) {mSpriteSheet[0].leftTop = pos; }
 		void SetAnimationName(const std::wstring& name) { mAnimationName = name; }
+		void SetRotate(bool rotate) { bRotate = rotate; }
+		void SetDirection(Vector2 direction) { mDirection = direction; }
 		std::wstring& GetAnimationName() { return mAnimationName; }
 	
 	
@@ -51,6 +54,8 @@ namespace hj
 		bool mbComplete;
 		int mSpriteIndex;
 		std::wstring mAnimationName;
+		bool bRotate;
+		Vector2 mDirection;
 	};
 
 }

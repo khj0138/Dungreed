@@ -61,6 +61,7 @@ namespace hj
 
 	void Collider::OnCollisionEnter(Collider* other)
 	{
+		//lother- this
 		GetOwner()->OnCollisionEnter(other);
 	}
 

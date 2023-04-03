@@ -92,8 +92,8 @@
     <Filter Include="Contents\Effect">
       <UniqueIdentifier>{075c72ac-9b52-40f0-a0e2-3e78d5df17af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Effect\NewFilter1">
-      <UniqueIdentifier>{0a11a18e-209f-451c-bf94-46d4840dfea3}</UniqueIdentifier>
+    <Filter Include="Contents\Tile">
+      <UniqueIdentifier>{1a565a0d-30ff-4306-bd85-ef2801ce215f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +229,15 @@
     <ClInclude Include="hjEffect.h">
       <Filter>Contents\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="hjToolScene.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="hjTile.h">
+      <Filter>Contents\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="hjTilePalatte.h">
+      <Filter>Contents\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -354,6 +363,15 @@
     </ClCompile>
     <ClCompile Include="hjEffect.cpp">
       <Filter>Contents\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="hjToolScene.cpp">
+      <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="hjTile.cpp">
+      <Filter>Contents\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="hjTilePalatte.cpp">
+      <Filter>Contents\Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

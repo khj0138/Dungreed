@@ -20,6 +20,7 @@ namespace hj
 		void SetGravity(bool gravity) { mbGravity = gravity; }
 		Vector2 GetVelocity() { return mVelocity; }
 		bool GetGround() { return mbGround; }
+		bool GetGravity() {	return mbGravity; }
 
 	private:
 		float mMass;

@@ -6,12 +6,14 @@
 #include "hjTransform.h"
 #include "hjTime.h"
 #include "hjGameObject.h"
+#include "hjSpriteRenderer.h"
 
 
 namespace hj
 {
 	class Image;
 	class Wmanager;
+	class Emanager;
 	class Weapon : public GameObject
 	{
 	public:
@@ -63,15 +65,19 @@ namespace hj
 		void SetDir(Vector2 direction) { mDir = direction; }
 		void SetState(UINT state) { mWstate = (eWeaponState)state; }
 		void SetAsRatio(Vector2 asRatio) { mAsRatio = asRatio; }
+		void wCheckCol(Collider* target, Collider* other);
+		void colRender(HDC hdc, Wmanager* mng, std::vector<Vector2> posCol, bool bCollision);
 
 		eWeaponState GetState() { return mWstate; }
 		Vector2 GetDir() { return mDir; }
 		Animator* GetAnimator() { return mAnimator; }
 		Wmanager* GetManager() { return mWmanager; }
 		Vector2 GetAsRatio() { return mAsRatio; }
+		Emanager* GetEmanager() { return mEffects; }
 
 	private:
 		Wmanager* mWmanager;
+		Emanager* mEffects;
 		std::wstring mWeaponName;
 		Animator* mAnimator;
 		Collider* mCollider;

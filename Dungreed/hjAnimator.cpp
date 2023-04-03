@@ -34,9 +34,7 @@ namespace hj
 	{
 		if (mActiveAnimation)
 		{
-			mActiveAnimation->Update();
-
-			if (mbLoop && mActiveAnimation->isComplete())
+			if (mActiveAnimation->isComplete())
 			{
 				Animator::Events* events
 					= FindEvents(mActiveAnimation->GetName());
@@ -46,6 +44,8 @@ namespace hj
 
 				mActiveAnimation->Reset();
 			}
+			mActiveAnimation->Update();
+
 		}
 	}
 	void Animator::Render(HDC hdc)
@@ -74,6 +74,28 @@ namespace hj
 		animation->SetName(name);
 		animation->SetAnimator(this);
 
+		
+		mAnimations.insert(std::make_pair(name, animation));
+		Events* event = new Events();
+		mEvents.insert(std::make_pair(name, event));
+	}
+	void Animator::CreateAnimation(const std::wstring& name
+		, Img* sheet, UINT leftTopIdx
+		, UINT column, UINT row, UINT spriteLength
+		, Vector2 offset, float duration
+		, bool rotate, Vector2 direction )
+	{
+		Animation* animation = FindAnimation(name);
+
+		if (animation != nullptr)
+			return;
+
+		animation = new Animation();
+		animation->Create(sheet, leftTopIdx, column, row, spriteLength, offset, duration);
+		animation->SetName(name);
+		animation->SetAnimator(this);
+		animation->SetRotate(rotate);
+		animation->SetDirection(direction);
 		
 		mAnimations.insert(std::make_pair(name, animation));
 		Events* event = new Events();

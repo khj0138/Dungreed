@@ -3,6 +3,7 @@
 #include "hjTitleScene.h"
 #include "hjCamera.h"
 #include "hjCollisionManager.h"
+#include "hjToolScene.h"
 
 namespace hj
 {
@@ -15,6 +16,7 @@ namespace hj
 
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
+		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 
 		for (Scene* scene : mScenes)
 		{
@@ -24,6 +26,7 @@ namespace hj
 			scene->Initialize();
 		}
 		mActiveScene = mScenes[(UINT)eSceneType::Title];
+		//mActiveScene = mScenes[(UINT)eSceneType::Tool];
 		//LoadScene(eSceneType::Title);
 	}
 
@@ -55,7 +58,7 @@ namespace hj
 
 	void SceneManager::LoadScene(eSceneType type)
 	{
-		Camera::Clear();
+		//Camera::Clear();
 
 		//ÇöÀç¾À
 		if (mActiveScene != nullptr)

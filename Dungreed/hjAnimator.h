@@ -44,6 +44,12 @@ namespace hj
 			, Vector2 leftTop
 			, UINT column, UINT row, UINT spriteLength
 			, Vector2 offset, float duration);
+		void CreateAnimation(const std::wstring& name
+			, Img* sheet
+			, UINT leftTopIdx
+			, UINT column, UINT row, UINT spriteLength
+			, Vector2 offset, float duration
+			, bool rotate = false, Vector2 direction = Vector2{ 0.0f, 0.0f });
 		void CreateAnimations(const std::wstring&path, Vector2 offset, float duration);
 		
 		Animation* FindAnimation(const std::wstring& name);
