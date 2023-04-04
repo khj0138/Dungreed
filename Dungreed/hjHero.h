@@ -31,9 +31,9 @@ namespace hj
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
+		void StateChange(eHeroState state, std::wstring anim, bool loop);
 
 	private:
-		void StateChange(eHeroState state, std::wstring anim, bool loop);
 		
 		void idle();
 		void run();
@@ -57,7 +57,7 @@ namespace hj
 		Rigidbody* mRigidbody;
 		UINT mDash;
 		bool bDash;
-		UINT cJump;
+		int cJump;
 		bool bDjump;
 	};
 

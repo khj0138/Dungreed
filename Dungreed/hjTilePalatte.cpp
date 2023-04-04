@@ -8,7 +8,9 @@ namespace hj
 {
 	Img* TilePalatte::mImage = nullptr;
 	std::unordered_map<UINT64, Tile*> TilePalatte::mTiles = {};
+	std::unordered_map<UINT64, Tile*> TilePalatte::mTiles2 = {};
 	UINT TilePalatte::mIndex = -1;
+	bool TilePalatte::tileRender = true;
 
 	void TilePalatte::Initiailize()
 	{
@@ -63,7 +65,39 @@ namespace hj
 			mTiles.insert(std::make_pair(id.id, tile));
 		}
 	}
+	//void TilePalatte::CreateTile(int index, Vector2 pos)
+	//{
+	//	Vector2 mousePos = Mouse::GetPos();
+	//	if (mousePos.x >= 1600.0f || mousePos.x <= 0.0f)
+	//		return;
+	//	if (mousePos.y >= 900.0f || mousePos.y <= 0.0f)
+	//		return;
 
+
+	//	Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
+	//	tile->InitializeTile(mImage, index);
+
+
+	//	Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
+	//	tile->GetComponent<Transform>()->SetPos(tilePos);
+	//	
+
+	//	TileID id;
+	//	id.x = (UINT32)pos.x;
+	//	id.y = (UINT32)pos.y;
+
+	//	std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+	//	if (iter != mTiles.end())
+	//	{
+	//		//Tile* temp = iter->second;
+	//		iter->second = tile;
+	//		//delete temp;
+	//	}
+	//	else
+	//	{
+	//		mTiles.insert(std::make_pair(id.id, tile));
+	//	}
+	//}
 	void TilePalatte::CreateTiles(int index, UINT width, UINT height)
 	{
 

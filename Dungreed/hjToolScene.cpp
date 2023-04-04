@@ -92,13 +92,7 @@ namespace hj
 
 	void ToolScene::OnEnter()
 	{	
-		/*HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
-		HBRUSH oldBrush = (HBRUSH)SelectObject(application.GetHdc(), grayBrush);
-		Rectangle(application.GetHdc(), -1, -1, 1602, 902);
-		SelectObject(application.GetHdc(), oldBrush);
-		DeleteObject(grayBrush);*/
-
-		//SceneManager::FindScene(eSceneType::Tool)->GetGameObjects(eLayerType::Tile).clear();
+		
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile.Tile\0";
 		wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
 		TilePalatte::Load(a);
@@ -107,11 +101,7 @@ namespace hj
 
 	void ToolScene::OnExit()
 	{
-		/*HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
-		HBRUSH oldBrush = (HBRUSH)SelectObject(application.GetHdc(), grayBrush);
-		Rectangle(application.GetHdc(), -1, -1, 1602, 902);
-		SelectObject(application.GetHdc(), oldBrush);
-		DeleteObject(grayBrush);*/
+		
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile.Tile\0";
 		wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
 		TilePalatte::Save(a);

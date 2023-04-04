@@ -60,6 +60,10 @@ namespace hj
 
 	void PlayScene::Update()
 	{
+		if (Input::GetKeyDown(eKeyCode::T))
+		{
+			TilePalatte::tRenderChange();
+		}
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Title);

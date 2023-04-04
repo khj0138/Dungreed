@@ -96,7 +96,7 @@ namespace hj
 
 	void Hero::Update()
 	{
-		
+
 
 		if (Input::GetKey(eKeyCode::A))
 		{
@@ -125,6 +125,22 @@ namespace hj
 				});
 		}
 
+		if (isJump == false)
+		{
+			if (!(GetComponent<Rigidbody>()->GetGround()))
+				isJump = true;
+		}
+		else if (!(GetComponent<Rigidbody>()->GetGround()))
+		{
+			if (mState != eHeroState::Jump)
+			{
+				StateChange(eHeroState::Jump, L"Jump", true);
+			}
+		}
+		else
+		{
+			isJump = false;
+		}
 		switch(mState)
 		{
 
@@ -166,7 +182,7 @@ namespace hj
 	{
 		GameObject::Release();
 	}
-
+	
 	void Hero::StateChange(eHeroState state, std::wstring anim, bool loop = false)
 	{
 		mState = state;
@@ -176,8 +192,11 @@ namespace hj
 		{
 			if (bDash)
 			{
-				mEffects->CreateEffect(L"JumpEffect");
-				cJump--;
+				if (!isJump)
+				{
+					mEffects->CreateEffect(L"JumpEffect");
+					cJump--;
+				}
 			}
 			break;
 		}
@@ -230,9 +249,10 @@ namespace hj
 		else if (Input::GetKeyDown(eKeyCode::W))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y = -1400.0f;
+			velocity.y = -1200.0f;
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
+			
 			StateChange(eHeroState::Jump, L"Jump", true);
 
 		}
@@ -268,9 +288,10 @@ namespace hj
 		else if (Input::GetKeyDown(eKeyCode::W))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y = -1400.0f;
+			velocity.y = -1200.0f;
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
+			
 			StateChange(eHeroState::Jump, L"Jump", true);
 		}
 		/*else if (Input::GetKeyDown(eKeyCode::S))
@@ -334,24 +355,28 @@ namespace hj
 				velocity.y = 0.0f;
 			}
 		}
-		else
+		else if (
+			!(bDash == false && mDash > 0)
+			)
 		{
+			if (cJump == 1)
+				int a = 0;
 			if (Input::GetKeyDown(eKeyCode::W) && (cJump > 0))
 			{
-				if (--cJump)
-					mEffects->CreateEffect(L"JumpEffect");
-				else
+				//if (--cJump)
+					//mEffects->CreateEffect(L"JumpEffect");
+				if(!(--cJump))
 					mEffects->CreateEffect(L"DJumpEffect");
 				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.y = -1400.0f;
+				velocity.y = -1200.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 			}
-			else if (Input::GetKey(eKeyCode::W))
+			else if (Input::GetKey(eKeyCode::W) && isJump)
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
 				if (velocity.y < 0.0f && !(mRigidbody->GetGround()))
-					velocity.y = velocity.y - 100.0f * Time::DeltaTime();
+					velocity.y = velocity.y - 1400.0f * Time::DeltaTime();
 				mRigidbody->SetVelocity(velocity);
 			}
 			mRigidbody->SetGravity(true);
@@ -396,10 +421,16 @@ namespace hj
 	{
 		bDash = false;
 		Transform* tr = GetComponent<Transform>();
-		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), 1.f)).Normalize();
-		dir = dir * 16.0f;
-		Vector2 velocity = mRigidbody->GetVelocity();
-		velocity = dir;
+		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), 1.f));
+		float n = 256.f;
+		if (dir.Length() > n)
+		{
+			dir.Normalize();
+			dir = dir * n;
+		}
+		dir = dir / (n / 16.f);
+		//Vector2 velocity = mRigidbody->GetVelocity();
+		Vector2 velocity = dir;
 		mRigidbody->SetVelocity(velocity);
 		mDash = 16;
 		mRigidbody->SetGravity(false);

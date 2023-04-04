@@ -4,12 +4,15 @@
 #include "hjCollider.h"
 #include "hjHero.h"
 #include "hjRigidBody.h"
+#include "hjSceneManager.h"
+#include "hjTilePalatte.h"
 namespace hj {
 	Tile::Tile()
 		: mAtlas(nullptr)
 		, mIndex(-1)
 		, mX(-1)
 		, mY(-1)
+		, bRender(true)
 	{
 	}
 	Tile::Tile(Vector2 pos)
@@ -18,6 +21,7 @@ namespace hj {
 		, mX(-1)
 		, mY(-1)
 		, bCollider(false)
+		, bRender(true)
 	{
 		GetComponent<Transform>()->SetPos(pos);
 	}
@@ -27,6 +31,7 @@ namespace hj {
 		, mX(-1)
 		, mY(-1)
 		, bCollider(bCol)
+		, bRender(true)
 	{
 		GetComponent<Transform>()->SetPos(pos);
 		AddComponent<Collider>();
@@ -54,6 +59,10 @@ namespace hj {
 	}
 	void Tile::Update()
 	{
+		if (TilePalatte::getTileRender())
+			bRender = true;
+		else
+			bRender = false;
 		GameObject::Update();
 	}
 	void Tile::Render(HDC hdc)
@@ -61,17 +70,22 @@ namespace hj {
 		if (mAtlas == nullptr || mIndex < 0)
 			return;
 
-		Transform* tr = GetComponent<Transform>();
+		if (bRender)
+		{
 
-		Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
-		TransparentBlt(hdc
-			, renderPos.x, renderPos.y
-			, TILE_SIZE_X, TILE_SIZE_Y
-			, mAtlas->GetHdc()
-			, TILE_SIZE_X * mX, TILE_SIZE_Y * mY
-			, TILE_SIZE_X, TILE_SIZE_X
-			, RGB(255, 0, 255)
-			);
+			Transform* tr = GetComponent<Transform>();
+		
+			Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
+		
+			TransparentBlt(hdc
+				, renderPos.x, renderPos.y
+				, TILE_SIZE_X, TILE_SIZE_Y
+				, mAtlas->GetHdc()
+				, TILE_SIZE_X * mX, TILE_SIZE_Y * mY
+				, TILE_SIZE_X, TILE_SIZE_X
+				, RGB(255, 0, 255)
+				);
+		}
 		GameObject::Render(hdc);
 	}
 
@@ -174,6 +188,7 @@ namespace hj {
 				return;
 			Rigidbody* rb = hero->GetComponent<Rigidbody>();
 			rb->SetGround(false);
+
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace hj
 		, mVelocity(Vector2::Zero)
 	{
 		mLimitedVelocity.x = 200.0f;
-		mLimitedVelocity.y = 1400.0f;
+		mLimitedVelocity.y = 1200.0f;
 		//mbGround = false;
 		mbGround = false;
 		mGravity = Vector2(0.0f, 4800.0f);
@@ -101,11 +101,11 @@ namespace hj
 			pos = pos + mVelocity;
 		else
 		{
-
+			//pos = pos + mVelocity * 0.015f;
 			if (Time::DeltaTime() > 0.08f)
 				pos = pos + mVelocity * 0.08f;
-			else if (Time::DeltaTime() < 0.015f)
-				pos = pos + mVelocity * 0.015f;
+			/*else if (Time::DeltaTime() < 0.015f)
+				pos = pos + mVelocity * 0.015f;*/
 			else
 				pos = pos + mVelocity * Time::DeltaTime();
 		}

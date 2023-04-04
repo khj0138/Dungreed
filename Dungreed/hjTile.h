@@ -31,6 +31,7 @@ namespace hj
 		UINT mY;
 		UINT mX;
 		bool bCollider;
+		bool bRender;
 	};
 }
 
