@@ -5,8 +5,20 @@ enum class eSceneType
 	Title,
 	Play,
 	Ending,
-	
+
 	Tool,
+	End,
+};
+
+enum class ePSceneType
+{
+	Town,
+	Dungeon,
+	Dungeon1,
+	Dungeon2,
+	Dungeon3,
+	Dungeon4,
+	Dungeon5,
 	End,
 };
 
@@ -44,7 +56,7 @@ enum class eWeaponType {
 	END,
 };
 
-enum class eEffectType{
+enum class eEffectType {
 	SWORD,
 	GUN,
 	END,

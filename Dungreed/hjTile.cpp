@@ -6,6 +6,7 @@
 #include "hjRigidBody.h"
 #include "hjSceneManager.h"
 #include "hjTilePalatte.h"
+#include "hjImage.h"
 namespace hj {
 	Tile::Tile()
 		: mAtlas(nullptr)
@@ -53,7 +54,7 @@ namespace hj {
 	{
 		int maxCol = mAtlas->GetWidth() / TILE_SIZE_X;
 		//int maxRow = mAtlas->GetHeight() / TILE_SIZE_Y;
-		
+
 		mY = index / maxCol;
 		mX = index % maxCol;
 	}
@@ -74,17 +75,17 @@ namespace hj {
 		{
 
 			Transform* tr = GetComponent<Transform>();
-		
+
 			Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
-		
+
 			TransparentBlt(hdc
 				, renderPos.x, renderPos.y
 				, TILE_SIZE_X, TILE_SIZE_Y
 				, mAtlas->GetHdc()
 				, TILE_SIZE_X * mX, TILE_SIZE_Y * mY
 				, TILE_SIZE_X, TILE_SIZE_X
-				, RGB(255, 0, 255)
-				);
+				, RGB(255, 0, 254)
+			);
 		}
 		GameObject::Render(hdc);
 	}
@@ -98,80 +99,347 @@ namespace hj {
 
 		Rigidbody* rb = hero->GetComponent<Rigidbody>();
 
-			Collider* heroCol = hero->GetComponent<Collider>();
-			Vector2 heroPos = heroCol->GetPos();
+		Collider* heroCol = hero->GetComponent<Collider>();
+		Vector2 heroPos = heroCol->GetPos();
 
-			Collider* groundCol = this->GetComponent<Collider>();
-			Vector2 groundPos = groundCol->GetPos();
-			switch (mIndex)
+		Collider* groundCol = this->GetComponent<Collider>();
+		Vector2 groundPos = groundCol->GetPos();
+		switch (mIndex)
+		{
+		case 0:
+		{
+			float fLenY = (heroPos.y + heroCol->GetSize().y / 2.0f - groundPos.y - groundCol->GetSize().y / 2.0f);
+			float fSizeY = (heroCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
+
+			if (fabs(fLenY) <= fSizeY)
 			{
-			case 0 :
+				Transform* heroTr = hero->GetComponent<Transform>();
+				Vector2 heroPos = heroTr->GetPos();
+
+				if (fLenY <= 0.0f && rb->GetVelocity().y >= 0.0f)
+				{
+					rb->SetVelocity(Vector2{ rb->GetVelocity().x, 0.0f });
+					rb->SetGround(true);
+					heroPos = Vector2{ heroPos.x, groundPos.y };
+				}
+				else if (fLenY > 0.0f && rb->GetVelocity().y <= 0.0f)
+					heroPos = Vector2{ heroPos.x, groundPos.y + groundCol->GetSize().y + heroCol->GetSize().y };
+				heroTr->SetPos(heroPos);
+			}
+			break;
+		}
+		case 1:
+		{
+			float fLenX = (heroPos.x + heroCol->GetSize().x / 2.0f - groundPos.x - groundCol->GetSize().x / 2.0f);
+			float fSizeX = (heroCol->GetSize().x / 2.0f) + (groundCol->GetSize().x / 2.0f);
+
+			if (fabs(fLenX) <= fSizeX)
 			{
+				rb->SetVelocity(Vector2{ 0.0f, rb->GetVelocity().y });
+				Transform* heroTr = hero->GetComponent<Transform>();
+				Vector2 heroPos = heroTr->GetPos();
+
+				if (fLenX <= 0.0f)
+					heroPos = Vector2{ groundPos.x - heroCol->GetSize().x / 2.0f - 1.f, heroPos.y };
+				else
+					heroPos = Vector2{ groundPos.x + groundCol->GetSize().x + heroCol->GetSize().x / 2.0f + 1.f, heroPos.y };
+				heroTr->SetPos(heroPos);
+			}
+			break;
+		}
+		case 3:
+		{
+			//if (rb->GetVelocity().y >= 0.0f)
+			if (rb->GetGravity())
+			{
+
+				Collider* heroTr = hero->GetComponent<Collider>();
+				Vector2 heroPos = heroTr->GetPos();
+
 				float fLenY = (heroPos.y + heroCol->GetSize().y / 2.0f - groundPos.y - groundCol->GetSize().y / 2.0f);
 				float fSizeY = (heroCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
 
-				if (fabs(fLenY) <= fSizeY )
+				if ((fabs(fLenY) - fSizeY) <= 0.0f && (fabs(fLenY) - fSizeY) >= -20.f)
 				{
-					Transform* heroTr = hero->GetComponent<Transform>();
-					Vector2 heroPos = heroTr->GetPos();
-
 					if (fLenY <= 0.0f && rb->GetVelocity().y >= 0.0f)
 					{
-						rb->SetVelocity(Vector2{ rb->GetVelocity().x, 0.0f });
 						rb->SetGround(true);
-						heroPos = Vector2{ heroPos.x, groundPos.y + 1.f };
+						rb->SetVelocity(Vector2{ rb->GetVelocity().x, 0.0f });
+						Transform* heroTr = hero->GetComponent<Transform>();
+						Vector2 heroPos = heroTr->GetPos();
+						heroPos = Vector2{ heroPos.x, groundPos.y };
+						heroTr->SetPos(heroPos);
 					}
-					else if (fLenY > 0.0f && rb->GetVelocity().y <= 0.0f)
-						heroPos = Vector2{ heroPos.x, groundPos.y + groundCol->GetSize().y + heroCol->GetSize().y + 1.f };
-					heroTr->SetPos(heroPos);
 				}
-				break;
+
+
+
 			}
-			case 3:
+			break;
+		}
+		case 4:
+		{
+			if (rb->GetGravity())
+
 			{
-				if (rb->GetGravity())
+
+
+				Vector2 a1 = (*hero).prevPos;
+				Transform* heroTr = hero->GetComponent<Transform>();
+				Vector2 a2 = heroTr->GetPos();
+
+
+				a1 -= Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+				a2 -= Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+
+				Vector2 b1 = this->GetComponent<Collider>()->GetPos() + Vector2{ 0.0f,0.0f };
+				Vector2 b2 = this->GetComponent<Collider>()->GetPos() + Vector2{ GetComponent<Collider>()->GetSize().x ,GetComponent<Collider>()->GetSize().y };
+
+				Vector2 a = a2 - a1;
+				Vector2 b = b2 - b1;
+				double det = math::Cross(a, b);
+				if (fabs(det) < 0.01f) return;
+				else
 				{
+					Vector2 c = b1 - a1;
+					Vector2 d = b2 - b1;
+					Vector2 p = a1 + (a2 - a1) * (math::Cross(c, d) / det);
+					Vector2 f = (p - a1) / (a2 - a1);
 
-					float fLenY = (heroPos.y + heroCol->GetSize().y / 2.0f - groundPos.y - groundCol->GetSize().y / 2.0f);
-					float fSizeY = (heroCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
-
-					if ((fabs(fLenY)- fSizeY) <= 0.0f && (fabs(fLenY) - fSizeY) >= -20.f)
+					if ((f.x >= -0.5f || f.y >= -0.5f) && f.Length() <= 1.0f)
 					{
-						if (fLenY <= 0.0f && rb->GetVelocity().y >= 4.0f)
+
+						Vector2 e = a2 - p;
+
+						if (rb->GetGround())
 						{
-							rb->SetVelocity(Vector2{ rb->GetVelocity().x, 0.0f });
+
+							float dir = (math::Dot(e, b) > 0.0f) ? 1.0f : -1.0f;
+							float len = e.Length();
+							Vector2 result = p + b.Normalize() * len * dir;
+
+							if ((result.x + a.x >= b2.x))
+							{
+								if (rb->GetVelocity().x > 0.0f)
+									result = b2 + Vector2{ 0.0f,1.0f };
+							}
+
+							hero->GetComponent<Transform>()->SetPos(result +
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f, 0.0f });
+						}
+						else if (rb->GetVelocity().y >= 0.0f)
+						{
+
+							float len = math::Dot(e, b);
+							hero->GetComponent<Transform>()->SetPos(p +
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f , 0.0f });
 							rb->SetGround(true);
-							Transform* heroTr = hero->GetComponent<Transform>();
-							Vector2 heroPos = heroTr->GetPos();
-							heroPos = Vector2{ heroPos.x, groundPos.y + 1.f };
-							heroTr->SetPos(heroPos);
 						}
 					}
 				}
-				break;
+
+
+
 			}
-			case 1:
+			break;
+		}
+		case 7:
+		{
+			if (rb->GetGravity())
+
 			{
-				float fLenX = (heroPos.x + heroCol->GetSize().x / 2.0f - groundPos.x - groundCol->GetSize().x / 2.0f);
-				float fSizeX = (heroCol->GetSize().x / 2.0f) + (groundCol->GetSize().x / 2.0f);
 
-				if (fabs(fLenX) <= fSizeX)
+
+
+
+				Vector2 a1 = (*hero).prevPos;
+				Transform* heroTr = hero->GetComponent<Transform>();
+				Vector2 a2 = heroTr->GetPos();
+
+
+				a1 += Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+				a2 += Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+
+				Vector2 b1 = this->GetComponent<Collider>()->GetPos() + Vector2{ 0.0f,GetComponent<Collider>()->GetSize().y };
+				Vector2 b2 = this->GetComponent<Collider>()->GetPos() + Vector2{ GetComponent<Collider>()->GetSize().x ,0.0f };
+
+				Vector2 a = a2 - a1;
+				Vector2 b = b2 - b1;
+				double det = math::Cross(a, b);
+				if (fabs(det) < 0.01f) return;
+				else
 				{
-					rb->SetVelocity(Vector2{ 0.0f, rb->GetVelocity().y });
-					Transform* heroTr = hero->GetComponent<Transform>();
-					Vector2 heroPos = heroTr->GetPos();
+					Vector2 c = b1 - a1;
+					Vector2 d = b2 - b1;
+					Vector2 p = a1 + (a2 - a1) * (math::Cross(c, d) / det);
+					Vector2 f = (p - a1) / (a2 - a1);
 
-					if (fLenX <= 0.0f)
-						heroPos = Vector2{ groundPos.x - heroCol->GetSize().x / 2.0f - 1.f, heroPos.y };
-					else
-						heroPos = Vector2{ groundPos.x + groundCol->GetSize().x + heroCol->GetSize().x / 2.0f + 1.f, heroPos.y };
-					heroTr->SetPos(heroPos);
+					if ((f.x >= -0.5f || f.y >= -0.5f) && f.Length() <= 1.0f)
+					{
+
+						Vector2 e = a2 - p;
+
+						if (rb->GetGround())
+						{
+
+							float dir = (math::Dot(e, b) > 0.0f) ? 1.0f : -1.0f;
+							float len = e.Length();
+							Vector2 result = p + b.Normalize() * len * dir;
+
+							if (result.x + a.x <= b1.x)
+							{
+								if (rb->GetVelocity().x < 0.0f)
+									result = b1 + Vector2{ 0.0f,1.0f };
+							}
+
+							hero->GetComponent<Transform>()->SetPos(result -
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f, 0.0f });
+						}
+						else if (rb->GetVelocity().y >= 0.0f)
+						{
+
+							float len = math::Dot(e, b);
+							hero->GetComponent<Transform>()->SetPos(p -
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f , 0.0f });
+							rb->SetGround(true);
+						}
+					}
 				}
-				break;
-			}
 
 			}
-		
+			break;
+		}
+
+		case 6:
+		{
+			if (true)
+
+			{
+
+				Vector2 a1 = (*hero).prevPos;
+				Transform* heroTr = hero->GetComponent<Transform>();
+				Vector2 a2 = heroTr->GetPos();
+
+
+				a1 -= Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+				a2 -= Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+
+				Vector2 b1 = this->GetComponent<Collider>()->GetPos() + Vector2{ 0.0f,0.0f };
+				Vector2 b2 = this->GetComponent<Collider>()->GetPos() + Vector2{ GetComponent<Collider>()->GetSize().x ,GetComponent<Collider>()->GetSize().y };
+
+				Vector2 a = a2 - a1;
+				Vector2 b = b2 - b1;
+				double det = math::Cross(a, b);
+				if (fabs(det) < 0.01f) return;
+				else
+				{
+					Vector2 c = b1 - a1;
+					Vector2 d = b2 - b1;
+					Vector2 p = a1 + (a2 - a1) * (math::Cross(c, d) / det);
+					Vector2 f = (p - a1) / (a2 - a1);
+
+					if ((f.x >= -0.5f || f.y >= -0.5f) && f.Length() <= 1.0f)
+					{
+
+						Vector2 e = a2 - p;
+
+						if (rb->GetGround() || !(rb->GetGravity()))
+						{
+
+							float dir = (math::Dot(e, b) > 0.0f) ? 1.0f : -1.0f;
+							float len = e.Length();
+							Vector2 result = p + b.Normalize() * len * dir;
+
+							if ((result.x + a.x >= b2.x))
+							{
+								if (rb->GetVelocity().x > 0.0f)
+									result = b2 + Vector2{ 0.0f,1.0f };
+							}
+
+							hero->GetComponent<Transform>()->SetPos(result +
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f, 0.0f });
+						}
+						else if (rb->GetVelocity().y >= 0.0f)
+						{
+
+							float len = math::Dot(e, b);
+							hero->GetComponent<Transform>()->SetPos(p +
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f , 0.0f });
+							rb->SetGround(true);
+						}
+					}
+				}
+			}
+			break;
+		}
+		case 5:
+		{
+			if (true)
+
+			{
+
+
+
+
+				Vector2 a1 = (*hero).prevPos;
+				Transform* heroTr = hero->GetComponent<Transform>();
+				Vector2 a2 = heroTr->GetPos();
+
+
+				a1 += Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+				a2 += Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f,0.0f };
+
+				Vector2 b1 = this->GetComponent<Collider>()->GetPos() + Vector2{ 0.0f,GetComponent<Collider>()->GetSize().y };
+				Vector2 b2 = this->GetComponent<Collider>()->GetPos() + Vector2{ GetComponent<Collider>()->GetSize().x ,0.0f };
+
+				Vector2 a = a2 - a1;
+				Vector2 b = b2 - b1;
+				double det = math::Cross(a, b);
+				if (fabs(det) < 0.01f) return;
+				else
+				{
+					Vector2 c = b1 - a1;
+					Vector2 d = b2 - b1;
+					Vector2 p = a1 + (a2 - a1) * (math::Cross(c, d) / det);
+					Vector2 f = (p - a1) / (a2 - a1);
+
+					if ((f.x >= -0.5f || f.y >= -0.5f) && f.Length() <= 1.0f)
+					{
+
+						Vector2 e = a2 - p;
+
+						if (rb->GetGround() || !(rb->GetGravity()))
+						{
+
+							float dir = (math::Dot(e, b) > 0.0f) ? 1.0f : -1.0f;
+							float len = e.Length();
+							Vector2 result = p + b.Normalize() * len * dir;
+
+							if (result.x + a.x <= b1.x)
+							{
+								if (rb->GetVelocity().x < 0.0f)
+									result = b1 + Vector2{ 0.0f,1.0f };
+							}
+
+							hero->GetComponent<Transform>()->SetPos(result -
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f, 0.0f });
+						}
+						else if (rb->GetVelocity().y >= 0.0f)
+						{
+
+							float len = math::Dot(e, b);
+							hero->GetComponent<Transform>()->SetPos(p -
+								Vector2{ hero->GetComponent<Collider>()->GetSize().x / 2.f , 0.0f });
+							rb->SetGround(true);
+						}
+					}
+				}
+
+			}
+			break;
+		}
+		}
+
 	}
 	void Tile::OnCollisionStay(Collider* other)
 	{
@@ -180,13 +448,14 @@ namespace hj {
 	void Tile::OnCollisionExit(Collider* other)
 	{
 
-		if (mIndex == 3)
+		if (mIndex == 3/* || mIndex == 4 || mIndex == 5*/)
 		{
 
 			Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
 			if (hero == nullptr)
 				return;
 			Rigidbody* rb = hero->GetComponent<Rigidbody>();
+
 			rb->SetGround(false);
 
 		}

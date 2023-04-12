@@ -16,6 +16,11 @@ namespace hj
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
+
+		/*virtual void AddGameObject(GameObject* obj, eLayerType layer) override
+		{
+			Scene::GetLayer(layer).AddGameObject(obj);
+		}*/
 	private:
 	};
 }

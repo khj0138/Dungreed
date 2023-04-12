@@ -65,7 +65,7 @@ namespace hj
 
 
 		Vector2 startPos(0, 0);
-		startPos = Camera::CaluatePos(startPos); 
+		startPos = Camera::CaluatePos(startPos);
 
 		int maxRow = application.GetHeight() / TILE_SIZE_Y + 1;
 		for (size_t y = 0; y < maxRow * 3; y++)
@@ -91,19 +91,22 @@ namespace hj
 	}
 
 	void ToolScene::OnEnter()
-	{	
-		
+	{
+
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile.Tile\0";
-		wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
+		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
+		wchar_t a[256] = L"../Resource/Tile2.Tile\0";
 		TilePalatte::Load(a);
 		Camera::SetLookRange(Vector2{ (float)application.GetWidth() * 8, (float)application.GetHeight() * 8 });
 	}
 
 	void ToolScene::OnExit()
 	{
-		
+
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile.Tile\0";
-		wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
+		wchar_t a[256] = L"../Resource/Tile2.Tile\0";
+
+		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
 		TilePalatte::Save(a);
 		TilePalatte::clear();
 		//Camera::SetLookRange(Vector2{ 0.f, 0.f });

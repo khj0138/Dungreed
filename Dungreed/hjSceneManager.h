@@ -15,7 +15,8 @@ namespace hj
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }
 		static Scene* FindScene(eSceneType type) { return mScenes[(UINT)type]; }
-		
+		static void ChangePlayScene(Scene* scene) { mScenes[(UINT)eSceneType::Play] = scene; }
+
 
 	private:
 		static std::vector<Scene*> mScenes;

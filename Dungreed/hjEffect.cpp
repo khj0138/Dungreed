@@ -112,8 +112,8 @@ namespace hj
 		//delete[] p_data;
 		//p_data = nullptr;
 		//return;
-		if(GetState() == eState::Active)
- 			mAnimator->Render(hdc);
+		if (GetState() == eState::Active)
+			mAnimator->Render(hdc);
 
 	}
 	//void Effect::Create(const std::wstring& name, const std::wstring& path, bool loop, bool bDir, UINT frame, Vector2 offset, float playRate)
@@ -154,7 +154,7 @@ namespace hj
 			GetManager()->FindEffect(mName)->bCreate = true;
 		SetState(eState::Death);
 	}
-	void Effect::Create(Img* image, std::wstring name, UINT frame,UINT leftTopIdx, Vector2 offset, float playRate, bool cFlip)
+	void Effect::Create(Img* image, std::wstring name, UINT frame, UINT leftTopIdx, Vector2 offset, float playRate, bool cFlip)
 	{
 		UINT row = 2;
 		if (!cFlip)

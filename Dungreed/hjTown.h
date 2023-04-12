@@ -1,16 +1,16 @@
 #pragma once
 #include "hjScene.h"
+#include "hjHero.h"
+#include "hjBackGround.h"
 #include "hjGameObject.h"
-#include "hjBackGround.h";
 
 namespace hj
 {
-	class Bird;
-	class TitleScene : public Scene
+	class Town : public Scene
 	{
 	public:
-		TitleScene();
-		~TitleScene();
+		Town();
+		~Town();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -19,17 +19,15 @@ namespace hj
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-		void makeBird(int time, Vector2 pos);
-		void spawnBird(Bird* bird);
-		Bird* nextBird(double time);
 
+		void SetHero(Hero* hero) { mHero = hero; }
 		/*virtual void AddGameObject(GameObject* obj, eLayerType layer) override
 		{
 			Scene::GetLayer(layer).AddGameObject(obj);
 		}*/
 	private:
-		double mTime;
-		bool bir = false;
-		std::vector<Bird*> mBirds;
+		Hero* mHero;
+		BackGround* bg;
 	};
+
 }

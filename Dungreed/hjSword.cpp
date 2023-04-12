@@ -3,6 +3,18 @@
 #include "hjSpriteRenderer.h"
 #include "hjEmanager.h"
 
+#include "hjMath.h"
+
+#include "hjImage.h"
+#include "hjRscmanager.h"
+#include "hjWmanager.h"
+#include "hjTransform.h"
+#include "hjComponent.h"
+#include "hjMouse.h"
+#include "hjTime.h"
+#include "hjCamera.h"
+
+
 extern hj::Application application;
 //extern GraphicsPath Path;
 //extern const GUID ImageFormatBMP;
@@ -42,7 +54,7 @@ namespace hj
 		float ytemp = -0.3f;
 		float hands = 16.f / 4.f;
 
-		
+
 
 		if (sState == SwordState::up)
 		{
@@ -57,15 +69,15 @@ namespace hj
 		else
 		{
 			mSpawnDir = math::Rotate(dir, -175.0f * flipNum + 180.0f * (float)isFlip);
-			
+
 			mSpawn = pos
-				+ Vector2{ (xtemp) * heroSize.x * flipNum, (ytemp) * heroSize.y } // 원 중심 이동
+				+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y } // 원 중심 이동
 				+ math::Rotate((dir), -180.0f * flipNum) * mRadius//; // 원 중심을 기준으로 위치 회전
 				- imgVect / 2.f// lefttop -> middle
 				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length();
-				//+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / 8.f * 3.f).Length();
+			//+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / 8.f * 3.f).Length();
 		}
-		
+
 		Collider* collider = GetManager()->GetComponent<Collider>();
 		collider->SetPos(pos
 			+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y }
@@ -112,10 +124,10 @@ namespace hj
 			bRender = false;
 			return;
 		}
-		
+
 		Weapon::colRender(hdc, GetManager(), posCol, bCollision);
-		Weapon::GetComponent<SpriteRenderer>()->rotateRender(hdc, mImage->GetHdc(), Vector2{ (float)mImage->GetWidth(),(float)mImage->GetHeight() },mSpawnDegree, mSpawn);
-		
+		Weapon::GetComponent<SpriteRenderer>()->rotateRender(hdc, mImage->GetHdc(), Vector2{ (float)mImage->GetWidth(),(float)mImage->GetHeight() }, mSpawnDegree, mSpawn);
+
 		bRender = true;
 	}
 
@@ -126,15 +138,15 @@ namespace hj
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
 		//mEffects->RegisterEffect(L"RunEffect", L"..\\Resource\\Char\\SwingEffect.bmp", false, false, 5, Vector2{ (-1.5f) * colSize.x, 0.0f }, 0.07f);
-		mEffects->RegisterEffect(L"SwingEffect", L"..\\Resource\\Char\\SwingFX.bmp", false, true, 3, Vector2{ 0.0f, 0.0f }, 0.07f, Vector2::One * 3.f);
-		
+		mEffects->RegisterEffect(L"SwingEffect", L"..\\Resource\\Char\\SwingFX.bmp", false, true, 3, Vector2{ 0.0f, 0.0f }, 0.03f, Vector2::One * 3.f);
+
 		Weapon::SetAsRatio(Vector2::One * 4.f);
-		
+
 		mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\ShortSword.bmp");
 		//mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\BambooSword.bmp");
 		//mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\BambooSword3.bmp");
 		mImage->MatchRatio(Weapon::GetAsRatio());
-		
+
 		// collider 설정
 		Collider* collider = GetManager()->GetComponent<Collider>();
 		float n = 3.2f;
@@ -203,7 +215,7 @@ namespace hj
 			(otherRect[0] - otherRect[1]) / 2.0f,
 			(otherRect[1] - otherRect[2]) / 2.0f,
 		};
-		
+
 		Vector2 rectCenter = (rect[0] + rect[2]) / 2.f;
 		Vector2 rectVector[2]
 			=
@@ -213,7 +225,7 @@ namespace hj
 		};
 
 		Vector2 centerVect = oRectCenter - rectCenter;
-		
+
 		for (int i = 0; i < 2; i++)
 		{
 			if (
@@ -258,12 +270,12 @@ namespace hj
 	{
 		bAttack = false;
 		mTime += Time::DeltaTime();
-		if (mTime > 0.5)
+		if (mTime > 0.3)
 		{
 			bCollision = false;
 			mTime = 0.0f;
 			Weapon::SetState((UINT)eWeaponState::IDLE);
 		}
 	}
-	
+
 }

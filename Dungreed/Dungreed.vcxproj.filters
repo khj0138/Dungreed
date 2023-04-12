@@ -95,6 +95,9 @@
     <Filter Include="Contents\Tile">
       <UniqueIdentifier>{1a565a0d-30ff-4306-bd85-ef2801ce215f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Scene\PlayScene">
+      <UniqueIdentifier>{c8a257aa-9253-4f95-a9fd-dc89cd864e38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -150,9 +153,6 @@
     </ClInclude>
     <ClInclude Include="hjHero.h">
       <Filter>Contents\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="hjPlayScene.h">
-      <Filter>Contents\Scene</Filter>
     </ClInclude>
     <ClInclude Include="hjBackGround.h">
       <Filter>Contents\BackGround</Filter>
@@ -238,6 +238,12 @@
     <ClInclude Include="hjTilePalatte.h">
       <Filter>Contents\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="hjPlayScene.h">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="hjTown.h">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -288,9 +294,6 @@
     </ClCompile>
     <ClCompile Include="hjHero.cpp">
       <Filter>Contents\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="hjPlayScene.cpp">
-      <Filter>Contents\Scene</Filter>
     </ClCompile>
     <ClCompile Include="hjBackGround.cpp">
       <Filter>Contents\BackGround</Filter>
@@ -372,6 +375,12 @@
     </ClCompile>
     <ClCompile Include="hjTilePalatte.cpp">
       <Filter>Contents\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="hjPlayScene.cpp">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="hjTown.cpp">
+      <Filter>Contents\Scene\PlayScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

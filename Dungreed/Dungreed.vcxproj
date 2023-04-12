@@ -171,6 +171,7 @@
     <ClInclude Include="hjTime.h" />
     <ClInclude Include="hjTitleScene.h" />
     <ClInclude Include="hjToolScene.h" />
+    <ClInclude Include="hjTown.h" />
     <ClInclude Include="hjTransform.h" />
     <ClInclude Include="hjWeapon.h" />
     <ClInclude Include="hjWmanager.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="hjTime.cpp" />
     <ClCompile Include="hjTitleScene.cpp" />
     <ClCompile Include="hjToolScene.cpp" />
+    <ClCompile Include="hjTown.cpp" />
     <ClCompile Include="hjTransform.cpp" />
     <ClCompile Include="hjWeapon.cpp" />
     <ClCompile Include="hjWmanager.cpp" />

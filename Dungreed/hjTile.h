@@ -1,9 +1,10 @@
 #pragma once
 #include "hjGameObject.h"
-#include "hjImage.h"
+
 
 namespace hj
 {
+	class Img;
 	class Tile : public GameObject
 	{
 	public:

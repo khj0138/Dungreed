@@ -36,7 +36,7 @@ namespace hj
 		if (Input::GetKey(eKeyCode::V))
 			mLookPosition.y += 500.0f * Time::DeltaTime();
 
-		
+
 
 		if (mTarget != nullptr)
 		{
@@ -44,14 +44,14 @@ namespace hj
 				= mTarget->GetComponent<Transform>()->GetPos();
 		}
 
-		if (mLookPosition.x <= (mResolution.x / 2.0f))
+		/*if (mLookPosition.x <= (mResolution.x / 2.0f))
 			mLookPosition.x = (mResolution.x / 2.0f);
 		if (mLookPosition.x >= mLookRange.x - mResolution.x / 2.0f)
 			mLookPosition.x = mLookRange.x - mResolution.x / 2.0f;
-		if (mLookPosition.y >= mLookRange.y + mResolution.y / 2.0f)
+		if (mLookPosition.y <= mLookRange.y + mResolution.y / 2.0f)
 			mLookPosition.y = mLookRange.y + mResolution.y / 2.0f;
-		if (mLookPosition.y <= (mResolution.y / 2.0f))
-			mLookPosition.y = (mResolution.y / 2.0f);
+		if (mLookPosition.y >= (mResolution.y / 2.0f))
+			mLookPosition.y = (mResolution.y / 2.0f);*/
 
 		mDistance = mLookPosition - (mResolution / 2.0f);
 	}

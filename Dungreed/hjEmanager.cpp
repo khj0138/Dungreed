@@ -74,7 +74,7 @@ namespace hj
 			Effect* newEffect = nullptr;
 			Vector2 pos = GetOwner()->GetComponent<Transform>()->GetPos();
 			newEffect = new Effect(GetOwner()->GetComponent<Transform>()->GetPos());
-			
+
 			if (eInfo->bRotate)
 			{
 				newEffect->Create(eInfo->mImage, eInfo->mName, eInfo->mFrame, 0, eInfo->mOffset, eInfo->mPlayRate, false);
@@ -136,7 +136,7 @@ namespace hj
 			mEffects.insert(std::make_pair(name, newEffect));
 			bEffects.insert(std::make_pair(newEffect, true));
 		}
-		
+
 	}
 
 	Emanager::effectInfo* Emanager::FindEffect(const std::wstring& name)

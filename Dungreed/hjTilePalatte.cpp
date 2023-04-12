@@ -3,6 +3,7 @@
 #include "hjInput.h"
 #include <commdlg.h>
 #include "hjMouse.h"
+#include "hjMath.h"
 
 namespace hj
 {
@@ -34,24 +35,37 @@ namespace hj
 			return;
 
 
-		Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
-		tile->InitializeTile(mImage, index);
-
 
 		Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
-		tile->GetComponent<Transform>()->SetPos(tilePos);
-		if (index == 0 || index == 1 || index == 3)
-		{
-			tile->AddComponent<Collider>();
-			tile->GetComponent<Collider>()->SetPos(tilePos);
-			tile->GetComponent<Collider>()->SetSize(Vector2{ TILE_SIZE_X, TILE_SIZE_Y });
-			
-			//tile->GetComponent<Collider>()->SetCenter(tile->GetComponent<Collider>()->GetSize() / 2.f);
-		}
 
 		TileID id;
 		id.x = (UINT32)pos.x;
 		id.y = (UINT32)pos.y;
+
+		if (index == 2)
+		{
+			std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+			if (iter != mTiles.end())
+			{
+				mTiles.erase(iter);
+				return;
+			}
+			else
+				return;
+		}
+
+
+		Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
+		tile->InitializeTile(mImage, index);
+		tile->GetComponent<Transform>()->SetPos(tilePos);
+		if (index == 0 || index == 1 || index == 3 || index == 4 || index == 5)
+		{
+			tile->AddComponent<Collider>();
+			tile->GetComponent<Collider>()->SetPos(tilePos);
+			tile->GetComponent<Collider>()->SetSize(Vector2{ TILE_SIZE_X, TILE_SIZE_Y });
+
+			//tile->GetComponent<Collider>()->SetCenter(tile->GetComponent<Collider>()->GetSize() / 2.f);
+		}
 
 		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
 		if (iter != mTiles.end())
@@ -141,9 +155,9 @@ namespace hj
 
 		if (file == nullptr)
 			return;
-		
 
-		
+
+
 
 		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.begin();
 		for (; iter != mTiles.end(); iter++)
@@ -212,7 +226,7 @@ namespace hj
 			if (fread(&id.id, sizeof(TileID), 1, file) == NULL)
 				break;
 
-			CreateTile(index, Vector2(id.x, id.y));
+			CreateTile(index, Vector2{ id.x, id.y });
 		}
 
 		fclose(file);
@@ -225,7 +239,7 @@ namespace hj
 
 		return Vector2(indexX, indexY);
 	}
-	
+
 	void TilePalatte::clear()
 	{
 		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.begin();

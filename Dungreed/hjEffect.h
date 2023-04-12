@@ -20,7 +20,7 @@ namespace hj
 		void Update();
 		void Render(HDC hdc);
 		//void Create(const std::wstring& name, const std::wstring& path, bool loop, bool bDir, UINT frame, Vector2 offset, float playRate = 1.f);
-		void Create(Img* image, std::wstring name, UINT frame, UINT leftTopIdx, Vector2 offset, float playRate, bool cFlip = true );
+		void Create(Img* image, std::wstring name, UINT frame, UINT leftTopIdx, Vector2 offset, float playRate, bool cFlip = true);
 		void Register(const std::wstring& name, const std::wstring& path, UINT frame, Vector2 offset, float playRate = 0.1f);
 		void Idle();
 		void Attack();
@@ -35,7 +35,7 @@ namespace hj
 		//void SetOffset(Vector2 offset) { mOffset = offset; }
 		void Play();
 		void effectCompleteEvent();
-		
+
 
 		//Vector2 GetDir() { return mDir; }
 		Animator* GetAnimator() { return mAnimator; }

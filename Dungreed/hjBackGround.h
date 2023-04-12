@@ -15,7 +15,7 @@ namespace hj
 		BackGround();
 		BackGround(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool Repeat = false);
 		~BackGround();
-		
+
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
@@ -26,7 +26,7 @@ namespace hj
 		void SetImage(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool repeat = false);
 		bool GetRepeat() { return mRepeat; }
 		Vector2 GetSize();
-		
+
 	private:
 		SpriteRenderer* spr;
 		Transform* tr;

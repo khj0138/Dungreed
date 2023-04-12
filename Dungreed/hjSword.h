@@ -1,14 +1,5 @@
 #pragma once
 #include "hjWeapon.h"
-#include "hjImage.h"
-#include "hjRscmanager.h"
-#include "hjWmanager.h"
-#include "hjTransform.h"
-#include "hjComponent.h"
-#include "hjMouse.h"
-#include "hjTime.h"
-#include "hjMath.h"
-#include "hjCamera.h"
 
 //#include <ole2.h>
 //#include <GdiPlus.h>
@@ -18,7 +9,7 @@ namespace hj
 	class Emanager;
 	class Sword : public Weapon
 	{
-		
+
 		enum class SwordState
 		{
 			up,

@@ -3,6 +3,8 @@
 #include "hjWmanager.h"
 #include "hjEmanager.h"
 
+#include "hjMath.h"
+
 namespace hj
 {
 	void Weapon::Initialize()
@@ -40,7 +42,7 @@ namespace hj
 	}
 	void Weapon::colRender(HDC hdc, Wmanager* mng, std::vector<Vector2> posCol, bool bCollision)
 	{
-		
+
 		Collider* collider = mng->GetComponent<Collider>();
 		collider->SetPos(collider->GetPos() - collider->GetCenter());
 		collider->Render(hdc);

@@ -16,6 +16,8 @@ namespace hj
 
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
+		/*PlayScene* playScene = new PlayScene();
+		mScenes[(UINT)eSceneType::Play] = playScene->;*/
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 
 		for (Scene* scene : mScenes)
@@ -65,7 +67,7 @@ namespace hj
 			mActiveScene->OnExit();
 
 		CollisionManager::Clear();
-		
+
 		//´ÙÀ½¾À
 		mActiveScene = mScenes[(UINT)type];
 		mActiveScene->OnEnter();

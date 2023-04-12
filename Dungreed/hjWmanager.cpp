@@ -10,7 +10,7 @@
 
 namespace hj
 {
-	
+
 
 	Wmanager::Wmanager()
 		: GameObject()
@@ -40,8 +40,8 @@ namespace hj
 	void Wmanager::Update()
 	{
 		mPos = GetOwner()->GetComponent<Transform>()->GetPos();
-		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos,1.f)).Normalize();
-		isFlip = Mouse::GetPos().x < Camera::CaluatePos(mPos,1.f).x;
+		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos, 1.f)).Normalize();
+		isFlip = Mouse::GetPos().x < Camera::CaluatePos(mPos, 1.f).x;
 		if (mActiveWeapon != nullptr)
 		{
 			mActiveWeapon->Update();
@@ -55,7 +55,7 @@ namespace hj
 			mActiveWeapon->Render(hdc);
 		}
 	}
-	
+
 	void Wmanager::Release()
 	{
 	}
@@ -90,7 +90,7 @@ namespace hj
 			newWeapon->Create();
 			mWeapons.insert(std::make_pair(name, newWeapon));
 		}
-		
+
 	}
 
 	Weapon* Wmanager::FindWeapon(const std::wstring& name)

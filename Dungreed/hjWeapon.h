@@ -1,6 +1,5 @@
 #pragma once
 //#include "hjEntity.h"
-#include "hjMath.h"
 #include "hjAnimator.h"
 #include "hjCollider.h"
 #include "hjTransform.h"
@@ -17,7 +16,7 @@ namespace hj
 	class Weapon : public GameObject
 	{
 	public:
-		
+
 		enum eWeaponState {
 			IDLE,
 			ATTACK,
@@ -57,7 +56,7 @@ namespace hj
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
-		
+
 		//virtual void Reset();
 
 		//bool isComplete() { return mbComplete; }

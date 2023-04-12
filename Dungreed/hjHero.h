@@ -4,6 +4,9 @@
 #include "hjWmanager.h"
 #include "hjEmanager.h"
 
+#include "hjInput.h"
+//#include "hjMath.h"
+
 
 namespace hj
 {
@@ -32,16 +35,17 @@ namespace hj
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 		void StateChange(eHeroState state, std::wstring anim, bool loop);
+		Vector2 prevPos;
 
 	private:
-		
+
 		void idle();
 		void run();
 		void die();
 		void jump();
 		void dash();
 		void downJump(Collider* other);
-		
+
 		void Flip(std::wstring name);
 		bool checkFlip() { return mFlip; }
 

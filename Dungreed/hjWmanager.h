@@ -6,10 +6,10 @@ namespace hj
 
 
 	class Weapon;
-	
+
 	class Wmanager : public GameObject
 	{
-		
+
 	public:
 		Wmanager();
 		~Wmanager();
@@ -27,7 +27,7 @@ namespace hj
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void CreateWeapon(const std::wstring& name, eWeaponType wType);
 		void EquipWeapon(const std::wstring& name);
-		
+
 		Weapon* FindWeapon(const std::wstring& name);
 		Weapon* GetActiveWeapon() { return mActiveWeapon; }
 		GameObject* GetOwner() { return mOwner; }

@@ -26,13 +26,13 @@ namespace hj {
 
 		BackGround* bg = new BackGround(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f, asRatio);
 		AddGameObject(bg, eLayerType::BackBG);
-		
+
 		BackGround* bg2 = new BackGround(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 3.f, asRatio, true);
 		AddGameObject(bg2, eLayerType::BackBG);
-		
+
 		BackGround* bg3 = new BackGround(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 0.5f, asRatio, true);
 		AddGameObject(bg3, eLayerType::FrontBG);
-		
+
 		BackGround* bg4 = new BackGround(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", 0.0f, asRatio);
 		AddGameObject(bg4, eLayerType::FrontBG);
 
@@ -62,7 +62,7 @@ namespace hj {
 	}
 	void TitleScene::Update()
 	{
-		if(bir == false)
+		if (bir == false)
 			mTime += Time::DeltaTime();
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
@@ -72,16 +72,16 @@ namespace hj {
 		{
 			SceneManager::LoadScene(eSceneType::Tool);
 		}
-		
+
 		Scene::Update();
 		Bird* next = nextBird(mTime);
 		if (next != nullptr)
 		{
 			spawnBird(next);
 		}
-		if (Camera::GetPos().x >= application.GetWidth() * (0.5f + 2.0f/0.5f))
-			Camera::SetPos(Vector2{ Camera::GetPos().x- application.GetWidth() * (2.0f / 0.5f),Camera::GetPos().y});
-			
+		if (Camera::GetPos().x >= application.GetWidth() * (0.5f + 2.0f / 0.5f))
+			Camera::SetPos(Vector2{ Camera::GetPos().x - application.GetWidth() * (2.0f / 0.5f),Camera::GetPos().y });
+
 		else
 			Camera::SetPos(Camera::GetPos() + Vector2{ 1.0f, 0.0f });
 	}
@@ -100,7 +100,7 @@ namespace hj {
 		Camera::SetLookRange(Vector2{ (float)application.GetWidth() * 8, 0.f });
 	}
 
-	
+
 	void TitleScene::OnExit()
 	{
 		Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
@@ -111,7 +111,7 @@ namespace hj {
 		Bird* bird = new Bird(time, pos, L"bird", L"..\\Resource\\Title\\Bird.bmp", GetAsRatio());
 		mBirds.push_back(bird);
 		AddGameObject(bird, eLayerType::BGobject);
-		
+
 	}
 	Bird* TitleScene::nextBird(double time)
 	{
@@ -137,6 +137,7 @@ namespace hj {
 		}
 		return nullptr;
 	}
+
 	void TitleScene::spawnBird(Bird* bird)
 	{
 		Vector2 spawnPos = bird->getPos();
