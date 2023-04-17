@@ -2,6 +2,7 @@
 #include "hjComponent.h"
 
 
+
 namespace hj
 {
 	class Collider : public Component
@@ -37,6 +38,7 @@ namespace hj
 		Vector2 GetCenter() { return mCenter; }
 		void SetScale(Vector2 scale) { mScale = scale; };
 		void SetPos(Vector2 pos) { mPos = pos; }
+		bool CollisionCheck() { return collisionCheck; }
 
 		UINT GetID() { return mID; }
 
@@ -48,6 +50,7 @@ namespace hj
 		Vector2 mSize;
 		Vector2 mScale;
 		Vector2 mPos;
+		bool collisionCheck;
 	};
 }
 

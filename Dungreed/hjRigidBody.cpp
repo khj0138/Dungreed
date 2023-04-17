@@ -39,7 +39,8 @@ namespace hj
 
 		// 속도에 가속도를 더해준다.
 		//mVelocity += mAccelation * Time::DeltaTime();
-
+		if (mVelocity.y < 0.00f)
+			int b = 0;
 		if (mbGround)
 		{
 			// 땅위에 있을때
@@ -108,6 +109,7 @@ namespace hj
 				pos = pos + mVelocity * 0.015f;*/
 			else
 				pos = pos + mVelocity * Time::DeltaTime();
+			
 		}
 			//pos = pos + mVelocity * (Time::DeltaTime() > 1.0f ? 1.0f : Time::DeltaTime());
 		tr->SetPos(pos);

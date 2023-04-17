@@ -29,6 +29,7 @@ namespace hj
 
 	void Collider::Update()
 	{
+		collisionCheck = false;
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		mPos = tr->GetPos() + mCenter;
 	}
@@ -45,7 +46,7 @@ namespace hj
 		HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
-		Vector2 pos = Camera::CaluatePos(mPos, 1.0f);
+		Vector2 pos = Camera::CaluatePos(mPos, Vector2::One);
 		Rectangle(hdc, pos.x, pos.y, pos.x + mSize.x, pos.y + mSize.y);
 
 		(HPEN)SelectObject(hdc, oldPen);
@@ -62,11 +63,13 @@ namespace hj
 	void Collider::OnCollisionEnter(Collider* other)
 	{
 		//lother- this
+		collisionCheck = true;
 		GetOwner()->OnCollisionEnter(other);
 	}
 
 	void Collider::OnCollisionStay(Collider* other)
 	{
+		collisionCheck = true;
 		mCollisionCount = 1;
 		GetOwner()->OnCollisionStay(other);
 	}

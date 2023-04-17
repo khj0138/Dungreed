@@ -41,8 +41,8 @@ namespace hj
 	void Emanager::Update()
 	{
 		mPos = GetOwner()->GetComponent<Transform>()->GetPos();
-		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos, 1.f)).Normalize();
-		isFlip = Mouse::GetPos().x < Camera::CaluatePos(mPos, 1.f).x;
+		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos, Vector2::One)).Normalize();
+		isFlip = Mouse::GetPos().x < Camera::CaluatePos(mPos, Vector2::One).x;
 		if (mActiveEffect != nullptr)
 		{
 			mActiveEffect->Update();
@@ -123,7 +123,7 @@ namespace hj
 		effectInfo* newEffect = new effectInfo;
 		newEffect->mImage = RscManager::Load<Img>(name, path);
 		newEffect->mImage->MatchRatio(mAsRatio);
-		newEffect->mImage->SetMoveRate(1.0f);
+		newEffect->mImage->SetMoveRate(Vector2::One);
 		newEffect->mName = name;
 		newEffect->mFrame = frame;
 		newEffect->mOffset = offset;

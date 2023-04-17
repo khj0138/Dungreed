@@ -40,7 +40,7 @@ namespace hj {
 		, mWidth(0)
 		, mHeight(0)
 		, mRepeat(false)
-		, mMoveRate(0.0f)
+		, mMoveRate(Vector2::Zero)
 	{
 	}
 
@@ -67,13 +67,42 @@ namespace hj {
 
 		HDC mainDC = application.GetHdc();
 		mHdc = CreateCompatibleDC(mainDC);
-		HBITMAP oldBitmap = (HBITMAP)SelectObject(mHdc, mBitmap);
+		
+		DeleteObject((HBITMAP)SelectObject(mHdc, mBitmap));
+		
 
-		if (oldBitmap == mBitmap)
-		{
-			int a = 0;
-		}
-		DeleteObject(oldBitmap);
+		//HDC memDC = CreateCompatibleDC(mHdc);
+		//HBITMAP memBitmap = CreateCompatibleBitmap(mHdc, mWidth, mHeight);
+
+		//DeleteObject((HBITMAP)SelectObject(memDC, memBitmap));
+
+		//BLENDFUNCTION func = {};
+		//func.BlendOp = AC_SRC_OVER;
+		//func.BlendFlags = 0;
+		//func.AlphaFormat = AC_SRC_ALPHA;
+		//func.SourceConstantAlpha = 0; // 0(투명) ~ 255(불투명) 알파값
+		///*COLORREF a = RGB(0, 0,0);
+		//SetBkColor(memDC, a);*/
+		///*AlphaBlend(memDC, 0, 0
+		//	, mWidth, mHeight
+		//	, mHdc
+		//	, 0, 0
+		//	, mWidth, mHeight
+		//    , func);*/
+		//TransparentBlt(memDC
+		//	, 0, 0
+		//	, mWidth, mHeight
+		//	, mHdc
+		//	, 0, 0
+		//	, mWidth, mHeight,
+		//	RGB(255, 0, 254));
+		//
+
+		//DeleteDC(mHdc);
+		//mHdc = memDC;
+		//mBitmap = memBitmap;
+		////DeleteObject((HBITMAP)SelectObject(mHdc, memBitmap));
+
 		return S_OK;
 	}
 
@@ -105,6 +134,8 @@ namespace hj {
 
 		DeleteObject((HBITMAP)SelectObject(memDC, memBitmap));
 		
+		/*COLORREF a = RGB(0,0,0);
+		SetBkColor(memDC, a);*/
 		StretchBlt(memDC, 0, 0, width, height, mHdc, 0, 0, oldBitInfo.bmWidth, oldBitInfo.bmHeight, SRCCOPY);
 
 		DeleteDC(mHdc);

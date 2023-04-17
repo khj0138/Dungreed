@@ -103,7 +103,7 @@ namespace hj
 
 	void Application::clear()
 	{
-		HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
+		HBRUSH grayBrush = CreateSolidBrush(RGB(255,255,255));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(mBackHDC, grayBrush);
 		Rectangle(mBackHDC, -1, -1, 1602, 902);
 		SelectObject(mBackHDC, oldBrush);

@@ -26,6 +26,59 @@ namespace hj
 	{
 	}
 
+	void TilePalatte::LoadTile(int index, Vector2 pos)
+	{
+		Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
+
+		TileID id;
+		id.x = (UINT32)pos.x;
+		id.y = (UINT32)pos.y;
+
+		if (index == 2)
+		{
+			std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+			if (iter != mTiles.end())
+			{
+				mTiles.erase(iter);
+				return;
+			}
+			else
+				return;
+		}
+
+		Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
+		tile->InitializeTile(mImage, index);
+		
+		int m = 0;
+		int n = 0;
+		tilePos.x = tilePos.x +  m *  TILE_SIZE_X;
+		tilePos.y = tilePos.y +  n *  TILE_SIZE_Y;
+		tile->GetComponent<Transform>()->SetPos(tilePos);
+		if (index == 0 || index == 1 || index == 3 || index == 4 || index == 5)
+		{
+			tile->AddComponent<Collider>();
+			tile->GetComponent<Collider>()->SetPos(tilePos);
+			tile->GetComponent<Collider>()->SetSize(Vector2{ TILE_SIZE_X, TILE_SIZE_Y });
+
+			//tile->GetComponent<Collider>()->SetCenter(tile->GetComponent<Collider>()->GetSize() / 2.f);
+		}
+
+		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+		if (iter != mTiles.end())
+		{
+			//Tile* temp = iter->second;
+			iter->second = tile;
+			//delete temp;
+		}
+		else
+		{
+
+			id.x = (UINT32)pos.x + (UINT32)(m);
+			id.y = (UINT32)pos.y + (UINT32)(n);
+			mTiles.insert(std::make_pair(id.id, tile));
+		}
+	}
+	
 	void TilePalatte::CreateTile(int index, Vector2 pos)
 	{
 		Vector2 mousePos = Mouse::GetPos();
@@ -54,9 +107,13 @@ namespace hj
 				return;
 		}
 
-
 		Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
 		tile->InitializeTile(mImage, index);
+
+		int m = 0;
+		int n = 0;
+		tilePos.x = tilePos.x + m * TILE_SIZE_X;
+		tilePos.y = tilePos.y + n * TILE_SIZE_Y;
 		tile->GetComponent<Transform>()->SetPos(tilePos);
 		if (index == 0 || index == 1 || index == 3 || index == 4 || index == 5)
 		{
@@ -76,48 +133,19 @@ namespace hj
 		}
 		else
 		{
+
+			id.x = (UINT32)pos.x + (UINT32)(m);
+			id.y = (UINT32)pos.y + (UINT32)(n);
 			mTiles.insert(std::make_pair(id.id, tile));
 		}
 	}
-	//void TilePalatte::CreateTile(int index, Vector2 pos)
-	//{
-	//	Vector2 mousePos = Mouse::GetPos();
-	//	if (mousePos.x >= 1600.0f || mousePos.x <= 0.0f)
-	//		return;
-	//	if (mousePos.y >= 900.0f || mousePos.y <= 0.0f)
-	//		return;
 
-
-	//	Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
-	//	tile->InitializeTile(mImage, index);
-
-
-	//	Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
-	//	tile->GetComponent<Transform>()->SetPos(tilePos);
-	//	
-
-	//	TileID id;
-	//	id.x = (UINT32)pos.x;
-	//	id.y = (UINT32)pos.y;
-
-	//	std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
-	//	if (iter != mTiles.end())
-	//	{
-	//		//Tile* temp = iter->second;
-	//		iter->second = tile;
-	//		//delete temp;
-	//	}
-	//	else
-	//	{
-	//		mTiles.insert(std::make_pair(id.id, tile));
-	//	}
-	//}
 	void TilePalatte::CreateTiles(int index, UINT width, UINT height)
 	{
 
 	}
 
-	void TilePalatte::Save(wchar_t path[256])
+	void TilePalatte::Save(wchar_t path[256], UINT command)
 	{
 		// open a file name
 		OPENFILENAME ofn = {};
@@ -156,28 +184,48 @@ namespace hj
 		if (file == nullptr)
 			return;
 
-
-
-
-		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.begin();
-		for (; iter != mTiles.end(); iter++)
+		if (command == 0)
 		{
-			int index = iter->second->Index();
-			fwrite(&index, sizeof(int), 1, file);
+			std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.begin();
+			for (; iter != mTiles.end(); iter++)
+			{
+				int index = iter->second->Index();
+				fwrite(&index, sizeof(int), 1, file);
 
-			TileID id;
-			id.id = iter->first;
-			fwrite(&id.id, sizeof(TileID), 1, file);
+				TileID id;
+				id.id = iter->first;
+				fwrite(&id.id, sizeof(TileID), 1, file);
+			}
 		}
+		else if (command == 1)
+		{
+			std::unordered_map<UINT64, Tile*>::iterator iter = mTiles2.begin();
+			for (; iter != mTiles2.end(); iter++)
+			{
+				int index = iter->second->Index();
+				fwrite(&index, sizeof(int), 1, file);
 
+				TileID id;
+				id.id = iter->first;
+				fwrite(&id.id, sizeof(TileID), 1, file);
+			}
+		}
 		fclose(file);
 	}
 
-	void TilePalatte::Load(wchar_t path[256])
+	void TilePalatte::Load(wchar_t path[256], UINT command, HDC hdc)
 	{
+		if (command == 0)
+		{
+			for (GameObject* obj : SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Tile))
+			{
+				obj = nullptr;
+			}
+			SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Tile).resize(0);
+			SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Tile).shrink_to_fit();
 
-		SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Tile).clear();
-		TilePalatte::clear();
+		}
+		TilePalatte::clear(command);
 		OPENFILENAME ofn = {};
 
 		wchar_t szFilePath[256];
@@ -225,11 +273,43 @@ namespace hj
 
 			if (fread(&id.id, sizeof(TileID), 1, file) == NULL)
 				break;
-
-			CreateTile(index, Vector2{ id.x, id.y });
+			if (command == 0)
+				LoadTile(index, Vector2{ id.x, id.y });
+			/*else if (command == 1)
+				RenderTile(index, Vector2{ id.x, id.y }, hdc);*/
+			else if ((command == 1) && (hdc != NULL))
+			{
+				RenderTile(index, Vector2{ id.x, id.y }, hdc);
+			}
 		}
 
 		fclose(file);
+	}
+
+	void TilePalatte::RenderTile(UINT index, Vector2 pos,  HDC hdc)
+	{
+		Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
+
+		int maxCol = mImage->GetWidth() / TILE_SIZE_X;
+		
+		int mY = index / maxCol;
+		int mX = index % maxCol;
+
+		if (mImage == nullptr)
+			return;
+
+		
+		//Vector2 renderPos = Camera::CaluatePos(tilePos);
+		Vector2 renderPos = tilePos;
+
+		TransparentBlt(hdc
+			, renderPos.x, renderPos.y
+			, TILE_SIZE_X, TILE_SIZE_Y
+			, mImage->GetHdc()
+			, mX * TILE_SIZE_X, mY * TILE_SIZE_Y
+			, TILE_SIZE_X, TILE_SIZE_Y
+			, RGB(255, 0, 255)
+		);
 	}
 
 	Vector2 TilePalatte::GetTilePos(Vector2 mousePos)
@@ -240,15 +320,32 @@ namespace hj
 		return Vector2(indexX, indexY);
 	}
 
-	void TilePalatte::clear()
+	void TilePalatte::clear(UINT command)
 	{
-		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.begin();
-		for (; iter != mTiles.end(); iter++)
+		if (command == 0)
 		{
-			delete iter->second;
-			iter->second = nullptr;
+			std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.begin();
+			for (; iter != mTiles.end(); iter++)
+			{
+				if (iter->second == nullptr)
+					continue;
+				delete iter->second;
+				iter->second = nullptr;
+			}
+			mTiles.clear();
 		}
-		mTiles.clear();
+		else if (command == 1)
+		{
+			std::unordered_map<UINT64, Tile*>::iterator iter = mTiles2.begin();
+			for (; iter != mTiles2.end(); iter++)
+			{
+				if (iter->second == nullptr)
+					continue;
+				delete iter->second;
+				iter->second = nullptr;
+			}
+			mTiles2.clear();
+		}
 	}
 
 }

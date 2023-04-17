@@ -1,12 +1,12 @@
 #pragma once
-#include "hjScene.h"
+#include "hjPlayScene.h"
 #include "hjHero.h"
 #include "hjBackGround.h"
 #include "hjGameObject.h"
 
 namespace hj
 {
-	class Town : public Scene
+	class Town : public PlayScene
 	{
 	public:
 		Town();
@@ -20,14 +20,14 @@ namespace hj
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
-		void SetHero(Hero* hero) { mHero = hero; }
+		//void SetHero(Hero* hero) { mHero = hero; }
 		/*virtual void AddGameObject(GameObject* obj, eLayerType layer) override
 		{
 			Scene::GetLayer(layer).AddGameObject(obj);
 		}*/
 	private:
-		Hero* mHero;
-		BackGround* bg;
+		//Hero* mHero;
+		//BackGround* bg;
 	};
 
 }

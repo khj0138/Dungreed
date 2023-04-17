@@ -19,9 +19,9 @@ namespace hj
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
 		bool GetRepeat() { return mRepeat; }
-		float GetMoveRate() { return mMoveRate; }
+		Vector2 GetMoveRate() { return mMoveRate; }
 
-		void SetMoveRate(float rate) { mMoveRate = rate; }
+		void SetMoveRate(Vector2 rate) { mMoveRate = rate; }
 		void SetRepeat(bool repeat) { mRepeat = repeat; }
 		void SetSize(Vector2 size) { mWidth = size.x; mHeight = size.y; }
 		void SetOutputSize(Vector2 size);
@@ -33,7 +33,7 @@ namespace hj
 		UINT mWidth;
 		UINT mHeight;
 		bool mRepeat;
-		float mMoveRate;
+		Vector2 mMoveRate;
 	};
 
 }

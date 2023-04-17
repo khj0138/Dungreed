@@ -15,11 +15,13 @@
 #include "hjScene.h"
 #include "hjLayer.h"
 #include "hjTown.h"
+#include "hjWeapon.h"
 
 extern hj::Application application;
 namespace hj
 {
 	Hero::Hero()
+		: stat({100, 100})
 	{
 	}
 
@@ -44,9 +46,10 @@ namespace hj
 			cJump = 1;
 
 		Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
+		//Vector2 asRatio = Vector2::One * 1.28f;
 		Img* mImage = RscManager::Load<Img>(L"Hero", L"..\\Resource\\Char\\baseChar.bmp");
 		mImage->MatchRatio(asRatio);
-		mImage->SetMoveRate(1.0f);
+		mImage->SetMoveRate(Vector2::One);
 		Vector2 size = Vector2::Zero;
 		size.x = mImage->GetWidth() / 8.0f;
 		size.y = mImage->GetHeight() / 8.0f;
@@ -68,7 +71,7 @@ namespace hj
 		mAnimator->CreateAnimation(L"Jump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"FlippedJump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 
-		mFlip = false;
+		SetFlip(false);
 		StateChange(eHeroState::Idle, L"Idle", true);
 
 		Collider* collider = AddComponent<Collider>();
@@ -81,7 +84,7 @@ namespace hj
 
 		mWeapons = new Wmanager();
 		mWeapons->SetOwner(this);
-		SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
+		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
 		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
 		mWeapons->EquipWeapon(L"Sword");
 
@@ -164,9 +167,9 @@ namespace hj
 		Vector2 size = tr->GetSize();
 
 		if (Mouse::GetPos().x < (tr->GetPos().x - (Camera::GetPos().x - application.GetWidth() / 2.0f)))
-			mFlip = true;
+			SetFlip(true);
 		else
-			mFlip = false;
+			SetFlip(false);
 		//mWeapons->Update();
 		mEffects->Update();
 		GameObject::Update();
@@ -174,6 +177,7 @@ namespace hj
 
 	void Hero::Render(HDC hdc)
 	{
+		
 		mWeapons->Render(hdc);
 		GameObject::Render(hdc);
 		//mWeapons->Render(hdc);
@@ -208,7 +212,7 @@ namespace hj
 			break;
 		}
 		}
-		if (mFlip)
+		if (GetFlip())
 		{
 			std::wstring flipAnim = L"Flipped";
 			flipAnim.append(anim);
@@ -223,9 +227,21 @@ namespace hj
 
 	void Hero::OnCollisionEnter(Collider* other)
 	{
-		if (Input::GetKeyDown(eKeyCode::S))
+		Tile* tile = dynamic_cast<Tile*>(other->GetOwner());
+		if (tile != NULL)
 		{
-			downJump(other);
+			if (Input::GetKeyDown(eKeyCode::S))
+			{
+				downJump(other);
+			}
+			return;
+		}
+
+		Weapon* weapon = dynamic_cast<Weapon*>(other->GetOwner());
+		if (weapon != NULL)
+		{
+			if (weapon->GetBCollision())
+				int a = 0;
 		}
 	}
 
@@ -363,6 +379,7 @@ namespace hj
 		{
 			if (cJump == 1)
 				int a = 0;
+			// jump after dash
 			if (Input::GetKeyDown(eKeyCode::W) && (cJump > 0))
 			{
 				//if (--cJump)
@@ -374,6 +391,7 @@ namespace hj
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 			}
+			//long jump
 			else if (Input::GetKey(eKeyCode::W) && isJump)
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
@@ -423,7 +441,7 @@ namespace hj
 	{
 		bDash = false;
 		Transform* tr = GetComponent<Transform>();
-		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), 1.f));
+		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), Vector2::One));
 		float n = 256.f;
 		if (dir.Length() > n)
 		{
@@ -469,7 +487,7 @@ namespace hj
 
 	void Hero::Flip(std::wstring Anim)
 	{
-		if (mFlip)
+		if (GetFlip())
 		{
 			std::wstring flipAnim = L"Flipped";
 			flipAnim.append(Anim);

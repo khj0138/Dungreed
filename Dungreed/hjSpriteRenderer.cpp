@@ -71,7 +71,7 @@ namespace hj
 
 		memcpy(copied_hBits, h_bmp_data, h_bmp_size);
 
-		Gdiplus::Bitmap* GdiP_bmp = Gdiplus::Bitmap::FromHBITMAP(copied_hBmp, NULL);
+ 		Gdiplus::Bitmap* GdiP_bmp = Gdiplus::Bitmap::FromHBITMAP(copied_hBmp, NULL);
 
 
 		DeleteDC(mem_dc);
@@ -105,7 +105,7 @@ namespace hj
 			//pBmp->GetHBITMAP(Gdiplus::Color::Transparent, &hBitmap);
 			HDC memDC = G.GetHDC();
 			HBITMAP oldMap = (HBITMAP)SelectObject(memDC, hBitmap);
-			Vector2 realSpawn = Camera::CaluatePos(pos, 1.f);
+			Vector2 realSpawn = Camera::CaluatePos(pos, Vector2::One);
 			TransparentBlt(hdc, (int)realSpawn.x, (int)realSpawn.y
 				, size.x, size.y
 				, memDC, 0, 0

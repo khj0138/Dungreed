@@ -24,16 +24,16 @@ namespace hj {
 		SetAsRatio(Vector2{ 1.0f, 1.0f } *(windowSizeY / 180.0f));
 		Vector2 asRatio = GetAsRatio();
 
-		BackGround* bg = new BackGround(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", 0.0f, asRatio);
+		BackGround* bg = new BackGround(L"TitleSky", L"..\\Resource\\Title\\TitleSky.bmp", Vector2::One, asRatio);
 		AddGameObject(bg, eLayerType::BackBG);
 
-		BackGround* bg2 = new BackGround(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", 3.f, asRatio, true);
+		BackGround* bg2 = new BackGround(L"BackCloud", L"..\\Resource\\Title\\BackCloud.bmp", Vector2::One * 3.0f, asRatio, true);
 		AddGameObject(bg2, eLayerType::BackBG);
 
-		BackGround* bg3 = new BackGround(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", 0.5f, asRatio, true);
+		BackGround* bg3 = new BackGround(L"FrontCloud", L"..\\Resource\\Title\\FrontCloud.bmp", Vector2::One * 0.5f, asRatio, true);
 		AddGameObject(bg3, eLayerType::FrontBG);
 
-		BackGround* bg4 = new BackGround(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", 0.0f, asRatio);
+		BackGround* bg4 = new BackGround(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", Vector2::Zero, asRatio);
 		AddGameObject(bg4, eLayerType::FrontBG);
 
 

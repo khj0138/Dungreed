@@ -15,6 +15,11 @@ namespace hj
 	class Hero : public GameObject
 	{
 	public:
+		struct status
+		{
+			UINT maxHP;
+			UINT HP;
+		};
 		enum class eHeroState
 		{
 			Idle,
@@ -35,7 +40,7 @@ namespace hj
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 		void StateChange(eHeroState state, std::wstring anim, bool loop);
-		Vector2 prevPos;
+		//Vector2 prevPos;
 
 	private:
 
@@ -47,13 +52,13 @@ namespace hj
 		void downJump(Collider* other);
 
 		void Flip(std::wstring name);
-		bool checkFlip() { return mFlip; }
+		//bool checkFlip() { return mFlip; }
 
 
 	private:
 		eHeroState mState;
 		Animator* mAnimator;
-		bool mFlip;
+		//bool mFlip;
 		bool isJump;
 		Wmanager* mWeapons;
 		Emanager* mEffects;
@@ -63,6 +68,7 @@ namespace hj
 		bool bDash;
 		int cJump;
 		bool bDjump;
+		status stat;
 	};
 
 }

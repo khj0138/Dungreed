@@ -13,7 +13,7 @@ namespace hj
 	{
 	public:
 		BackGround();
-		BackGround(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool Repeat = false);
+		BackGround(const std::wstring name, const std::wstring path, Vector2 moveRate, Vector2 asRatio, bool Repeat = false, UINT command = 0, Vector2 offset = Vector2::Zero);
 		~BackGround();
 
 		virtual void Initialize() override;
@@ -23,7 +23,7 @@ namespace hj
 
 		void SetPos(Vector2 pos);
 		//void setV(double v) { mV = v; }
-		void SetImage(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool repeat = false);
+		void SetImage(const std::wstring name, const std::wstring path, Vector2 moveRate, Vector2 asRatio, bool repeat = false);
 		bool GetRepeat() { return mRepeat; }
 		Vector2 GetSize();
 
@@ -34,6 +34,7 @@ namespace hj
 		Img* mImage;
 		Vector2 mLeftTop;
 		bool mRepeat;
+		Vector2 mPos;
 	};
 
 }

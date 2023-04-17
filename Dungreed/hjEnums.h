@@ -13,7 +13,7 @@ enum class eSceneType
 enum class ePSceneType
 {
 	Town,
-	Dungeon,
+	DungeonNiflheim,
 	Dungeon1,
 	Dungeon2,
 	Dungeon3,
@@ -27,11 +27,11 @@ enum class eLayerType
 	BackBG,
 	BGobject,
 	FrontBG,
-	Platform,
 	Ground,
-	Monster,
 	Tile,
 	Player,
+	Monster,
+	Weapon,
 	Bullet,
 	Test,
 	Effect,
@@ -53,6 +53,7 @@ enum class eComponentType
 enum class eWeaponType {
 	SWORD,
 	GUN,
+	EMPTY,
 	END,
 };
 

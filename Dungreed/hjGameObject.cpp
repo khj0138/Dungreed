@@ -7,10 +7,12 @@ namespace hj
 {
 
 	GameObject::GameObject()
+		: prevPos(Vector2::Zero)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent<Transform>();
 		AddComponent<SpriteRenderer>();
+		
 	}
 
 	GameObject::~GameObject()

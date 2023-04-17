@@ -1,5 +1,7 @@
 #include "hjTime.h"
 #include "hjApplication.h"
+#include "hjMouse.h"
+#include "hjCamera.h"
 
 extern hj::Application application;
 
@@ -40,10 +42,21 @@ namespace hj
 		{
 			HWND hWnd = application.GetHwnd();
 
-			wchar_t szFloat[50] = {};
+			/*wchar_t szFloat[50] = {};
 			float FPS = 1.0f / (float)mDeltaTime;
-			swprintf_s(szFloat, 50, L"FPS : %d", (UINT)FPS);
-			SetWindowText(hWnd, szFloat);
+			swprintf_s(szFloat, 50, L"FPS : %d", (UINT)FPS);*/
+
+			wchar_t szFloat2[100] = {};
+			float FPS = 1.0f / (float)mDeltaTime;
+			Vector2 pos = Mouse::GetPos(); 
+			Vector2 realPos = Camera::CaluatePos(pos, Vector2::One * -1.0f);
+			swprintf_s(
+				szFloat2, 100,
+				L"FPS : %d  REALPOS : {%d, %d}  POS : {%d, %d}",
+				(UINT)FPS, (UINT)realPos.x, (UINT)realPos.y, (UINT)pos.x, (UINT)pos.y
+			);
+			//SetWindowText(hWnd, szFloat);
+			SetWindowText(hWnd, szFloat2);
 
 			mSecond = 0.0f;
 		}

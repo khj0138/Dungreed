@@ -44,7 +44,7 @@ namespace hj
 		bool isFlip;
 		std::vector<Vector2> posCol;
 		bool bRender;
-		bool bAttack;
+		//bool bAttack;
 		bool bCollision;
 		Emanager* mEffects;
 	};

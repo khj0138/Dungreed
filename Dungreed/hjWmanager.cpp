@@ -7,7 +7,9 @@
 #include "hjComponent.h"
 #include "hjTransform.h"
 #include "hjCollider.h"
-
+#include "hjSceneManager.h"
+#include "hjEmpty.h"
+#include "hjPSceneManager.h"
 namespace hj
 {
 
@@ -20,7 +22,6 @@ namespace hj
 		, mPos(Vector2::Zero)
 		, isFlip(false)
 	{
-		AddComponent<Collider>();
 	}
 
 	Wmanager::~Wmanager()
@@ -39,13 +40,13 @@ namespace hj
 
 	void Wmanager::Update()
 	{
-		mPos = GetOwner()->GetComponent<Transform>()->GetPos();
+		/*mPos = GetOwner()->GetComponent<Transform>()->GetPos();
 		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos, 1.f)).Normalize();
 		isFlip = Mouse::GetPos().x < Camera::CaluatePos(mPos, 1.f).x;
 		if (mActiveWeapon != nullptr)
 		{
 			mActiveWeapon->Update();
-		}
+		}*/
 	}
 
 	void Wmanager::Render(HDC hdc)
@@ -83,13 +84,20 @@ namespace hj
 		case eWeaponType::SWORD:
 			newWeapon = new Sword();
 			break;
+		case eWeaponType::EMPTY:
+			newWeapon = new Empty();
+			break;
 		}
 		if (newWeapon != nullptr)
 		{
-			newWeapon->SetWmanager(this);
+			//newWeapon->SetWmanager(this);
+			newWeapon->SetOwner(mOwner);
 			newWeapon->Create();
 			mWeapons.insert(std::make_pair(name, newWeapon));
+			//newWeapon->Initialize();
 		}
+		else
+			return;
 
 	}
 
@@ -105,7 +113,14 @@ namespace hj
 
 	void Wmanager::EquipWeapon(const std::wstring& name)
 	{
+		if (mActiveWeapon != nullptr)
+			int a = 0;
+
 		mActiveWeapon = FindWeapon(name);
+		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon);
+		if (mActiveWeapon == nullptr)
+			return;
 	}
 
 	//	return wfuncs->Wrender.mWfunc;

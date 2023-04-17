@@ -4,18 +4,23 @@
 #include "hjCamera.h"
 #include "hjCollisionManager.h"
 #include "hjToolScene.h"
+#include "hjTilePalatte.h"
+#include "hjPSceneManager.h"
 
 namespace hj
 {
 	std::vector<Scene*> SceneManager::mScenes = {};
 	Scene* SceneManager::mActiveScene = nullptr;
+	PSceneManager* SceneManager::PManager = nullptr;
 
 	void SceneManager::Initialize()
 	{
 		mScenes.resize((UINT)eSceneType::End);
 
+		TilePalatte::Initiailize();
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
-		mScenes[(UINT)eSceneType::Play] = new PlayScene();
+
+
 		/*PlayScene* playScene = new PlayScene();
 		mScenes[(UINT)eSceneType::Play] = playScene->;*/
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
@@ -27,6 +32,11 @@ namespace hj
 
 			scene->Initialize();
 		}
+		mScenes[(UINT)eSceneType::Play] = nullptr;
+		PManager = new PSceneManager();
+		PManager->Initialize();
+		
+		
 		mActiveScene = mScenes[(UINT)eSceneType::Title];
 		//mActiveScene = mScenes[(UINT)eSceneType::Tool];
 		//LoadScene(eSceneType::Title);

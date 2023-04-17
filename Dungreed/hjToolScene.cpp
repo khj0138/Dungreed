@@ -24,16 +24,15 @@ namespace hj
 	void ToolScene::Initialize()
 	{
 		Scene::Initialize();
-		TilePalatte::Initiailize();
 	}
 
 	void ToolScene::Update()
 	{
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		/*if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Play);
 			return;
-		}
+		}*/
 		Scene::Update();
 		//Vector2 temp = Mouse::GetPos();
 		if (Mouse::GetLstate() == (eKeyState::Down))
@@ -56,10 +55,12 @@ namespace hj
 			//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
 			TilePalatte::Load();
 		}
+		
 	}
 
 	void ToolScene::Render(HDC hdc)
 	{
+		
 		HPEN colorPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
 		HPEN oldPen = (HPEN)SelectObject(hdc, colorPen);
 
@@ -83,6 +84,23 @@ namespace hj
 		(HPEN)SelectObject(hdc, oldPen);
 		DeleteObject(colorPen);
 		Scene::Render(hdc);
+
+		if (Input::GetKeyDown(eKeyCode::R))
+		{
+			Img* a = Img::Create(L"test", 8000, 1800);
+			wchar_t p[256] = L"../Resource/Ice.Tile\0";
+			TilePalatte::Load(p, 1, a->GetHdc());
+			HBITMAP b = (HBITMAP)GetCurrentObject(a->GetHdc(), OBJ_BITMAP);
+			TilePalatte::HDCToFile(b);
+			delete a;
+			wchar_t c[256] = L"../Resource/Ice.Tile\0";
+			TilePalatte::Load(c);
+		}
+		/*if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Play);
+			return;
+		}*/
 	}
 
 	void ToolScene::Release()
@@ -96,7 +114,11 @@ namespace hj
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
 		wchar_t a[256] = L"../Resource/Tile2.Tile\0";
-		TilePalatte::Load(a);
+		wchar_t b[256] = L"../Resource/TownTile.Tile\0";
+		wchar_t c[256] = L"../Resource/TownCollider.Tile\0";
+		//TilePalatte::Load(a);
+		//TilePalatte::Load(b);
+		TilePalatte::Load(c);
 		Camera::SetLookRange(Vector2{ (float)application.GetWidth() * 8, (float)application.GetHeight() * 8 });
 	}
 
@@ -105,9 +127,13 @@ namespace hj
 
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile.Tile\0";
 		wchar_t a[256] = L"../Resource/Tile2.Tile\0";
+		wchar_t b[256] = L"../Resource/TownTile.Tile\0";
+		wchar_t c[256] = L"../Resource/TownCollider.Tile\0";
 
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
-		TilePalatte::Save(a);
+		//TilePalatte::Save(a);
+		//TilePalatte::Save(b);
+		TilePalatte::Save(c);
 		TilePalatte::clear();
 		//Camera::SetLookRange(Vector2{ 0.f, 0.f });
 	}
@@ -125,9 +151,11 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		//HMENU mMenubar = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_CLIENT));
 		//SetMenu(hWnd, mMenubar);
 		hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\Tile.bmp");
+		//hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\TileTown.bmp");
+		//hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\TileIce.bmp");
 		RECT rect = { 0, 0, tile->GetWidth(), tile->GetHeight() };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
-
+		
 		// 윈도우 크기 변경및 출력 설정
 		SetWindowPos(hWnd
 			, nullptr, 1600, 0
@@ -149,7 +177,7 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 			int x = mousePos.x / TILE_SIZE_X;
 			int y = mousePos.y / TILE_SIZE_Y;
 
-			int index = (y * 8) + (x % 8);
+			int index = (y * 9) + (x % 9);
 
 			hj::TilePalatte::SetIndex(index);
 		}

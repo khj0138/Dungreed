@@ -25,8 +25,8 @@
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "dsound.lib")
 
-#define TILE_SIZE_X 64
-#define TILE_SIZE_Y 64
+#define TILE_SIZE_X 80
+#define TILE_SIZE_Y 80
 
 #include <ole2.h>
 #include <GdiPlus.h>

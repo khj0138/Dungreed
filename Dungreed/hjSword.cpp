@@ -14,6 +14,7 @@
 #include "hjTime.h"
 #include "hjCamera.h"
 
+#include "hjMonster.h"
 
 extern hj::Application application;
 //extern GraphicsPath Path;
@@ -28,7 +29,7 @@ namespace hj
 		, isFlip(false)
 		, mSpawnDegree(90)
 		, bRender(false)
-		, bAttack(false)
+		//, bAttack(false)
 		, bCollision(false)
 	{
 	}
@@ -40,13 +41,17 @@ namespace hj
 	}
 	void Sword::Update()
 	{
-		Transform* tr = GetManager()->GetOwner()->GetComponent<Transform>();
+		Weapon::Update();
+		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector2 heroSize = tr->GetSize();
+
 		mWstate = Weapon::GetState();
+
 		float length = mImage->GetHeight();
-		Vector2 pos = GetManager()->GetPos();
-		Vector2 dir = GetManager()->GetDir();
-		isFlip = GetManager()->GetFlip();
+		Vector2 pos = GetPos();
+		Vector2 dir = GetDir();
+		isFlip = GetFlip();
+		
 		float flipNum = 1.0f - 2.0f * (float)(isFlip);
 		Vector2 imgVect = Vector2{ (float)mImage->GetWidth(), (float)mImage->GetHeight() };
 
@@ -78,12 +83,16 @@ namespace hj
 			//+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / 8.f * 3.f).Length();
 		}
 
-		Collider* collider = GetManager()->GetComponent<Collider>();
-		collider->SetPos(pos
+		GetComponent<Transform>()->SetPos(pos
 			+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y }
 			+ (dir * ((float)mImage->GetHeight() - fabs(posCol[0].x) * 0.8f))
 		);
-		GetComponent<Transform>()->SetPos(collider->GetPos());
+		Collider* collider = GetComponent<Collider>();
+		collider->SetPos(
+			GetComponent<Transform>()->GetPos()
+			- collider->GetSize() / 2.f
+		);
+		//collider->Update();
 		mEffects->Update();
 
 
@@ -125,10 +134,11 @@ namespace hj
 			return;
 		}
 
-		Weapon::colRender(hdc, GetManager(), posCol, bCollision);
+		Weapon::colRender(hdc, posCol, bCollision);
 		Weapon::GetComponent<SpriteRenderer>()->rotateRender(hdc, mImage->GetHdc(), Vector2{ (float)mImage->GetWidth(),(float)mImage->GetHeight() }, mSpawnDegree, mSpawn);
 
 		bRender = true;
+		//GameObject::Render(hdc);
 	}
 
 	void Sword::Create()
@@ -148,10 +158,11 @@ namespace hj
 		mImage->MatchRatio(Weapon::GetAsRatio());
 
 		// collider 설정
-		Collider* collider = GetManager()->GetComponent<Collider>();
+		Collider* collider = AddComponent<Collider>();
+		
 		float n = 3.2f;
 		collider->SetSize(Vector2::One * Vector2{ (float)(mImage->GetWidth()) / n, (float)(mImage->GetHeight()) / 1.f }.Length() * 2.f);
-		collider->SetCenter(Vector2{ collider->GetSize().x / 2.f, collider->GetSize().y / 2.f });
+		collider->SetCenter(Vector2{ collider->GetSize().x / 2.f, collider->GetSize().y /  2.f});
 		Vector2 size = collider->GetSize() / 2.f;
 		Vector2 rect[4] =
 		{
@@ -165,24 +176,43 @@ namespace hj
 			posCol.push_back(rect[i]);
 		}
 
+		Weapon::SetReloadTime(0.3f);
 		Weapon::AddComponent<SpriteRenderer>();
 
 	}
 
 	void Sword::OnCollisionEnter(Collider* other)
 	{
-		if (bAttack == true)
+		if (GetBAttack() == true)
 		{
-			if (AttackCheck(other))
+			Monster* mon = dynamic_cast<Monster*>(other->GetOwner());
+			if (mon != NULL)
 			{
-				// other에게 알려줘야함
-				bCollision = true;
+
+				if (AttackCheck(other))
+				{
+					// other에게 알려줘야함
+					bCollision = true;
+				}
 			}
 		}
 	}
 
 	void Sword::OnCollisionStay(Collider* other)
 	{
+		if (GetBAttack() == true)
+		{
+			Monster* mon = dynamic_cast<Monster*>(other->GetOwner());
+			if (mon != NULL)
+			{
+
+				if (AttackCheck(other))
+				{
+					// other에게 알려줘야함
+					bCollision = true;
+				}
+			}
+		}
 	}
 
 	void Sword::OnCollisionExit(Collider* other)
@@ -200,11 +230,12 @@ namespace hj
 		};
 
 		// sword collider 네 점 계산
-		Collider* collider = GetManager()->GetComponent<Collider>();
+		Collider* collider = GetComponent<Collider>();
+		Vector2 colPos = collider->GetPos() + collider->GetSize()/ 2.f;
 		Vector2 rect[4] = {};
 		for (int i = 0; i < 4; i++)
 		{
-			rect[i] = collider->GetPos() + math::Rotate(posCol[i], atan2(GetManager()->GetDir().y, GetManager()->GetDir().x) / PI * 180);
+			rect[i] = colPos + math::Rotate(posCol[i], atan2(GetDir().y, GetDir().x) / PI * 180);
 		}
 
 		// sword collider 네 점이 충돌했는지 확인
@@ -254,25 +285,30 @@ namespace hj
 
 	void Sword::Idle()
 	{
+		Weapon::Idle();
 		if (Mouse::GetLstate() == eKeyState::Down)
-			Weapon::SetState((UINT)eWeaponState::ATTACK);
+		{
+			SetBAttack(true);
+			SetState((UINT)eWeaponState::ATTACK);
+		}
 	}
 
 	void Sword::Attack()
 	{
 		// 이펙트 생성 코드 필요
-		mEffects->CreateEffect(L"SwingEffect", GetManager()->GetDir());
-		bAttack = true;
+		Weapon::Attack();
+		mEffects->CreateEffect(L"SwingEffect", GetDir());
+		SetBAttack(false);
+		SetState((UINT)eWeaponState::RELOAD);
 		sState = (SwordState)(((UINT)sState + 1) % (UINT)SwordState::END);
-		Weapon::SetState((UINT)eWeaponState::RELOAD);
 	}
 	void Sword::Reload()
 	{
-		bAttack = false;
+		Weapon::Reload();
 		mTime += Time::DeltaTime();
-		if (mTime > 0.3)
+		bCollision = false;
+		if (mTime > GetReloadTime())
 		{
-			bCollision = false;
 			mTime = 0.0f;
 			Weapon::SetState((UINT)eWeaponState::IDLE);
 		}

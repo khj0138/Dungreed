@@ -9,7 +9,10 @@
 #include "hjCamera.h"
 #include "hjGround.h"
 #include "hjTilePalatte.h"
+#include "hjPSceneManager.h"
+
 #include "hjTown.h"
+
 
 extern hj::Application application;
 
@@ -17,7 +20,7 @@ namespace hj
 {
 
 	PlayScene::PlayScene()
-		: mPlayScene(nullptr)
+		: mHero(nullptr)
 	{
 	}
 
@@ -27,16 +30,17 @@ namespace hj
 
 	void PlayScene::Initialize()
 	{
-		hero = new Hero();
-		Town* town = new Town();
-		mPlayScenes.push_back(town);
-		town->AddGameObject(hero, eLayerType::Player);
-		town->SetHero(hero);
+		
+		//mHero = new Hero();
+		//Town* town = new Town();
+		//mPlayScenes.push_back(town);
+		//town->AddGameObject(mHero, eLayerType::Player);
+		//town->SetHero(mHero);
 		//hj::PlayScene::CreatePScene<Town>(ePSceneType::Town);
 
-		mPlayScene = mPlayScenes[0];
-		SceneManager::ChangePlayScene(mPlayScene);
-		town->Initialize();
+		//mPlayScene = mPlayScenes[0];
+		//SceneManager::ChangePlayScene(mPlayScene);
+		//town->Initialize();
 		/*for (auto pScene : mPlayScenes)
 		{
 			pScene->Initialize();
@@ -45,24 +49,24 @@ namespace hj
 
 	void PlayScene::Update()
 	{
-		mPlayScene->Update();
+		
 	}
 
 	void PlayScene::Render(HDC hdc)
 	{
-		mPlayScene->Render(hdc);
+		
 		//Scene::Render(hdc);
 	}
 
 	void PlayScene::Release()
 	{
 		//Scene::Release();
-		mPlayScene->Release();
+		
 	}
 
 	void PlayScene::OnEnter()
 	{
-		mPlayScene->OnEnter();
+		
 		//Camera::SetLookRange(
 		//	Vector2{ (float)application.GetWidth() * 5.0f, -(float)application.GetHeight() * 5.0f }
 		//);
@@ -83,7 +87,7 @@ namespace hj
 
 	void PlayScene::OnExit()
 	{
-		mPlayScene->OnExit();
+		
 		////Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		//Camera::SetTarget(nullptr);
 

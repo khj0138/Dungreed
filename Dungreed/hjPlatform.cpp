@@ -27,7 +27,7 @@ namespace hj
 	Platform::Platform(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool Repeat)
 	{
 		mImage = RscManager::Load<Img>(name, path);
-		mImage->SetMoveRate(1.0f);
+		mImage->SetMoveRate(Vector2::One);
 		mImage->MatchRatio(asRatio);
 	}
 
@@ -48,7 +48,7 @@ namespace hj
 		Vector2 ImgSize = Vector2{ (float)mImage->GetWidth(), (float)mImage->GetHeight() };
 		tr->SetPos(
 			tr->GetPos()
-			+ Vector2{ ImgSize.x / 2.0f, windowSize.y }
+			+ Vector2{ ImgSize.x / 2.0f, 1600.f }
 			+ Vector2{ 0.0f, 0.0f }
 		);
 		tr->SetScale(Vector2(1.0f, 1.0f));
@@ -90,7 +90,7 @@ namespace hj
 	void Platform::SetImage(const std::wstring name, const std::wstring path, float moveRate, Vector2 asRatio, bool Repeat)
 	{
 		mImage = RscManager::Load<Img>(name, path);
-		mImage->SetMoveRate(1.0f);
+		mImage->SetMoveRate(Vector2::One);
 		mImage->MatchRatio(asRatio);
 	}
 

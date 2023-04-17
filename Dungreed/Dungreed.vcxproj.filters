@@ -98,6 +98,9 @@
     <Filter Include="Contents\Scene\PlayScene">
       <UniqueIdentifier>{c8a257aa-9253-4f95-a9fd-dc89cd864e38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\PlaneObject">
+      <UniqueIdentifier>{3d14aadd-6727-4541-b125-a9d87cb203c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -244,6 +247,19 @@
     <ClInclude Include="hjTown.h">
       <Filter>Contents\Scene\PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="hjPlaneObject.h">
+      <Filter>Contents\PlaneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="hjEmpty.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjMonsterP.h" />
+    <ClInclude Include="hjDungeonNIflheim.h">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="hjPSceneManager.h">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -380,6 +396,19 @@
       <Filter>Contents\Scene\PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="hjTown.cpp">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="hjPlaneObject.cpp">
+      <Filter>Contents\PlaneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="hjEmpty.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjMonsterP.cpp" />
+    <ClCompile Include="hjDungeonNIflheim.cpp">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="hjPSceneManager.cpp">
       <Filter>Contents\Scene\PlayScene</Filter>
     </ClCompile>
   </ItemGroup>

@@ -54,11 +54,15 @@ namespace hj
 		//eLayerType GetType() { return mType; }
 		void SetState(eState state) { mState = state; }
 		//void SetType(eLayerType type) { mType = type; }
+		Vector2 prevPos;
+
+		void SetFlip(bool flip) { mFlip = flip; }
+		bool GetFlip() { return mFlip; }
 
 	private:
 		std::vector<Component*> mComponents;
 		eState mState;
-		//eLayerType mType;
+		bool mFlip;
 	};
 
 }

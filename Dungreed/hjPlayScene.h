@@ -7,6 +7,7 @@
 namespace hj
 {
 	class Town;
+	class PSceneManager;
 	class PlayScene : public Scene
 	{
 	public:
@@ -27,23 +28,18 @@ namespace hj
 		}*/
 
 
-		Scene* GetPlayScene() { return mPlayScene; }
-		void SetPlayScene(Scene* scene) { mPlayScene = scene; }
+		/*Scene* GetPlayScene() { return mPlayScene; }
+		void SetPlayScene(Scene* scene) { mPlayScene = scene; }*/
+		Hero* GetHero() { return mHero; }
+		void SetHero(Hero* hero) { mHero = hero; }
+		PSceneManager* GetPManager() { return PManager; }
+		void SetPManager(PSceneManager* manager) { PManager = manager; }
 
-		template <typename T>
-		static inline void CreatePScene(ePSceneType type)
-		{
-			T* newPScene = new T();
-			mPlayScenes.push_back(newPScene);
-			newPScene->AddGameObject(hero, eLayerType::Player);
-			newPScene->SetHero(hero);
-			return;
-		}
+
+		
 	private:
-		Hero* hero;
-		BackGround* bg;
-		std::vector<Scene*> mPlayScenes;
-		Scene* mPlayScene;
+		Hero* mHero;
+		PSceneManager* PManager;
 	};
 
 }
