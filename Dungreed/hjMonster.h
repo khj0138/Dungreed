@@ -1,7 +1,7 @@
 #pragma once
 #include "hjGameObject.h"
 #include "hjImage.h"
-#include "hjWmanager.h"
+#include "hjWmanager_mon.h"
 #include "hjEmanager.h"
 #include "hjInput.h"
 
@@ -22,6 +22,11 @@ namespace hj
 			Jump,
 			End,
 		};
+		struct status
+		{
+			UINT HP;
+			UINT maxHP;
+		};
 		Monster();
 		~Monster();
 
@@ -35,6 +40,22 @@ namespace hj
 		virtual void OnCollisionExit(Collider* other) override;
 		void StateChange(eMonsterState state, std::wstring anim, bool loop);
 		Vector2 GetHeroPos() { return heroPos; }
+
+		void SetBAttack(bool attack) { bAttack = attack; }
+		void Attack(Weapon* attacker);
+		void Damage(float damage)
+		{
+			if (stat.HP < (UINT)damage)
+				stat.HP = 0.0f;
+			else
+				stat.HP -= (UINT)damage;
+		}
+		void SetStat(UINT hp, UINT maxHp)
+		{
+			stat.HP = hp;
+			stat.maxHP = maxHp;
+		}
+		status GetStat() { return stat; }
 		//bool GetFlip() { return mFlip; }
 
 		//Vector2 prevPos;
@@ -59,11 +80,14 @@ namespace hj
 		eMonsterState mState;
 		//bool mFlip;
 		bool isJump;
-		Wmanager* mWeapons;
+		Wmanager_mon* mWeapons;
 		Emanager* mEffects;
 		Rigidbody* mRigidbody;
 		int cJump;
 		bool bDjump;
+
+		status stat;
+		bool bAttack;
 	};
 
 }

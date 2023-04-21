@@ -22,6 +22,7 @@ namespace hj
 			Scene::GetLayer(layer).AddGameObject(obj);
 		}*/
 	private:
+		wchar_t path[256];
 	};
 }
 

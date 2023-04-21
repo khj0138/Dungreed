@@ -39,7 +39,7 @@ namespace hj
 
 		Collider* collider = GetComponent<Collider>();
 		//collider->SetPos(collider->GetPos() - collider->GetCenter());
-		//collider->Render(hdc);
+		collider->Render(hdc);
 		//collider->SetPos(collider->GetPos() + collider->GetCenter());
 
 		Vector2 pos = collider->GetPos();

@@ -90,7 +90,7 @@ namespace hj
 		// collider 설정
 		
 		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(GetOwner()->GetComponent<Transform>()->GetSize());
+		collider->SetSize(Vector2::One * GetOwner()->GetComponent<Collider>()->GetSize().y);
 		//collider->SetCenter(Vector2{ collider->GetSize().x / -2.f, collider->GetSize().y });
 		
 		Weapon::SetReloadTime(0.3f);
@@ -100,42 +100,59 @@ namespace hj
 
 	void Empty::OnCollisionEnter(Collider* other)
 	{
-
 		Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
-		if (hero != nullptr)
+		if (hero != NULL)
 		{
-			// 공격 준비상태가 돼야함
-			SetBAttack(true);
+			SetCAttack(true);
+			if (GetBAttack() == true)
+			{
+				hero->Attack(this);
+				SetBCollision(true);
+			}
 		}
+		//if (hero != nullptr)
+		//{
+		//	// 공격 준비상태가 돼야함
+		//	if(GetBAttack)
+		//}
 		
 	}
 
 	void Empty::OnCollisionStay(Collider* other)
 	{
 		Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
-		if (hero != nullptr)
+		if (hero != NULL)
 		{
-			// 공격 준비상태가 돼야함
-			SetBAttack(true);
+			SetCAttack(true);
+			if (GetBAttack() == true)
+			{
+				hero->Attack(this);
+				SetBCollision(true);
+			}
 		}
 	}
 
 	void Empty::OnCollisionExit(Collider* other)
 	{
-		Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
-		if (hero != nullptr)
+		//Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
+		//if (hero != nullptr)
+		//{
+		//	// 공격 준비상태가 돼야함
+		//	mTime = 0.0f;
+		//	SetBAttack(false);
+		//	SetState(eWeaponState::IDLE);
+		//}
+		Hero* victim2 = dynamic_cast<Hero*>(other->GetOwner());
+		if (victim2 != NULL)
 		{
-			// 공격 준비상태가 돼야함
-			mTime = 0.0f;
-			SetBAttack(false);
-			SetState(eWeaponState::IDLE);
+			SetCAttack(false);
 		}
 	}
 
 	void Empty::Idle()
 	{
 		Weapon::Idle();
-		if (GetBAttack())
+		/*if (GetBAttack())
 		{
 			if (mTime >= 1.0f)
 			{
@@ -146,7 +163,7 @@ namespace hj
 			{
 				mTime += Time::DeltaTime();
 			}
-		}
+		}*/
 	}
 
 	void Empty::Attack()
@@ -154,20 +171,14 @@ namespace hj
 		// 이펙트 생성 코드 필요
 		Weapon::Attack();
 		//mEffects->CreateEffect(L"SwingEffect", GetDir());
-		SetState(eWeaponState::RELOAD);
-		bCollision = true;
-		sState = (EmptyState)(((UINT)sState + 1) % (UINT)EmptyState::END);
+		
 	}
 	void Empty::Reload()
 	{
 		Weapon::Reload();
-		mTime += Time::DeltaTime();
-		if (mTime > GetReloadTime())
-		{
-			bCollision = false;
-			mTime = 0.0f;
-			Weapon::SetState((UINT)eWeaponState::IDLE);
-		}
+		if (GetBCollision())
+			SetBCollision(false);
+		
 	}
 
 }

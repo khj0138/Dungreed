@@ -101,6 +101,9 @@
     <Filter Include="Contents\PlaneObject">
       <UniqueIdentifier>{3d14aadd-6727-4541-b125-a9d87cb203c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Scene\PlayScene\Dungeon">
+      <UniqueIdentifier>{7d9ae7c7-cdbc-4977-9886-50681fd223dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -254,11 +257,41 @@
       <Filter>Contents\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="hjMonsterP.h" />
-    <ClInclude Include="hjDungeonNIflheim.h">
-      <Filter>Contents\Scene\PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="hjPSceneManager.h">
       <Filter>Contents\Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDungeonNIflheim.h">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDungeon1_1.h">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDungeon1_2.h">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDungeon1_3.h">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDungeon1_4.h">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDungeon1_0.h">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjPSceneList.h">
+      <Filter>Contents\Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="hjWmanager_mon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSword_mon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSkeletonWarrior.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjEliteSkelWarrior.h">
+      <Filter>Contents\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -405,11 +438,38 @@
       <Filter>Contents\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="hjMonsterP.cpp" />
-    <ClCompile Include="hjDungeonNIflheim.cpp">
-      <Filter>Contents\Scene\PlayScene</Filter>
-    </ClCompile>
     <ClCompile Include="hjPSceneManager.cpp">
       <Filter>Contents\Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDungeonNIflheim.cpp">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDungeon1_1.cpp">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDungeon1_2.cpp">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDungeon1_3.cpp">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDungeon1_4.cpp">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDungeon1_0.cpp">
+      <Filter>Contents\Scene\PlayScene\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjWmanager_mon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSword_mon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSkeletonWarrior.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hjEliteSkelWarrior.cpp">
+      <Filter>Contents\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

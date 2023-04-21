@@ -10,9 +10,11 @@
 #include "hjGround.h"
 #include "hjTilePalatte.h"
 #include "hjPlaneObject.h"
-#include "hjMonster.h"
 #include "hjPSceneManager.h"
 
+#include "hjMonster.h"
+#include "hjSkeletonWarrior.h"
+#include "hjEliteSkelWarrior.h"
 extern hj::Application application;
 
 namespace hj
@@ -42,10 +44,10 @@ namespace hj
 		AddGameObject(bg3, eLayerType::BackBG);
 		
 		BackGround* TownTile = new BackGround(L"TownTile", L"../Resource/Town/TownGround.bmp", Vector2::One * 1.0f, asRatio/5.f , false);
-		//AddGameObject(TownTile, eLayerType::FrontBG);*/
+		AddGameObject(TownTile, eLayerType::FrontBG);
 
 		//BackGround* TownTile = new BackGround(L"TownTile", L"../Resource/Ice/Ice.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
-		AddGameObject(TownTile, eLayerType::FrontBG);
+		//AddGameObject(TownTile, eLayerType::FrontBG);
 
 		PlaneObject* TownFloor = new PlaneObject(L"TownFloor", L"..\\Resource\\Town\\TownFloor.bmp", asRatio, Vector2{ 0.0f, 1600.0f}, Vector2::One);
 		AddGameObject(TownFloor, eLayerType::BGobject);
@@ -70,7 +72,8 @@ namespace hj
 		}
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
+			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_0);
+			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 			return;
 		}
 		/*if (Input::GetKeyState(eKeyCode::Q) == eKeyState::Down)
@@ -105,9 +108,23 @@ namespace hj
 		//CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
-		CollisionManager::SetLayer(eLayerType::Weapon, eLayerType::Player, true);
-		CollisionManager::SetLayer(eLayerType::Weapon, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, true);
+		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
 
+
+		/*SkeletonWarrior* mon = new SkeletonWarrior();
+		AddGameObject(mon, eLayerType::Monster);
+		mon->Initialize();*/
+
+		/*EliteSkelWarrior* mon = new EliteSkelWarrior();
+		AddGameObject(mon, eLayerType::Monster);
+		mon->Initialize();
+
+		SkeletonWarrior* mon2 = new SkeletonWarrior();
+		AddGameObject(mon2, eLayerType::Monster);
+		mon2->Initialize();
+		mon2->GetComponent<Transform>()->SetPos(
+			mon2->GetComponent<Transform>()->GetPos() + Vector2{ 200.0f, 0.0f });*/
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
 			delete gameObj;
@@ -133,7 +150,7 @@ namespace hj
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, false);
-		CollisionManager::SetLayer(eLayerType::Weapon, eLayerType::Player, false);
-		CollisionManager::SetLayer(eLayerType::Weapon, eLayerType::Monster, false);
+		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, false);
+		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, false);
 	}
 }

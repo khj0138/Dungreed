@@ -56,7 +56,7 @@ namespace hj
 
 		Transform* tr = GetComponent<Transform>();
 		tr->SetSize(size);
-		tr->SetVelocity(Vector2{ 300.0f, 0.0f });
+		tr->SetVelocity(Vector2{ 400.0f, 0.0f });
 		tr->SetPos(Vector2{ 3200.0f, 450.0f });
 
 		Vector2 pos = tr->GetPos();
@@ -75,7 +75,7 @@ namespace hj
 		StateChange(eHeroState::Idle, L"Idle", true);
 
 		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2{ 36.0f, 56.0f });
+		collider->SetSize(Vector2{ 48.0f, 96.0f });
 		Vector2 colSize = collider->GetSize();
 		collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
 
@@ -86,7 +86,9 @@ namespace hj
 		mWeapons->SetOwner(this);
 		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
 		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
-		mWeapons->EquipWeapon(L"Sword");
+		mWeapons->EquipWeapon(L"Sword",0);
+
+		mWeapons->GetActiveWeapon()->SetStat(10.0f, 5.0f, 0.3f, 0.0f);
 
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
@@ -102,6 +104,7 @@ namespace hj
 
 	void Hero::Update()
 	{
+		bAttack = true;
 		prevPos = GetComponent<Transform>()->GetPos();
 		if (Input::GetKey(eKeyCode::A))
 		{
@@ -110,7 +113,8 @@ namespace hj
 		}
 		else if (Input::GetKeyUp(eKeyCode::A))
 		{
-			leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::A));
+			if (find(leftRight.begin(), leftRight.end(), eKeyCode::A) != leftRight.end())
+				leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::A));
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
@@ -119,7 +123,8 @@ namespace hj
 		}
 		else if (Input::GetKeyUp(eKeyCode::D))
 		{
-			leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::D));
+			if (find(leftRight.begin(), leftRight.end(), eKeyCode::D) != leftRight.end())
+				leftRight.erase(find(leftRight.begin(), leftRight.end(), eKeyCode::D));
 		}
 
 		if (Input::GetKey(eKeyCode::R))
@@ -170,7 +175,7 @@ namespace hj
 			SetFlip(true);
 		else
 			SetFlip(false);
-		//mWeapons->Update();
+		mWeapons->Update();
 		mEffects->Update();
 		GameObject::Update();
 	}
@@ -225,6 +230,15 @@ namespace hj
 		mAnimator->Reset();
 	}
 
+	void Hero::Attack(Weapon* attacker)
+	{
+		if (bAttack == true)
+		{
+			bAttack = false;
+			Damage(attacker->GetStat().power);
+		}
+	}
+
 	void Hero::OnCollisionEnter(Collider* other)
 	{
 		Tile* tile = dynamic_cast<Tile*>(other->GetOwner());
@@ -247,10 +261,21 @@ namespace hj
 
 	void Hero::OnCollisionStay(Collider* other)
 	{
-		if (Input::GetKeyDown(eKeyCode::S))
+		Tile* tile = dynamic_cast<Tile*>(other->GetOwner());
+		if (tile != nullptr)
 		{
-			downJump(other);
+			if (Input::GetKeyDown(eKeyCode::S))
+			{
+				downJump(other);
+			}
 		}
+
+		/*Weapon* weapon = dynamic_cast<Weapon*>(other->GetOwner());
+		if (weapon != nullptr)
+		{
+			if(weapon->GetBCollision())
+		}*/
+
 	}
 
 	void Hero::OnCollisionExit(Collider* other)
@@ -334,13 +359,13 @@ namespace hj
 			else if (leftRight.back() == eKeyCode::A)
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = -300.0f;
+				velocity.x = -400.0f;
 				mRigidbody->SetVelocity(velocity);
 			}
 			else if (leftRight.back() == eKeyCode::D)
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = 300.0f;
+				velocity.x = 400.0f;
 				mRigidbody->SetVelocity(velocity);
 			}
 			Flip(L"Run");
@@ -423,13 +448,13 @@ namespace hj
 				if (leftRight.back() == eKeyCode::D)
 				{
 					Vector2 velocity = mRigidbody->GetVelocity();
-					velocity.x = 300.0f;
+					velocity.x = 450.0f;
 					mRigidbody->SetVelocity(velocity);
 				}
 				else if (leftRight.back() == eKeyCode::A)
 				{
 					Vector2 velocity = mRigidbody->GetVelocity();
-					velocity.x = -300.0f;
+					velocity.x = -450.0f;
 					mRigidbody->SetVelocity(velocity);
 				}
 			}
@@ -443,12 +468,14 @@ namespace hj
 		Transform* tr = GetComponent<Transform>();
 		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), Vector2::One));
 		float n = 256.f;
-		if (dir.Length() > n)
+		/*if (dir.Length() > n)
 		{
 			dir.Normalize();
 			dir = dir * n;
 		}
-		dir = dir / (n / 16.f);
+		dir = dir / (n / 16.f);*/
+		dir.Normalize();
+		dir = dir * 16.f;
 		//Vector2 velocity = mRigidbody->GetVelocity();
 		Vector2 velocity = dir;
 		mRigidbody->SetVelocity(velocity);
@@ -477,10 +504,17 @@ namespace hj
 				);
 
 				prevPos = GetComponent<Transform>()->GetPos();
+				//GetComponent<Collider>()->SetPos(prevPos);ww
 				mRigidbody->SetGravity(false);
+				//mRigidbody->SetGround(false);
+			
 				StateChange(eHeroState::Jump, L"Jump", true);
 				cJump--;
-
+				tile->SetBCollision(false);
+			}
+			else if ((tile->Index() == 3 || tile->Index() == 4 || tile->Index() == 5))
+			{
+				tile->SetBCollision(false);
 			}
 		}
 	}

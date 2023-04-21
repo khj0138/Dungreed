@@ -37,7 +37,7 @@ namespace hj
 		PManager->Initialize();
 		
 		
-		mActiveScene = mScenes[(UINT)eSceneType::Title];
+		LoadScene(eSceneType::Title);
 		//mActiveScene = mScenes[(UINT)eSceneType::Tool];
 		//LoadScene(eSceneType::Title);
 	}

@@ -131,8 +131,14 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
+    <ClInclude Include="hjDungeon1_0.h" />
+    <ClInclude Include="hjDungeon1_1.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="hjDungeon1_2.h" />
+    <ClInclude Include="hjDungeon1_3.h" />
+    <ClInclude Include="hjDungeon1_4.h" />
     <ClInclude Include="hjEffect.h" />
+    <ClInclude Include="hjEliteSkelWarrior.h" />
     <ClInclude Include="hjEmanager.h" />
     <ClInclude Include="hjEmpty.h" />
     <ClInclude Include="hjGround.h" />
@@ -170,6 +176,7 @@
     <ClInclude Include="hjSceneManager.h" />
     <ClInclude Include="hjSpriteRenderer.h" />
     <ClInclude Include="hjSword.h" />
+    <ClInclude Include="hjSword_mon.h" />
     <ClInclude Include="hjTile.h" />
     <ClInclude Include="hjTilePalatte.h" />
     <ClInclude Include="hjTime.h" />
@@ -180,11 +187,20 @@
     <ClInclude Include="hjWeapon.h" />
     <ClInclude Include="hjWmanager.h" />
     <ClInclude Include="hjPSceneManager.h" />
+    <ClInclude Include="hjWmanager_mon.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="hjSkeletonWarrior.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="hjPSceneList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hjDungeon1_0.cpp" />
+    <ClCompile Include="hjDungeon1_1.cpp" />
+    <ClCompile Include="hjDungeon1_2.cpp" />
+    <ClCompile Include="hjDungeon1_3.cpp" />
+    <ClCompile Include="hjDungeon1_4.cpp" />
     <ClCompile Include="hjEffect.cpp" />
+    <ClCompile Include="hjEliteSkelWarrior.cpp" />
     <ClCompile Include="hjEmanager.cpp" />
     <ClCompile Include="hjEmpty.cpp" />
     <ClCompile Include="hjGround.cpp" />
@@ -219,6 +235,7 @@
     <ClCompile Include="hjSceneManager.cpp" />
     <ClCompile Include="hjSpriteRenderer.cpp" />
     <ClCompile Include="hjSword.cpp" />
+    <ClCompile Include="hjSword_mon.cpp" />
     <ClCompile Include="hjTile.cpp" />
     <ClCompile Include="hjTilePalatte.cpp" />
     <ClCompile Include="hjTime.cpp" />
@@ -228,8 +245,10 @@
     <ClCompile Include="hjTransform.cpp" />
     <ClCompile Include="hjWeapon.cpp" />
     <ClCompile Include="hjWmanager.cpp" />
+    <ClCompile Include="hjWmanager_mon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="hjPSceneManager.cpp" />
+    <ClCompile Include="hjSkeletonWarrior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc" />

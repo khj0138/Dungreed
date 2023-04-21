@@ -250,7 +250,7 @@ namespace hj
 			ofn.lpstrFile[0] = '\0';
 			if (false == GetOpenFileName(&ofn))
 				return;
-
+			//npath = ofn.lpstrFile;
 			_wfopen_s(&file, szFilePath, L"rb");
 		}
 		else

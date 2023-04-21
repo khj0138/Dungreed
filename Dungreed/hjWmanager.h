@@ -26,7 +26,7 @@ namespace hj
 
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void CreateWeapon(const std::wstring& name, eWeaponType wType);
-		void EquipWeapon(const std::wstring& name);
+		void EquipWeapon(const std::wstring& name, UINT index);
 
 		Weapon* FindWeapon(const std::wstring& name);
 		Weapon* GetActiveWeapon() { return mActiveWeapon; }
@@ -48,6 +48,7 @@ namespace hj
 		GameObject* mOwner;
 		Vector2 mPos;
 		bool isFlip;
+		double mTime;
 
 	};
 }

@@ -51,10 +51,10 @@ namespace hj
 
 	void Emanager::Render(HDC hdc)
 	{
-		if (mActiveEffect != nullptr)
+		/*if (mActiveEffect != nullptr)
 		{
 			mActiveEffect->Render(hdc);
-		}
+		}*/
 	}
 
 	void Emanager::Release()

@@ -19,6 +19,7 @@
 #include "hjScene.h"
 #include "hjPlayScene.h"
 #include "hjHero.h"
+#include "hjWeapon.h"
 extern hj::Application application;
 
 namespace hj
@@ -28,7 +29,7 @@ namespace hj
 	}
 	MonsterP::~MonsterP()
 	{
-		delete mEffects;
+		//delete mEffects;
 		mEffects = nullptr;
 	}
 	void MonsterP::Initialize()
@@ -42,10 +43,10 @@ namespace hj
 		isJump = false;
 		cJump = 1;
 
-		//Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
+		Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
 		//Vector2 asRatio = Vector2::One * 1.28f;
 		Img* mImage = RscManager::Load<Img>(L"MonsterP", L"..\\Resource\\Char\\baseChar.bmp");
-		//mImage->MatchRatio(asRatio);
+		mImage->MatchRatio(asRatio);
 		mImage->SetMoveRate(Vector2::One);
 		Vector2 size = Vector2::Zero;
 		size.x = mImage->GetWidth() / 8.0f;
@@ -68,8 +69,8 @@ namespace hj
 		mAnimator->CreateAnimation(L"Jump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"FlippedJump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 
-		mFlip = false;
-		StateChange(eMonsterState::Idle, L"Idle", true);
+		SetFlip(false);
+		StateChange(eMonsterPState::Idle, L"Idle", true);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2{ 36.0f, 56.0f });
@@ -79,19 +80,23 @@ namespace hj
 		mRigidbody = AddComponent<Rigidbody>();
 		mRigidbody->SetMass(1.0f);
 
-		mWeapons = new Wmanager();
+		mWeapons = new Wmanager_mon();
 		mWeapons->SetOwner(this);
+		/*mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
+		mWeapons->EquipWeapon(L"Empty", 1);*/
+		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD_MON);
+		mWeapons->EquipWeapon(L"Sword", 1);
 		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
-		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
-		mWeapons->EquipWeapon(L"Sword");
+		//mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
+		//mWeapons->EquipWeapon(L"Sword");
 
-		mEffects = new Emanager();
+	/*	mEffects = new Emanager();
 		mEffects->SetOwner(this);
 
 		mEffects->RegisterEffect(L"RunEffect", L"..\\Resource\\Char\\RunEffect.bmp", false, false, 5, Vector2{ (-1.5f) * colSize.x, 0.0f }, 0.04f, Vector2::One * 1.5f);
 		mEffects->RegisterEffect(L"DashEffect", L"..\\Resource\\Char\\DashEffect.bmp", true, false, 1, Vector2{ 0.0f, 0.0f }, 0.08f, Vector2::One * ((float)application.GetWidth() / 960.0f));
 		mEffects->RegisterEffect(L"JumpEffect", L"..\\Resource\\Char\\JumpFX.bmp", false, false, 5, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.03f);
-		mEffects->RegisterEffect(L"DJumpEffect", L"..\\Resource\\Char\\DoubleJumpFX.bmp", false, false, 6, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.03f);
+		mEffects->RegisterEffect(L"DJumpEffect", L"..\\Resource\\Char\\DoubleJumpFX.bmp", false, false, 6, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.03f);*/
 
 		GameObject::Initialize();
 	}
@@ -110,6 +115,8 @@ namespace hj
 		}
 		prevPos = GetComponent<Transform>()->GetPos();
 
+
+
 		if (Input::GetKey(eKeyCode::R))
 		{
 			GetComponent<Transform>()->SetPos(Vector2{
@@ -125,9 +132,9 @@ namespace hj
 			Transform* tr = GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
 			if (heroPos.x > pos.x)
-				mFlip = false;
+				SetFlip(false);
 			else
-				mFlip = true;
+				SetFlip(true);
 		}
 		if (isJump == false)
 		{
@@ -136,9 +143,9 @@ namespace hj
 		}
 		else if (!(GetComponent<Rigidbody>()->GetGround()))
 		{
-			if (mState != eMonsterState::Jump)
+			if (mState != eMonsterPState::Jump)
 			{
-				StateChange(eMonsterState::Jump, L"Jump", true);
+				StateChange(eMonsterPState::Jump, L"Jump", true);
 			}
 		}
 		else
@@ -148,16 +155,13 @@ namespace hj
 		switch (mState)
 		{
 
-		case hj::MonsterP::eMonsterState::Idle:
+		case hj::MonsterP::eMonsterPState::Idle:
 			idle();
 			break;
-		case hj::MonsterP::eMonsterState::Run:
+		case hj::MonsterP::eMonsterPState::Run:
 			run();
 			break;
-			//case hj::MonsterP::eMonsterState::Die:
-			//	die();
-			//	break;
-		case hj::MonsterP::eMonsterState::Jump:
+		case hj::MonsterP::eMonsterPState::Jump:
 			jump();
 			break;
 		}
@@ -166,13 +170,12 @@ namespace hj
 		Vector2 size = tr->GetSize();
 
 
-		//mWeapons->Update();
-		mEffects->Update();
+		mWeapons->Update();
+		//mEffects->Update();
 		GameObject::Update();
 	}
 	void MonsterP::Render(HDC hdc)
 	{
-		//mWeapons->Render(hdc);
 		GameObject::Render(hdc);
 	}
 	void MonsterP::Release()
@@ -193,10 +196,6 @@ namespace hj
 
 	void MonsterP::OnCollisionStay(Collider* other)
 	{
-		/*if (Input::GetKeyDown(eKeyCode::S))
-		{
-			downJump(other);
-		}*/
 	}
 
 	void MonsterP::OnCollisionExit(Collider* other)
@@ -204,30 +203,10 @@ namespace hj
 
 	}
 
-	void MonsterP::StateChange(eMonsterState state, std::wstring anim, bool loop = false)
+	void MonsterP::StateChange(eMonsterPState state, std::wstring anim, bool loop = false)
 	{
 		mState = state;
-		switch (state)
-		{
-			/*case eMonsterState::Jump:
-			{
-				if (bDash)
-				{
-					if (!isJump)
-					{
-						mEffects->CreateEffect(L"JumpEffect");
-						cJump--;
-					}
-				}
-				break;
-			}*/
-		case eMonsterState::Run:
-		{
-			mEffects->CreateEffect(L"RunEffect");
-			break;
-		}
-		}
-		if (mFlip)
+		if (GetFlip())
 		{
 			std::wstring flipAnim = L"Flipped";
 			flipAnim.append(anim);
@@ -243,38 +222,18 @@ namespace hj
 	{
 		if (hero != nullptr)
 		{
+
 			Transform* tr = GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
 			Vector2 size = tr->GetSize();
 
 			if (fabs(pos.x - GetHeroPos().x) >= (size.x))
-				StateChange(eMonsterState::Run, L"Run", true);
+				StateChange(eMonsterPState::Run, L"Run", true);
 
 			else
 			{
 				Flip(L"Idle");
 			}
-
-			/*Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y = -1200.0f;
-			mRigidbody->SetVelocity(velocity);
-			mRigidbody->SetGround(false);
-
-			StateChange(eMonsterState::Jump, L"Jump", true);*/
-
-			/*else if (Input::GetKeyDown(eKeyCode::S))
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.y = 1100.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
-				StateChange(eMonsterState::Jump, L"Jump", true);
-
-			}*/
-			/*else if (!leftRight.empty())
-			{
-				StateChange(eMonsterState::Run, L"Run", true);
-			}*/
 
 		}
 	}
@@ -285,13 +244,12 @@ namespace hj
 			Transform* tr = GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
 			Vector2 size = tr->GetSize();
-			//mEffects->CreateEffect(L"RunEffect");
 
 
 			if (fabs(pos.x - GetHeroPos().x) >= (size.x))
 			{
 
-				if (mFlip)
+				if (GetFlip())
 				{
 					Vector2 velocity = mRigidbody->GetVelocity();
 					velocity.x = -300.0f;
@@ -313,7 +271,7 @@ namespace hj
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 
-				StateChange(eMonsterState::Jump, L"Jump", true);
+				StateChange(eMonsterPState::Jump, L"Jump", true);
 			}
 			else if ((pos.y - GetHeroPos().y) <= (size.y))
 			{
@@ -328,7 +286,7 @@ namespace hj
 				Vector2 velocity = mRigidbody->GetVelocity();
 				velocity.x = 0.0f;
 				mRigidbody->SetVelocity(velocity);
-				StateChange(eMonsterState::Idle, L"Idle", true);
+				StateChange(eMonsterPState::Idle, L"Idle", true);
 			}
 
 		}
@@ -347,12 +305,12 @@ namespace hj
 			Vector2 velocity = mRigidbody->GetVelocity();
 			velocity.y = 0.0f;
 			mRigidbody->SetVelocity(velocity);
-			StateChange(eMonsterState::Run, L"Run", true);
+			StateChange(eMonsterPState::Run, L"Run", true);
 		}
 		if (fabs(pos.x - GetHeroPos().x) >= (size.x))
 		{
 
-			if (mFlip)
+			if (GetFlip())
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
 				velocity.x = -300.0f;
@@ -376,7 +334,7 @@ namespace hj
 	}
 	void MonsterP::Flip(std::wstring Anim)
 	{
-		if (mFlip)
+		if (GetFlip())
 		{
 			std::wstring flipAnim = L"Flipped";
 			flipAnim.append(Anim);
@@ -391,7 +349,7 @@ namespace hj
 		if (tile != nullptr)
 		{
 			if ((tile->Index() == 3 || tile->Index() == 4 || tile->Index() == 5)
-				&& (mState != eMonsterState::Jump))
+				&& (mState != eMonsterPState::Jump))
 			{
 				mRigidbody->SetGround(false);
 				GetComponent<Transform>()->SetPos(
@@ -403,147 +361,10 @@ namespace hj
 
 				prevPos = GetComponent<Transform>()->GetPos();
 				mRigidbody->SetGravity(false);
-				StateChange(eMonsterState::Jump, L"Jump", true);
+				StateChange(eMonsterPState::Jump, L"Jump", true);
 				cJump--;
 
 			}
 		}
 	}
 }
-//
-//namespace hj
-//{
-//	void MonsterP::die()
-//	{
-//	}
-//
-//	void MonsterP::jump()
-//	{
-//
-//		Transform* tr = GetComponent<Transform>();
-//		Vector2 velocity = mRigidbody->GetVelocity();
-//		if (Mouse::GetRstate() == eKeyState::Down && bDash)
-//		{
-//			dash();
-//		}
-//
-//		if (mDash > 0)
-//		{
-//			if (((UINT)mDash % 2 == 0) && ((UINT)mDash / 2 > 4))
-//				mEffects->CreateEffect(L"DashEffect");
-//			mDash--;
-//			if (mDash == 0)
-//			{
-//				velocity.y = 0.0f;
-//			}
-//		}
-//		else if (
-//			!(bDash == false && mDash > 0)
-//			)
-//		{
-//			if (cJump == 1)
-//				int a = 0;
-//			if (Input::GetKeyDown(eKeyCode::W) && (cJump > 0))
-//			{
-//				//if (--cJump)
-//					//mEffects->CreateEffect(L"JumpEffect");
-//				if (!(--cJump))
-//					mEffects->CreateEffect(L"DJumpEffect");
-//				Vector2 velocity = mRigidbody->GetVelocity();
-//				velocity.y = -1200.0f;
-//				mRigidbody->SetVelocity(velocity);
-//				mRigidbody->SetGround(false);
-//			}
-//			else if (Input::GetKey(eKeyCode::W) && isJump)
-//			{
-//				Vector2 velocity = mRigidbody->GetVelocity();
-//				if (velocity.y < 0.0f && !(mRigidbody->GetGround()))
-//					velocity.y = velocity.y - 1400.0f * Time::DeltaTime();
-//				mRigidbody->SetVelocity(velocity);
-//			}
-//			mRigidbody->SetGravity(true);
-//			if (mRigidbody->GetGround())
-//			{
-//				if (bDjump)
-//					cJump = 2;
-//				else
-//					cJump = 1;
-//				Vector2 velocity = mRigidbody->GetVelocity();
-//				velocity.y = 0.0f;
-//				mRigidbody->SetVelocity(velocity);
-//				bDash = true;
-//				StateChange(eMonsterState::Run, L"Run", true);
-//			}
-//			if (leftRight.empty())
-//			{
-//				Vector2 velocity = mRigidbody->GetVelocity();
-//				velocity.x = 0.0f;
-//				mRigidbody->SetVelocity(velocity);
-//			}
-//			else
-//			{
-//				if (leftRight.back() == eKeyCode::D)
-//				{
-//					Vector2 velocity = mRigidbody->GetVelocity();
-//					velocity.x = 300.0f;
-//					mRigidbody->SetVelocity(velocity);
-//				}
-//				else if (leftRight.back() == eKeyCode::A)
-//				{
-//					Vector2 velocity = mRigidbody->GetVelocity();
-//					velocity.x = -300.0f;
-//					mRigidbody->SetVelocity(velocity);
-//				}
-//			}
-//		}
-//		Flip(L"Jump");
-//	}
-//
-//	void MonsterP::dash()
-//	{
-//		bDash = false;
-//		Transform* tr = GetComponent<Transform>();
-//		Vector2 dir = (Mouse::GetPos() - Camera::CaluatePos(tr->GetPos(), Vector2::One));
-//		float n = 256.f;
-//		if (dir.Length() > n)
-//		{
-//			dir.Normalize();
-//			dir = dir * n;
-//		}
-//		dir = dir / (n / 16.f);
-//		//Vector2 velocity = mRigidbody->GetVelocity();
-//		Vector2 velocity = dir;
-//		mRigidbody->SetVelocity(velocity);
-//		mDash = 16;
-//		mRigidbody->SetGravity(false);
-//		mRigidbody->SetGround(false);
-//		StateChange(eMonsterState::Jump, L"Jump", true);
-//	}
-//	void MonsterP::downJump(Collider* other)
-//	{
-//		Tile* tile = dynamic_cast<Tile*>(other->GetOwner());
-//		if (tile != nullptr)
-//		{
-//			if ((tile->Index() == 3 || tile->Index() == 4 || tile->Index() == 5)
-//				&& (mState != eMonsterState::Jump))
-//			{
-//				/*Vector2 velocity = mRigidbody->GetVelocity();
-//				velocity.y = 1200.0f;
-//				mRigidbody->SetVelocity(velocity);*/
-//				mRigidbody->SetGround(false);
-//				GetComponent<Transform>()->SetPos(
-//					Vector2{
-//						GetComponent<Transform>()->GetPos().x,
-//						GetComponent<Transform>()->GetPos().y + 1200.0f * 0.02f
-//					}
-//				);
-//
-//				prevPos = GetComponent<Transform>()->GetPos();
-//				mRigidbody->SetGravity(false);
-//				StateChange(eMonsterState::Jump, L"Jump", true);
-//				cJump--;
-//
-//			}
-//		}
-//	}
-//}

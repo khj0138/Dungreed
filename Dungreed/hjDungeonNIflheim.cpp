@@ -11,7 +11,10 @@
 #include "hjGround.h"
 #include "hjTilePalatte.h"
 #include "hjPlaneObject.h"
+
 #include "hjMonster.h"
+#include "hjSkeletonWarrior.h"
+#include "hjEliteSkelWarrior.h"
 
 extern hj::Application application;
 
@@ -25,42 +28,25 @@ namespace hj
 	}
 	void DungeonNiflheim::Initialize()
 	{
-		//float windowSizeY = (float)application.GetHeight();
 		float windowSizeX = (float)application.GetWidth();
 		Scene::SetAsRatio(Vector2::One * (windowSizeX / 960.0f));
 		Vector2 asRatio = Scene::GetAsRatio();
 
-		/*BackGround* bg = new BackGround(L"back", L"..\\Resource\\SkyDay.bmp", Vector2::Zero, asRatio);
-		AddGameObject(bg, eLayerType::BackBG);*/
 
 		asRatio = asRatio * 3.f;
 
-		BackGround* bg2 = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1280.0f - 900.0f * (1.0f - 0.8f) });
-		AddGameObject(bg2, eLayerType::BackBG);
-		//BackGround* bg3 = new BackGround(L"TownBG2", L"..\\Resource\\Town\\TownBG_Day.bmp", Vector2{ 0.2f, 0.2f }, asRatio, true, 0, Vector2{ 0.0f, 1680.0f - 900.0f * (1.0f - 0.2f) });
-		//AddGameObject(bg3, eLayerType::BackBG);
-		BackGround* bg4 = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, true, 0, Vector2{ 0.0f, 1280.0f });
-		AddGameObject(bg4, eLayerType::BackBG);
+		/*BackGround* bg2 = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1280.0f - 900.0f * (1.0f - 0.8f) });
+		AddGameObject(bg2, eLayerType::BackBG);*/
+		//BackGround* bg4 = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, true, 0, Vector2{ 0.0f, 1280.0f });
+		//AddGameObject(bg4, eLayerType::BackBG);
 
-		BackGround* DungeonNiflheimTile = new BackGround(L"DungeonNiflheimTile", L"../Resource/Ice/NIflheimRoom.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
-		AddGameObject(DungeonNiflheimTile, eLayerType::BackBG);
-		/*PlaneObject* TownFloor = new PlaneObject(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", asRatio, Vector2{ 0.0f, 1280.0f - 900.0f * (1.0f - 0.8f) }, Vector2{ 0.8f, 0.8f });
-		AddGameObject(TownFloor, eLayerType::BGobject);
-		PlaneObject* TownFloor22 = new PlaneObject(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", asRatio, Vector2{ 0.0f, 1280.0f - 900.0f * (1.0f - 0.8f) }, Vector2{ 0.8f, 0.8f });
-		AddGameObject(TownFloor22, eLayerType::BGobject);*/
-		//BackGround* DungeonNiflheimTile = new BackGround(L"DungeonNiflheimTile", L"../Resource/Ice/Ice.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
-		//AddGameObject(DungeonNiflheimTile, eLayerType::FrontBG);
+		BackGround* Ice_NIflheim_foothold = new BackGround(L"Ice_NIflheim_foothold", L"../Resource/Ice/Ice_NIflheim_foothold.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
+		AddGameObject(Ice_NIflheim_foothold, eLayerType::BackBG);
+		BackGround* Ice_NIflheim = new BackGround(L"Ice_NIflheim", L"../Resource/Ice/Ice_NIflheim.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
+		AddGameObject(Ice_NIflheim, eLayerType::BackBG);
 
-		/*PlaneObject* DungeonNiflheimFloor = new PlaneObject(L"DungeonNiflheimFloor", L"..\\Resource\\DungeonNiflheim\\DungeonNiflheimFloor.bmp", asRatio, Vector2{ 0.0f, 1600.0f }, Vector2::One);
-		AddGameObject(DungeonNiflheimFloor, eLayerType::BGobject);*/
-
-		Monster* mon = new Monster();
-		AddGameObject(mon, eLayerType::Monster);
-
-
-
-		//Platform* floor = new Platform(L"DungeonNiflheimFloor", L"..\\Resource\\DungeonNiflheim\\DungeonNiflheimFloor.bmp", 1.0f,asRatio);
-		//AddGameObject(floor, eLayerType::Platform);
+		/*Monster* mon = new Monster();
+		AddGameObject(mon, eLayerType::Monster);*/
 
 		asRatio = asRatio / 3.f;
 
@@ -94,6 +80,10 @@ namespace hj
 	}
 	void DungeonNiflheim::OnEnter()
 	{
+		/*Monster* mon = new Monster();
+		AddGameObject(mon, eLayerType::Monster);
+		mon->Initialize();*/
+
 		Camera::SetLookRange(
 			Vector2{ 2560.f, 1280.f }
 		);
@@ -101,8 +91,8 @@ namespace hj
 		Camera::SetTarget(GetHero());
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
-		CollisionManager::SetLayer(eLayerType::Weapon, eLayerType::Player, true);
-		CollisionManager::SetLayer(eLayerType::Weapon, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, true);
+		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
 
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
@@ -111,8 +101,9 @@ namespace hj
 		}*/
 		//SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile).clear();
 		if (GetHero() != nullptr)
-			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 200.0f, 200.0f });
-		wchar_t a[256] = L"../Resource/Ice/IceCollider.Tile\0";
+			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 0.0f, 1121.0f } +
+				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });
+		wchar_t a[256] = L"../Resource/Ice/Ice_NIflheim_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/DungeonNiflheimTile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
 

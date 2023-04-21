@@ -4,6 +4,7 @@
 
 extern hj::Application application;
 
+
 namespace hj {
 	Img* Img::Create(const std::wstring& name, UINT width, UINT height)
 	{
@@ -12,8 +13,9 @@ namespace hj {
 
 		Img* image = RscManager::Find<Img>(name);
 		if (image != nullptr)
+		{
 			return image;
-
+		}
 		image = new Img();
 		HDC mainHdc = application.GetHdc();
 
@@ -41,6 +43,7 @@ namespace hj {
 		, mHeight(0)
 		, mRepeat(false)
 		, mMoveRate(Vector2::Zero)
+		, mask(nullptr)
 	{
 	}
 
@@ -70,7 +73,7 @@ namespace hj {
 		
 		DeleteObject((HBITMAP)SelectObject(mHdc, mBitmap));
 		
-
+		//makeMask(path);
 		//HDC memDC = CreateCompatibleDC(mHdc);
 		//HBITMAP memBitmap = CreateCompatibleBitmap(mHdc, mWidth, mHeight);
 
@@ -105,7 +108,29 @@ namespace hj {
 
 		return S_OK;
 	}
+	void Img::makeMask(const std::wstring& path)
+	{	
+		std::wstring temp = L"..\Resource\mask_IceBackBG.bmp";
+		temp.append(path);
 
+		HBITMAP a =  (HBITMAP)LoadImageW(nullptr
+			, temp.c_str(), IMAGE_BITMAP
+			, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+
+		if (a == nullptr)
+			return;
+		mBitmap = a;
+		BITMAP bitInfo = {};
+		GetObject(mBitmap, sizeof(BITMAP), &bitInfo);
+
+		mWidth = bitInfo.bmWidth;
+		mHeight = bitInfo.bmHeight;
+
+		HDC mainDC = application.GetHdc();
+		mHdc = CreateCompatibleDC(mainDC);
+
+		DeleteObject((HBITMAP)SelectObject(mHdc, mBitmap));
+	}
 	void Img::SetOutputSize(Vector2 size)
 	{
 		if (mWidth > size.x)

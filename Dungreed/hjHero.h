@@ -40,6 +40,14 @@ namespace hj
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 		void StateChange(eHeroState state, std::wstring anim, bool loop);
+		void Attack(Weapon* attacker);
+		void Damage(float damage) 
+		{
+			stat.HP -= (UINT)damage;
+			if (stat.HP < 0.0f)
+				stat.HP = 0.0f;
+			int a = 0;
+		}
 		//Vector2 prevPos;
 
 	private:
@@ -69,6 +77,7 @@ namespace hj
 		int cJump;
 		bool bDjump;
 		status stat;
+		bool bAttack;
 	};
 
 }

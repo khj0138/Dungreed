@@ -30,6 +30,7 @@ namespace hj
 
 
 		PlayScene* GetPlayScene() { return mPlayScene; }
+		PlayScene* FindScene(ePSceneType type) { return mPlayScenes[(UINT)type]; }
 		void SetPlayScene(PlayScene* scene) { mPlayScene = scene; }
 		Hero* GetHero() { return mHero; }
 		void SetHero(Hero* hero) { mHero = hero; }
@@ -51,6 +52,7 @@ namespace hj
 			PlayScene* prevScene = mPlayScene;
 			mPlayScene = mPlayScenes[(UINT)index];
 			SceneManager::ChangePlayScene(mPlayScene);
+			SceneManager::LoadScene(eSceneType::Play);
 			//delete prevScene;
 			//mPlayScene->OnEnter();
 		}

@@ -18,7 +18,7 @@ namespace hj
 		static Scene* FindScene(eSceneType type) { return mScenes[(UINT)type]; }
 		static void ChangePlayScene(Scene* scene) {
 			mScenes[(UINT)eSceneType::Play] = scene;
-			LoadScene(eSceneType::Play);
+			//LoadScene(eSceneType::Play);
 		}
 		static PSceneManager* GetPManager() { return PManager; }
 

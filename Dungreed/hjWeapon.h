@@ -19,6 +19,7 @@ namespace hj
 
 		enum eWeaponState {
 			IDLE,
+			WAIT,
 			ATTACK,
 			RELOAD,
 			End,
@@ -27,11 +28,13 @@ namespace hj
 			float power;
 			float dashPower;
 			float reload;
+			float wait;
 
 			Status()
 				: power(0.0f)
 				, dashPower(0.0f)
 				, reload(0.0f)
+				, wait(0.0f)
 			{
 			}
 		};
@@ -62,13 +65,14 @@ namespace hj
 		//bool isComplete() { return mbComplete; }
 		//void SetWmanager(Wmanager* manager) { mWmanager = manager; }
 		void SetDir(Vector2 direction) { mDir = direction; }
-		void SetState(UINT state) { mWstate = (eWeaponState)state; }
+		void SetState(eWeaponState state) { mWstate = (eWeaponState)state; }
 		void SetAsRatio(Vector2 asRatio) { mAsRatio = asRatio; }
 		void wCheckCol(Collider* target, Collider* other);
 		void colRender(HDC hdc, std::vector<Vector2> posCol, bool bCollision);
-		void SetReloadTime(float time) { reloadTime = time; }
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void SetBAttack(bool attack) { bAttack = attack; }
+		void SetBCollision(bool collision) { bCollision = collision; }
+		void SetCAttack(bool attack) { cAttack = attack; }
 
 		eWeaponState GetState() { return mWstate; }
 		Animator* GetAnimator() { return mAnimator; }
@@ -76,12 +80,29 @@ namespace hj
 		Vector2 GetAsRatio() { return mAsRatio; }
 		Emanager* GetEmanager() { return mEffects; }
 		bool GetBAttack() { return bAttack; }
+		bool GetCAttack() { return cAttack; }
 		bool GetBCollision() { return bCollision; }
 		GameObject* GetOwner() { return mOwner; }
 		Vector2 GetDir() { return mDir; }
 		Vector2 GetPos() { return mPos; }
 		bool GetFlip() { return isFlip; }
-		float GetReloadTime() { return reloadTime; }
+		float GetHoldTime() { return mTime; }
+		
+
+
+		void SetReloadTime(float time) { stat.reload = time; }
+		void SetWaitTime(float time) { stat.wait = time; }
+		float GetReloadTime() { return stat.reload; }
+		float GetWaitTime() { return stat.wait; }
+
+		void SetStat(float power, float dashPower, float reload, float wait)
+		{
+			stat.power = power; 
+			stat.dashPower = dashPower; 
+			stat.reload = reload; 
+			stat.wait = wait;
+		}
+		Status GetStat() { return stat; }
 		
 
 	private:
@@ -96,12 +117,18 @@ namespace hj
 		Vector2 mAsRatio;
 		bool bAttack;
 		bool bCollision;
-		float reloadTime;
+		bool cAttack;
+
+		//float reloadTime;
+		//float waitTime;
+
 		GameObject* mOwner;
 
 		Vector2 mDir;
 		Vector2 mPos;
 		bool isFlip;
+
+		Status stat;
 	};
 
 }

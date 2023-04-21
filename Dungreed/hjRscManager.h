@@ -3,7 +3,6 @@
 
 namespace hj
 {
-
 	class RscManager
 	{
 	public:
@@ -28,10 +27,12 @@ namespace hj
 		static T* Load(const std::wstring& key, const std::wstring& path)
 		{
 			// 키값으로 탐색
-			T* resource = RscManager::Find<T>(key);
+			std::wstring key2;
+			key2.append(key);
+			T* resource = RscManager::Find<T>(key2);
 			if (resource != nullptr)
 			{
-				return resource;
+				key2 = key2 + ((wchar_t)(rIndex++));
 			}
 
 			// 해당 리소스 없을 시
@@ -42,7 +43,7 @@ namespace hj
 				return nullptr;
 			}
 
-			resource->SetKey(key);
+			resource->SetKey(key2);
 			resource->SetPath(path);
 			mRscManager.insert(std::make_pair(key, resource));
 
@@ -52,7 +53,14 @@ namespace hj
 		template <typename T>
 		static void Insert(const std::wstring& key, T* resource)
 		{
-			mRscManager.insert(std::make_pair(key, resource));
+			std::wstring key2;
+			key2.append(key);
+			T* temp = RscManager::Find<T>(key2);
+			if (temp != nullptr)
+			{
+				key2 = key2 + ((wchar_t)(rIndex++));
+			}
+			mRscManager.insert(std::make_pair(key2, resource));
 		}
 
 		static void Release()
@@ -63,6 +71,9 @@ namespace hj
 				pair.second = nullptr;
 			}
 		}
+
+	public:
+		static UINT rIndex;
 	private:
 		static std::map<std::wstring, Resource*> mRscManager;
 	};

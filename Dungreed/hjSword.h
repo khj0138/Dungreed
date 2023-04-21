@@ -31,6 +31,8 @@ namespace hj
 		void Idle();
 		void Attack();
 		void Reload();
+		void SetSstate(UINT index) { sState = (SwordState)index; }
+
 		//virtual void Reset();
 	private:
 		Img* mImage;
@@ -45,7 +47,7 @@ namespace hj
 		std::vector<Vector2> posCol;
 		bool bRender;
 		//bool bAttack;
-		bool bCollision;
+		//bool bCollision;
 		Emanager* mEffects;
 	};
 }

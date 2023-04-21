@@ -88,12 +88,15 @@ namespace hj
 		if (Input::GetKeyDown(eKeyCode::R))
 		{
 			Img* a = Img::Create(L"test", 8000, 1800);
-			wchar_t p[256] = L"../Resource/Ice.Tile\0";
+			wchar_t p[256] = L"../Resource/Ice/Ice_NIflheim_foothold.Tile\0";
+			//wchar_t p[256] = L"../Resource/Ice/Dungeon1_2_Tile.Tile\0";
 			TilePalatte::Load(p, 1, a->GetHdc());
+			//TilePalatte::Load(p);
 			HBITMAP b = (HBITMAP)GetCurrentObject(a->GetHdc(), OBJ_BITMAP);
 			TilePalatte::HDCToFile(b);
 			delete a;
-			wchar_t c[256] = L"../Resource/Ice.Tile\0";
+			wchar_t c[256] = L"../Resource/Ice/Ice_NIflheim_foothold.Tile\0";
+			//wchar_t c[256] = L"../Resource/Ice/Dungeon1_2_Tile.Tile\0";
 			TilePalatte::Load(c);
 		}
 		/*if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
@@ -150,9 +153,9 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		//512 384
 		//HMENU mMenubar = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_CLIENT));
 		//SetMenu(hWnd, mMenubar);
-		hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\Tile.bmp");
+		//hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\Tile.bmp");
 		//hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\TileTown.bmp");
-		//hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\TileIce.bmp");
+		hj::Img* tile = hj::RscManager::Load<hj::Img>(L"TileAtlas", L"..\\Resource\\TileIce.bmp");
 		RECT rect = { 0, 0, tile->GetWidth(), tile->GetHeight() };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 		

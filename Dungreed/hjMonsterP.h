@@ -1,7 +1,7 @@
 #pragma once
 #include "hjGameObject.h"
 #include "hjImage.h"
-#include "hjWmanager.h"
+#include "hjWmanager_mon.h"
 #include "hjEmanager.h"
 #include "hjInput.h"
 
@@ -14,7 +14,7 @@ namespace hj
 	class MonsterP : public GameObject
 	{
 	public:
-		enum class eMonsterState
+		enum class eMonsterPState
 		{
 			Idle,
 			Run,
@@ -33,8 +33,9 @@ namespace hj
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;
 		virtual void OnCollisionExit(Collider* other) override;
-		void StateChange(eMonsterState state, std::wstring anim, bool loop);
+		void StateChange(eMonsterPState state, std::wstring anim, bool loop);
 		Vector2 GetHeroPos() { return heroPos; }
+		//bool GetFlip() { return mFlip; }
 
 		//Vector2 prevPos;
 
@@ -48,17 +49,17 @@ namespace hj
 		void downJump(Collider* other);
 
 		void Flip(std::wstring name);
-		bool checkFlip() { return mFlip; }
+		//.bool checkFlip() { return mFlip; }
 
 
 	private:
 		Animator* mAnimator;
 		Hero* hero;
 		Vector2 heroPos;
-		eMonsterState mState;
-		bool mFlip;
+		eMonsterPState mState;
+		//bool mFlip;
 		bool isJump;
-		Wmanager* mWeapons;
+		Wmanager_mon* mWeapons;
 		Emanager* mEffects;
 		Rigidbody* mRigidbody;
 		int cJump;

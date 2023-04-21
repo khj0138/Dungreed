@@ -12,8 +12,7 @@
 #include "hjGround.h"
 #include "hjTilePalatte.h"
 
-#include "hjTown.h"
-#include "hjDungeonNIflheim.h"
+#include "hjPSceneList.h"
 
 
 extern hj::Application application;
@@ -40,10 +39,13 @@ namespace hj
 		//town->SetHero(mHero);
 		hj::PSceneManager::CreatePScene<Town>(ePSceneType::Town);
 		hj::PSceneManager::CreatePScene<DungeonNiflheim>(ePSceneType::DungeonNiflheim);
+		hj::PSceneManager::CreatePScene<Dungeon1_0>(ePSceneType::Dungeon1_0);
+		hj::PSceneManager::CreatePScene<Dungeon1_1>(ePSceneType::Dungeon1_1);
+		hj::PSceneManager::CreatePScene<Dungeon1_2>(ePSceneType::Dungeon1_2);
+		//hj::PSceneManager::CreatePScene<DungeonNiflheim>(ePSceneType::Dungeon1_3);
 
 		mPlayScene = mPlayScenes[0];
 
-		SceneManager::ChangePlayScene(mPlayScene);
 		//town->Initialize();
 		for (auto pScene : mPlayScenes)
 		{
@@ -51,6 +53,7 @@ namespace hj
 			pScene->AddGameObject(mHero, eLayerType::Player);
 			pScene->SetHero(mHero);
 		}
+		SceneManager::ChangePlayScene(mPlayScene);
 		mHero->Initialize();
 	}
 

@@ -14,11 +14,11 @@ enum class ePSceneType
 {
 	Town,
 	DungeonNiflheim,
-	Dungeon1,
-	Dungeon2,
-	Dungeon3,
-	Dungeon4,
-	Dungeon5,
+	Dungeon1_0,
+	Dungeon1_1,
+	Dungeon1_2,
+	Dungeon1_3,
+	Dungeon1_4,
 	End,
 };
 
@@ -31,7 +31,8 @@ enum class eLayerType
 	Tile,
 	Player,
 	Monster,
-	Weapon,
+	Weapon_Player,
+	Weapon_Monster,
 	Bullet,
 	Test,
 	Effect,
@@ -54,6 +55,7 @@ enum class eWeaponType {
 	SWORD,
 	GUN,
 	EMPTY,
+	SWORD_MON,
 	END,
 };
 

@@ -26,6 +26,7 @@ namespace hj
 		void SetSize(Vector2 size) { mWidth = size.x; mHeight = size.y; }
 		void SetOutputSize(Vector2 size);
 		void MatchRatio(Vector2 ratio);
+		void makeMask(const std::wstring& path);
 
 	private:
 		HBITMAP mBitmap;
@@ -34,6 +35,9 @@ namespace hj
 		UINT mHeight;
 		bool mRepeat;
 		Vector2 mMoveRate;
+		HDC mask;
+		HBITMAP mask_bmp;
+
 	};
 
 }

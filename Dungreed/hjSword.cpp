@@ -13,6 +13,7 @@
 #include "hjMouse.h"
 #include "hjTime.h"
 #include "hjCamera.h"
+#include "hjHero.h"
 
 #include "hjMonster.h"
 
@@ -30,7 +31,6 @@ namespace hj
 		, mSpawnDegree(90)
 		, bRender(false)
 		//, bAttack(false)
-		, bCollision(false)
 	{
 	}
 	Sword::~Sword()
@@ -134,7 +134,7 @@ namespace hj
 			return;
 		}
 
-		Weapon::colRender(hdc, posCol, bCollision);
+		Weapon::colRender(hdc, posCol, GetBCollision());
 		Weapon::GetComponent<SpriteRenderer>()->rotateRender(hdc, mImage->GetHdc(), Vector2{ (float)mImage->GetWidth(),(float)mImage->GetHeight() }, mSpawnDegree, mSpawn);
 
 		bRender = true;
@@ -152,7 +152,7 @@ namespace hj
 
 		Weapon::SetAsRatio(Vector2::One * 4.f);
 
-		mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\ShortSword.bmp");
+		mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\ShortSword_char.bmp");
 		//mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\BambooSword.bmp");
 		//mImage = RscManager::Load<Img>(L"Sword", L"..\\Resource\\Char\\BambooSword3.bmp");
 		mImage->MatchRatio(Weapon::GetAsRatio());
@@ -160,7 +160,7 @@ namespace hj
 		// collider 설정
 		Collider* collider = AddComponent<Collider>();
 		
-		float n = 3.2f;
+		float n = 3.2f / 1.6f;
 		collider->SetSize(Vector2::One * Vector2{ (float)(mImage->GetWidth()) / n, (float)(mImage->GetHeight()) / 1.f }.Length() * 2.f);
 		collider->SetCenter(Vector2{ collider->GetSize().x / 2.f, collider->GetSize().y /  2.f});
 		Vector2 size = collider->GetSize() / 2.f;
@@ -176,7 +176,8 @@ namespace hj
 			posCol.push_back(rect[i]);
 		}
 
-		Weapon::SetReloadTime(0.3f);
+		//Weapon::SetReloadTime(0.3f);
+		//Weapon::SetWaitTime(0.0f);
 		Weapon::AddComponent<SpriteRenderer>();
 
 	}
@@ -185,15 +186,40 @@ namespace hj
 	{
 		if (GetBAttack() == true)
 		{
-			Monster* mon = dynamic_cast<Monster*>(other->GetOwner());
-			if (mon != NULL)
+			Hero* attacker = dynamic_cast<Hero*>(this->GetOwner());
+			if (attacker != NULL)
 			{
-
-				if (AttackCheck(other))
+				Monster* victim = dynamic_cast<Monster*>(other->GetOwner());
+				if (victim != NULL)
 				{
-					// other에게 알려줘야함
-					bCollision = true;
+
+					if (AttackCheck(other))
+					{
+						// other에게 알려줘야함
+						victim->Attack(this);
+						SetBCollision(true);
+					}
 				}
+				else
+					return;
+				return;
+			}
+			Monster* attacker2 = dynamic_cast<Monster*>(this->GetOwner());
+			if (attacker2 != NULL)
+			{
+				Hero* victim2 = dynamic_cast<Hero*>(other->GetOwner());
+				if (victim2 != NULL)
+				{
+
+					if (AttackCheck(other))
+					{
+						// other에게 알려줘야함
+
+						SetBCollision(true);
+					}
+				}
+				else
+					return;
 			}
 		}
 	}
@@ -202,15 +228,39 @@ namespace hj
 	{
 		if (GetBAttack() == true)
 		{
-			Monster* mon = dynamic_cast<Monster*>(other->GetOwner());
-			if (mon != NULL)
+			Hero* attacker = dynamic_cast<Hero*>(this->GetOwner());
+			if (attacker != NULL)
 			{
-
-				if (AttackCheck(other))
+				Monster* victim = dynamic_cast<Monster*>(other->GetOwner());
+				if (victim != NULL)
 				{
-					// other에게 알려줘야함
-					bCollision = true;
+
+					if (AttackCheck(other))
+					{
+						// other에게 알려줘야함
+						victim->Attack(this);
+						SetBCollision(true);
+					}
 				}
+				else
+					return;
+				return;
+			}
+			Monster* attacker2 = dynamic_cast<Monster*>(this->GetOwner());
+			if (attacker2 != NULL)
+			{
+				Hero* victim2 = dynamic_cast<Hero*>(other->GetOwner());
+				if (victim2 != NULL)
+				{
+
+					if (AttackCheck(other))
+					{
+						// other에게 알려줘야함
+						SetBCollision(true);
+					}
+				}
+				else
+					return;
 			}
 		}
 	}
@@ -286,11 +336,6 @@ namespace hj
 	void Sword::Idle()
 	{
 		Weapon::Idle();
-		if (Mouse::GetLstate() == eKeyState::Down)
-		{
-			SetBAttack(true);
-			SetState((UINT)eWeaponState::ATTACK);
-		}
 	}
 
 	void Sword::Attack()
@@ -298,20 +343,13 @@ namespace hj
 		// 이펙트 생성 코드 필요
 		Weapon::Attack();
 		mEffects->CreateEffect(L"SwingEffect", GetDir());
-		SetBAttack(false);
-		SetState((UINT)eWeaponState::RELOAD);
 		sState = (SwordState)(((UINT)sState + 1) % (UINT)SwordState::END);
 	}
 	void Sword::Reload()
 	{
 		Weapon::Reload();
-		mTime += Time::DeltaTime();
-		bCollision = false;
-		if (mTime > GetReloadTime())
-		{
-			mTime = 0.0f;
-			Weapon::SetState((UINT)eWeaponState::IDLE);
-		}
+		if(GetBCollision())
+			SetBCollision(false);
 	}
 
 }

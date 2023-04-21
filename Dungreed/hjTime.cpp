@@ -30,6 +30,15 @@ namespace hj
 		double differenceFrequency = mCurFrequency.QuadPart - mPrevFrequency.QuadPart;
 
 		mDeltaTime = differenceFrequency / mCpuFrequency.QuadPart;
+		//if (mDeltaTime >= (1.0f / 60.0f))
+		while (mDeltaTime <= (1.0f / 60.0f))
+		{
+			QueryPerformanceCounter(&mCurFrequency);
+			differenceFrequency = mCurFrequency.QuadPart - mPrevFrequency.QuadPart;
+			mDeltaTime = differenceFrequency / mCpuFrequency.QuadPart;
+		}
+		
+		mDeltaTime = 1.0f / 60.0f;
 
 		mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 	}
