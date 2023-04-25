@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="hjAnimObject.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="hjDungeon1_0.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="hjPSceneList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hjAnimObject.cpp" />
     <ClCompile Include="hjDungeon1_0.cpp" />
     <ClCompile Include="hjDungeon1_1.cpp" />
     <ClCompile Include="hjDungeon1_2.cpp" />

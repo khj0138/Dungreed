@@ -55,10 +55,10 @@ namespace hj
 	}
 	void Dungeon1_2::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::T))
+		/*if (Input::GetKeyDown(eKeyCode::T))
 		{
 			TilePalatte::tRenderChange();
-		}
+		}*/
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
@@ -114,8 +114,8 @@ namespace hj
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 
-		TilePalatte::clear();
-		//TilePalatte::clear(1);
+		wchar_t clean[256] = L"\0";
+		TilePalatte::Load(clean);
 
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);

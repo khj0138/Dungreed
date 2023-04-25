@@ -54,10 +54,10 @@ namespace hj
 	}
 	void Dungeon1_1::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::T))
+		/*if (Input::GetKeyDown(eKeyCode::T))
 		{
 			TilePalatte::tRenderChange();
-		}
+		}*/
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_2);
@@ -98,7 +98,7 @@ namespace hj
 		}*/
 		//SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile).clear();
 
-		EliteSkelWarrior* mon = new EliteSkelWarrior();
+		/*EliteSkelWarrior* mon = new EliteSkelWarrior();
 		AddGameObject(mon, eLayerType::Monster);
 		mon->Initialize();
 
@@ -109,7 +109,7 @@ namespace hj
 			mon2->GetComponent<Transform>()->GetPos() + Vector2{ 200.0f, 0.0f });
 		if (GetHero() != nullptr)
 			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 0.0f, 561.0f } + 
-				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });
+				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });*/
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_1_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_1Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
@@ -123,8 +123,8 @@ namespace hj
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 
-		TilePalatte::clear();
-		//TilePalatte::clear(1);
+		wchar_t clean[256] = L"\0";
+		TilePalatte::Load(clean);
 
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);

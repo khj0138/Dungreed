@@ -26,7 +26,11 @@ namespace hj
 		void SetImage(const std::wstring name, const std::wstring path, Vector2 moveRate, Vector2 asRatio, bool repeat = false);
 		bool GetRepeat() { return mRepeat; }
 		Vector2 GetSize();
-
+		static bool bRender;
+		static void SetBRender(bool render) { bRender = render; }
+		static void bRenderChange() {
+			bRender = (bool)(((int)bRender + 1) % 2);
+		}
 	private:
 		SpriteRenderer* spr;
 		Transform* tr;

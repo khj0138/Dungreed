@@ -11,6 +11,7 @@
 #include "hjTilePalatte.h"
 #include "hjPlaneObject.h"
 #include "hjPSceneManager.h"
+#include "hjAnimObject.h"
 
 #include "hjMonster.h"
 #include "hjSkeletonWarrior.h"
@@ -36,17 +37,22 @@ namespace hj
 		asRatio = asRatio * 3.f;
 
 
-		/*BackGround* bg2 = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1280.0f - 900.0f * (1.0f - 0.8f) });
-		AddGameObject(bg2, eLayerType::BackBG);*/
-		//BackGround* bg4 = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, true, 0, Vector2{ 0.0f, 1280.0f });
-		//AddGameObject(bg4, eLayerType::BackBG);
+		BackGround* bg2 = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, false, 0, Vector2{ 0.0f, 1520.0f - (1200.0f) * (1.0f - 0.6f) });
+		AddGameObject(bg2, eLayerType::BackBG);
+		BackGround* bg4 = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1520.0f - (1200.0f) * (1.0f - 0.8f) });
+		AddGameObject(bg4, eLayerType::BackBG);
 		
 
 		BackGround* Dungeon1_0_foothold = new BackGround(L"Dungeon1_0_foothold", L"../Resource/Ice/Dungeon1_0.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
 		AddGameObject(Dungeon1_0_foothold, eLayerType::BackBG);
 		BackGround* Dungeon1_0 = new BackGround(L"Dungeon1_0", L"../Resource/Ice/Dungeon1_0_foothold.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
 		AddGameObject(Dungeon1_0, eLayerType::BackBG);
+		AnimObject* IceDoorClose = new AnimObject(L"IceDoorClose", L"../Resource/Ice/IceDoorClose.bmp", asRatio, Vector2{ 10.0f, 1.0f }, Vector2{ 500.0f, 1360.0f });
+		AddGameObject(IceDoorClose, eLayerType::BackBG);
 
+		/*BackGround* Dungeon1_0 = new BackGround(L"IceDoorClose", L"../Resource/Ice/IceDoorClose.bmp", Vector2::One * 1.0f, asRatio / 5.f, false, 0, Vector2{ 0.0f, 1280.0f });
+		AddGameObject(Dungeon1_0, eLayerType::BackBG);*/
+		
 		/*Monster* mon = new Monster();
 		AddGameObject(mon, eLayerType::Monster);*/
 
@@ -58,10 +64,11 @@ namespace hj
 	}
 	void Dungeon1_0::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::T))
+		/*if (Input::GetKeyDown(eKeyCode::T))
 		{
 			TilePalatte::tRenderChange();
-		}
+			BackGround::bRenderChange();
+		}*/
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_1);
@@ -95,7 +102,7 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
 
 		if (GetHero() != nullptr)
-			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 100.0f, 1200.0f });
+			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 500.0f, 1200.0f });
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_0_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_0Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
@@ -109,8 +116,8 @@ namespace hj
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 
-		TilePalatte::clear();
-		//TilePalatte::clear(1);
+		wchar_t clean[256] = L"\0";
+		TilePalatte::Load(clean);
 
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);

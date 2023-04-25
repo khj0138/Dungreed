@@ -27,7 +27,6 @@ namespace hj
 		mImage->SetRepeat(false);
 		mImage->MatchRatio(asRatio);
 	}
-
 	PlaneObject::~PlaneObject()
 	{
 	}

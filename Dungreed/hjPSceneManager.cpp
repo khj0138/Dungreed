@@ -27,10 +27,20 @@ namespace hj
 
 	PSceneManager::~PSceneManager()
 	{
+		ReleaseHero();
+		delete mHero;
+		for (auto pScene : mPlayScenes)
+		{
+			if (pScene == nullptr)
+				continue;
+			delete pScene;
+			pScene = nullptr;
+		}
 	}
 
 	void PSceneManager::Initialize()
 	{
+		
 		mHero = new Hero();
 		//Town* town = new Town();
 
@@ -82,6 +92,24 @@ namespace hj
 	void PSceneManager::OnExit()
 	{
 		mPlayScene->OnExit();
+	}
+
+	void PSceneManager::ReleaseHero()
+	{
+		if (mHero != nullptr)
+		{
+			for (PlayScene* scene : GetPlayScenes())
+			{
+				std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Player));
+
+				auto it = std::find(temp.begin(), temp.end(), mHero);
+				if (it != temp.end())
+				{
+					temp.erase(it);
+					continue;
+				}
+			}
+		}
 	}
 
 

@@ -35,6 +35,8 @@ namespace hj
 	}
 	Sword::~Sword()
 	{
+		delete mEffects;
+		mEffects = nullptr;
 	}
 	void Sword::Initialize()
 	{
@@ -178,7 +180,7 @@ namespace hj
 
 		//Weapon::SetReloadTime(0.3f);
 		//Weapon::SetWaitTime(0.0f);
-		Weapon::AddComponent<SpriteRenderer>();
+		//Weapon::AddComponent<SpriteRenderer>();
 
 	}
 

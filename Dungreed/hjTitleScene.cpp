@@ -17,6 +17,7 @@ namespace hj {
 	}
 	TitleScene::~TitleScene()
 	{
+		
 	}
 	void TitleScene::Initialize()
 	{
@@ -35,7 +36,7 @@ namespace hj {
 
 		BackGround* bg4 = new BackGround(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", Vector2::Zero, asRatio);
 		AddGameObject(bg4, eLayerType::FrontBG);
-
+		
 
 		for (int i = -2; i < 3; i++)
 		{

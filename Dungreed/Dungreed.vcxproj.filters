@@ -293,6 +293,7 @@
     <ClInclude Include="hjEliteSkelWarrior.h">
       <Filter>Contents\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="hjAnimObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -471,5 +472,6 @@
     <ClCompile Include="hjEliteSkelWarrior.cpp">
       <Filter>Contents\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="hjAnimObject.cpp" />
   </ItemGroup>
 </Project>

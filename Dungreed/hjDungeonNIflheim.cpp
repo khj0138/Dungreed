@@ -54,10 +54,10 @@ namespace hj
 	}
 	void DungeonNiflheim::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::T))
+		/*if (Input::GetKeyDown(eKeyCode::T))
 		{
 			TilePalatte::tRenderChange();
-		}
+		}*/
 		/*if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Title);

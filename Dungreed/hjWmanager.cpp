@@ -26,9 +26,14 @@ namespace hj
 
 	Wmanager::~Wmanager()
 	{
-		//for (std::pair<std::wstring, Weapon*> weapon : mWeapons)
+		//for (std::pair<std::wstring, Weapon*> weapon : mWeapons).0000000
+		ReleaseWeapon();
 		for (auto weapon : mWeapons)
 		{
+			/*if (weapon.second == nullptr)
+			{
+				continue;
+			}*/
 			delete weapon.second;
 			weapon.second = nullptr;
 		}
@@ -166,8 +171,7 @@ namespace hj
 
 	void Wmanager::EquipWeapon(const std::wstring& name, UINT index)
 	{
-		if (mActiveWeapon != nullptr)
-			int a = 0;
+		ReleaseWeapon();
 
 		mActiveWeapon = FindWeapon(name);
 		if (index == 0)
@@ -185,6 +189,31 @@ namespace hj
 		}
 		if (mActiveWeapon == nullptr)
 			return;
+	}
+
+	void Wmanager::ReleaseWeapon()
+	{
+		if (mActiveWeapon != nullptr)
+		{
+			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			{
+				std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Player));
+
+				auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+				if (it != temp.end())
+				{
+					temp.erase(it);
+					continue;
+				}
+				temp = (scene->GetGameObjects(eLayerType::Weapon_Monster));
+				it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+				if (it != temp.end())
+				{
+					temp.erase(it);
+					continue;
+				}
+			}
+		}
 	}
 
 	//	return wfuncs->Wrender.mWfunc;

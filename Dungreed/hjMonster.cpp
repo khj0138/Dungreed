@@ -40,53 +40,53 @@ namespace hj
 
 
 
-		mAnimator = AddComponent<Animator>();
-		isJump = false;
-		cJump = 1;
+		//mAnimator = AddComponent<Animator>();
+		//isJump = false;
+		//cJump = 1;
 
-		Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
-		//Vector2 asRatio = Vector2::One * 1.28f;
-		Img* mImage = RscManager::Load<Img>(L"Monster", L"..\\Resource\\Char\\baseChar.bmp");
-		mImage->MatchRatio(asRatio);
-		mImage->SetMoveRate(Vector2::One);
-		Vector2 size = Vector2::Zero;
-		size.x = mImage->GetWidth() / 8.0f;
-		size.y = mImage->GetHeight() / 8.0f;
+		//Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
+		////Vector2 asRatio = Vector2::One * 1.28f;
+		//Img* mImage = RscManager::Load<Img>(L"Monster", L"..\\Resource\\Char\\baseChar.bmp");
+		//mImage->MatchRatio(asRatio);
+		//mImage->SetMoveRate(Vector2::One);
+		//Vector2 size = Vector2::Zero;
+		//size.x = mImage->GetWidth() / 8.0f;
+		//size.y = mImage->GetHeight() / 8.0f;
 
-		Transform* tr = GetComponent<Transform>();
-		tr->SetSize(size);
-		tr->SetVelocity(Vector2{ 300.0f, 0.0f });
-		tr->SetPos(Vector2{ 3400.0f, 1400.0f });
+		//Transform* tr = GetComponent<Transform>();
+		//tr->SetSize(size);
+		//tr->SetVelocity(Vector2{ 300.0f, 0.0f });
+		//tr->SetPos(Vector2{ 3400.0f, 1400.0f });
 
-		Vector2 pos = tr->GetPos();
+		//Vector2 pos = tr->GetPos();
 
-		UINT index = 0;
-		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"FlippedIdle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Run", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 8, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"FlippedRun", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 8, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Die", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"FlippedDie", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Jump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"FlippedJump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
+		//UINT index = 0;
+		//mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"FlippedIdle", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 5, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"Run", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 8, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"FlippedRun", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 8, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"Die", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"FlippedDie", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"Jump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"FlippedJump", mImage, size * Vector2{ 0.0f, (float)index++ }, 8, 8, 1, Vector2::Zero, 0.1);
 
-		SetFlip(false);
-		StateChange(eMonsterState::Idle, L"Idle", true);
+		//SetFlip(false);
+		//StateChange(eMonsterState::Idle, L"Idle", true);
 
-		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2{ 36.0f, 56.0f });
-		Vector2 colSize = collider->GetSize();
-		collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
+		//Collider* collider = AddComponent<Collider>();
+		//collider->SetSize(Vector2{ 36.0f, 56.0f });
+		//Vector2 colSize = collider->GetSize();
+		//collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
 
-		mRigidbody = AddComponent<Rigidbody>();
-		mRigidbody->SetMass(1.0f);
+		//mRigidbody = AddComponent<Rigidbody>();
+		//mRigidbody->SetMass(1.0f);
 
-		mWeapons = new Wmanager_mon();
-		mWeapons->SetOwner(this);
-		/*mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
-		mWeapons->EquipWeapon(L"Empty", 1);*/
-		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD_MON);
-		mWeapons->EquipWeapon(L"Sword", 1);
+		//mWeapons = new Wmanager_mon();
+		//mWeapons->SetOwner(this);
+		///*mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
+		//mWeapons->EquipWeapon(L"Empty", 1);*/
+		//mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD_MON);
+		//mWeapons->EquipWeapon(L"Sword", 1);
 		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
 		//mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
 		//mWeapons->EquipWeapon(L"Sword");

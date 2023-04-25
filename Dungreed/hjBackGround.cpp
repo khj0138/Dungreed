@@ -12,6 +12,7 @@ extern hj::Application application;
 
 namespace hj
 {
+	bool BackGround::bRender = true;
 	BackGround::BackGround()
 		: mTime(0.0f)
 		, mRepeat(false)
@@ -84,7 +85,8 @@ namespace hj
 	}
 	void BackGround::Render(HDC hdc)
 	{
-
+		if (bRender == false)
+			return;
 		Transform* tr = GetComponent<Transform>();
 		Vector2 scale = tr->GetScale();
 		Vector2 pos = tr->GetPos();

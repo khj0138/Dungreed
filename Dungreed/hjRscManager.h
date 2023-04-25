@@ -32,7 +32,10 @@ namespace hj
 			T* resource = RscManager::Find<T>(key2);
 			if (resource != nullptr)
 			{
-				key2 = key2 + ((wchar_t)(rIndex++));
+				wchar_t s[65];
+				_itow_s(rIndex++, s, 10);
+				std::wstring s2(s);
+				key2.append(s2);
 			}
 
 			// 해당 리소스 없을 시
@@ -45,7 +48,7 @@ namespace hj
 
 			resource->SetKey(key2);
 			resource->SetPath(path);
-			mRscManager.insert(std::make_pair(key, resource));
+			mRscManager.insert(std::make_pair(key2, resource));
 
 			return dynamic_cast<T*>(resource);
 		}

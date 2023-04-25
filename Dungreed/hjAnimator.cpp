@@ -41,8 +41,8 @@ namespace hj
 
 				if (events != nullptr)
 					events->mCompleteEvent();
-
-				mActiveAnimation->Reset();
+				if(mbLoop == true)
+					mActiveAnimation->Reset();
 			}
 			mActiveAnimation->Update();
 

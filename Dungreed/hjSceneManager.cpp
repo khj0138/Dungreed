@@ -18,11 +18,11 @@ namespace hj
 		mScenes.resize((UINT)eSceneType::End);
 
 		TilePalatte::Initiailize();
-		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 
 
 		/*PlayScene* playScene = new PlayScene();
 		mScenes[(UINT)eSceneType::Play] = playScene->;*/
+		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 
 		for (Scene* scene : mScenes)
@@ -44,6 +44,14 @@ namespace hj
 
 	void SceneManager::Update()
 	{
+		if (Input::GetKeyDown(eKeyCode::T))
+		{
+			TilePalatte::tRenderChange();
+		}
+		if (Input::GetKeyDown(eKeyCode::B))
+		{
+			BackGround::bRenderChange();
+		}
 		mActiveScene->Update();
 	}
 
@@ -59,6 +67,7 @@ namespace hj
 
 	void SceneManager::Release()
 	{
+		mScenes[(UINT)eSceneType::Play] = nullptr;
 		for (Scene* scene : mScenes)
 		{
 			if (scene == nullptr)
@@ -66,6 +75,8 @@ namespace hj
 			delete scene;
 			scene = nullptr;
 		}
+		delete PManager;
+
 	}
 
 	void SceneManager::LoadScene(eSceneType type)

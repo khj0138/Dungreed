@@ -27,14 +27,17 @@ namespace hj
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void CreateWeapon(const std::wstring& name, eWeaponType wType);
 		void EquipWeapon(const std::wstring& name, UINT index);
+		void ReleaseWeapon();
 
 		Weapon* FindWeapon(const std::wstring& name);
 		Weapon* GetActiveWeapon() { return mActiveWeapon; }
 		GameObject* GetOwner() { return mOwner; }
+		
 
 		Vector2 GetDir() { return mDir; }
 		Vector2 GetPos() { return mPos; }
 		bool GetFlip() { return isFlip; }
+
 		/*Weapon::Wfuncs* FindWeapon(const std::wstring& name);
 
 		std::function<void()>& Wupdate(const std::wstring& name);

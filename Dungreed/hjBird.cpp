@@ -26,6 +26,7 @@ namespace hj
 	}
 	Bird::~Bird()
 	{
+
 	}
 	void Bird::Initialize()
 	{
@@ -53,7 +54,6 @@ namespace hj
 
 		if (isSpawn == false)
 			return;
-		mAnimator;
 		GameObject::Render(hdc);
 	}
 	void Bird::Release()
@@ -62,13 +62,13 @@ namespace hj
 	
 	void Bird::setAnimation(const std::wstring name, const std::wstring path, Vector2 asRatio)
 	{
-		mAnimator = AddComponent<Animator>();
+		/*mAnimator = AddComponent<Animator>();
 		Img* mImage = RscManager::Load<Img>(name, path);
 		if (mImage->GetHeight() < 40)
 			mImage->MatchRatio(asRatio);
 		
 		mAnimator->CreateAnimation(name, mImage, Vector2::Zero, 8, 1, 8, Vector2::Zero, 0.075);
-		mAnimator->Play(name, true);
+		mAnimator->Play(name, true);*/
 	}
 }
 

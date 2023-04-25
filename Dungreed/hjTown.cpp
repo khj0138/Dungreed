@@ -50,7 +50,7 @@ namespace hj
 		//AddGameObject(TownTile, eLayerType::FrontBG);
 
 		PlaneObject* TownFloor = new PlaneObject(L"TownFloor", L"..\\Resource\\Town\\TownFloor.bmp", asRatio, Vector2{ 0.0f, 1600.0f}, Vector2::One);
-		AddGameObject(TownFloor, eLayerType::BGobject);
+		AddGameObject(TownFloor, eLayerType::Ground);
 
 		/*Monster* mon = new Monster();
 		AddGameObject(mon, eLayerType::Monster);*/
@@ -66,10 +66,10 @@ namespace hj
 	}
 	void Town::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::T))
+		/*if (Input::GetKeyDown(eKeyCode::T))
 		{
 			TilePalatte::tRenderChange();
-		}
+		}*/
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_0);
@@ -146,7 +146,8 @@ namespace hj
 
 		//TilePalatte::clear();
 		//TilePalatte::clear(1);
-
+		wchar_t clean[256] = L"\0";
+		TilePalatte::Load(clean);
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, false);

@@ -27,11 +27,13 @@ namespace hj
 
 	Emanager::~Emanager()
 	{
+		bEffects.clear();
 		for (auto effect : mEffects)
 		{
 			delete effect.second;
 			effect.second = nullptr;
 		}
+		mEffects.clear();
 	}
 
 	void Emanager::Initialize()

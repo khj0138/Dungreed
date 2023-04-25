@@ -94,7 +94,7 @@ namespace hj
 		//collider->SetCenter(Vector2{ collider->GetSize().x / -2.f, collider->GetSize().y });
 		
 		Weapon::SetReloadTime(0.3f);
-		Weapon::AddComponent<SpriteRenderer>();
+		//Weapon::AddComponent<SpriteRenderer>();
 
 	}
 

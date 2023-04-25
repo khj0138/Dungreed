@@ -25,10 +25,10 @@ enum class ePSceneType
 enum class eLayerType
 {
 	BackBG,
-	BGobject,
 	FrontBG,
 	Ground,
 	Tile,
+	BGobject,
 	Player,
 	Monster,
 	Weapon_Player,

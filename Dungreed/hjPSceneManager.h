@@ -34,6 +34,7 @@ namespace hj
 		void SetPlayScene(PlayScene* scene) { mPlayScene = scene; }
 		Hero* GetHero() { return mHero; }
 		void SetHero(Hero* hero) { mHero = hero; }
+		void ReleaseHero();
 		std::vector<PlayScene*>& GetPlayScenes() { return mPlayScenes; }
 
 		template <typename T>

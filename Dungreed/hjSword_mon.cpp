@@ -35,6 +35,7 @@ namespace hj
 	}
 	Sword_mon::~Sword_mon()
 	{
+
 	}
 	void Sword_mon::Initialize()
 	{
@@ -189,7 +190,7 @@ namespace hj
 
 		/*Weapon::SetReloadTime(0.1f);
 		Weapon::SetWaitTime(1.2f);*/
-		Weapon::AddComponent<SpriteRenderer>();
+		//Weapon::AddComponent<SpriteRenderer>();
 
 	}
 
