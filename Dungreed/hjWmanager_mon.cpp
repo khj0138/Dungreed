@@ -2,8 +2,8 @@
 #include "hjMouse.h"
 #include "hjMath.h"
 #include "hjMouse.h"
-//#include "hjWeapon.h"
-#include "hjSword_mon.h"
+#include "hjWeapon.h"
+#include "hjSword.h"
 #include "hjComponent.h"
 #include "hjTransform.h"
 #include "hjCollider.h"
@@ -27,11 +27,13 @@ namespace hj
 	Wmanager_mon::~Wmanager_mon()
 	{
 		//for (std::pair<std::wstring, Weapon*> weapon : mWeapons)
+		ReleaseWeapon();
 		for (auto weapon : mWeapons)
 		{
 			delete weapon.second;
 			weapon.second = nullptr;
 		}
+		
 	}
 
 	void Wmanager_mon::Initialize()
@@ -160,13 +162,16 @@ namespace hj
 		return iter->second;
 	}
 
-	void Wmanager_mon::EquipWeapon(const std::wstring& name, UINT index)
+	void Wmanager_mon::EquipWeapon(const std::wstring& name/*, UINT index*/)
 	{
 		if (mActiveWeapon != nullptr)
 			int a = 0;
 
 		mActiveWeapon = FindWeapon(name);
-		if (index == 0)
+		PlayScene* scene = SceneManager::GetPManager()->GetPlayScene();
+		scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Monster);
+		mActiveWeapon->Initialize();
+		/*if (index == 0)
 		{
 
 			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
@@ -178,11 +183,41 @@ namespace hj
 			PlayScene* scene = SceneManager::GetPManager()->GetPlayScene();
 			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Monster);
 			mActiveWeapon->Initialize();
-		}
+		}*/
 		if (mActiveWeapon == nullptr)
 			return;
 	}
+	void Wmanager_mon::ReleaseWeapon()
+	{
+		if (mActiveWeapon != nullptr)
+		{
+			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			{
+				/*if (!(scene->LayerEmpty(eLayerType::Weapon_Player)))
+				{
 
+					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Player));
+
+					auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+					if (it != temp.end())
+					{
+						temp.erase(it);
+						continue;
+					}
+				}*/
+				if (!(scene->LayerEmpty(eLayerType::Weapon_Monster)))
+				{
+					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Monster));
+					auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+					if (it != temp.end())
+					{
+						temp.erase(it);
+						continue;
+					}
+				}
+			}
+		}
+	}
 	//	return wfuncs->Wrender.mWfunc;
 	//}
 }

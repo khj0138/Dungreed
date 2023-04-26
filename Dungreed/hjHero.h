@@ -59,7 +59,7 @@ namespace hj
 		void dash();
 		void downJump(Collider* other);
 
-		void Flip(std::wstring name);
+		void Flip();
 		//bool checkFlip() { return mFlip; }
 
 

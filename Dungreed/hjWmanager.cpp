@@ -3,13 +3,14 @@
 #include "hjMath.h"
 #include "hjMouse.h"
 #include "hjWeapon.h"
-#include "hjSword.h"
 #include "hjComponent.h"
 #include "hjTransform.h"
 #include "hjCollider.h"
 #include "hjSceneManager.h"
-#include "hjEmpty.h"
 #include "hjPSceneManager.h"
+#include "hjSword.h"
+#include "hjEmpty.h"
+#include "hjBow.h"
 namespace hj
 {
 
@@ -72,9 +73,19 @@ namespace hj
 			}
 			if (Mouse::GetLstate() == eKeyState::Up)
 			{
-				mTime = 0.0f;
-				mActiveWeapon->SetBAttack(true);
-				mActiveWeapon->SetState(Weapon::eWeaponState::ATTACK);
+				if (mTime == mActiveWeapon->GetWaitTime())
+				{
+					mActiveWeapon->SetDamage((UINT)(mActiveWeapon->GetStat().power * (mTime / mActiveWeapon->GetStat().wait)));
+					mActiveWeapon->SetBAttack(true);
+					mActiveWeapon->SetState(Weapon::eWeaponState::ATTACK);
+					mTime = 0.0f;
+				}
+				else
+				{
+					mTime = 0.0f;
+					mActiveWeapon->SetState(Weapon::eWeaponState::IDLE);
+				}
+				
 				return;
 			}
 		}
@@ -145,7 +156,11 @@ namespace hj
 		case eWeaponType::EMPTY:
 			newWeapon = new Empty();
 			break;
+		case eWeaponType::BOW:
+			newWeapon = new Bow();
+			break;
 		}
+		
 		if (newWeapon != nullptr)
 		{
 			//newWeapon->SetWmanager(this);
@@ -169,12 +184,14 @@ namespace hj
 		return iter->second;
 	}
 
-	void Wmanager::EquipWeapon(const std::wstring& name, UINT index)
+	void Wmanager::EquipWeapon(const std::wstring& name/*, UINT index*/)
 	{
 		ReleaseWeapon();
 
 		mActiveWeapon = FindWeapon(name);
-		if (index == 0)
+		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Player);
+		/*if (index == 0)
 		{
 
 		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
@@ -186,7 +203,7 @@ namespace hj
 			PlayScene* scene = SceneManager::GetPManager()->GetPlayScene();
 			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Monster);
 			mActiveWeapon->Initialize();
-		}
+		}*/
 		if (mActiveWeapon == nullptr)
 			return;
 	}
@@ -197,21 +214,28 @@ namespace hj
 		{
 			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
 			{
-				std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Player));
+				if (!(scene->LayerEmpty(eLayerType::Weapon_Player)))
+				{
 
-				auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
-				if (it != temp.end())
-				{
-					temp.erase(it);
-					continue;
+					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Player));
+
+					auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+					if (it != temp.end())
+					{
+						temp.erase(it);
+						continue;
+					}
 				}
-				temp = (scene->GetGameObjects(eLayerType::Weapon_Monster));
-				it = std::find(temp.begin(), temp.end(), mActiveWeapon);
-				if (it != temp.end())
+				/*if (!(scene->LayerEmpty(eLayerType::Weapon_Monster)))
 				{
-					temp.erase(it);
-					continue;
-				}
+					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Monster));
+					auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+					if (it != temp.end())
+					{
+						temp.erase(it);
+						continue;
+					}
+				}*/
 			}
 		}
 	}

@@ -55,6 +55,7 @@ enum class eWeaponType {
 	SWORD,
 	GUN,
 	EMPTY,
+	BOW,
 	SWORD_MON,
 	END,
 };

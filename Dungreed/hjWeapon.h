@@ -73,6 +73,7 @@ namespace hj
 		void SetBAttack(bool attack) { bAttack = attack; }
 		void SetBCollision(bool collision) { bCollision = collision; }
 		void SetCAttack(bool attack) { cAttack = attack; }
+		void SetDamage(UINT damage) { mDamage = damage; }
 
 		eWeaponState GetState() { return mWstate; }
 		Animator* GetAnimator() { return mAnimator; }
@@ -94,6 +95,8 @@ namespace hj
 		void SetWaitTime(float time) { stat.wait = time; }
 		float GetReloadTime() { return stat.reload; }
 		float GetWaitTime() { return stat.wait; }
+		float GetTime() { return mTime; }
+		float GetDamage() { return mDamage; }
 
 		void SetStat(float power, float dashPower, float reload, float wait)
 		{
@@ -118,6 +121,7 @@ namespace hj
 		bool bAttack;
 		bool bCollision;
 		bool cAttack;
+		UINT mDamage;
 
 		//float reloadTime;
 		//float waitTime;

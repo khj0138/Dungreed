@@ -85,7 +85,7 @@ namespace hj
 		/*mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
 		mWeapons->EquipWeapon(L"Empty", 1);*/
 		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD_MON);
-		mWeapons->EquipWeapon(L"Sword", 1);
+		mWeapons->EquipWeapon(L"Sword");
 		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
 		//mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
 		//mWeapons->EquipWeapon(L"Sword");

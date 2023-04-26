@@ -35,7 +35,8 @@ namespace hj
 	}
 	Sword_mon::~Sword_mon()
 	{
-
+		delete mEffects;
+		mEffects = nullptr;
 	}
 	void Sword_mon::Initialize()
 	{
@@ -188,9 +189,6 @@ namespace hj
 			posCol.push_back(rect[i]);
 		}
 
-		/*Weapon::SetReloadTime(0.1f);
-		Weapon::SetWaitTime(1.2f);*/
-		//Weapon::AddComponent<SpriteRenderer>();
 
 	}
 

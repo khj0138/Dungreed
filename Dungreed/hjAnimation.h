@@ -43,7 +43,7 @@ namespace hj
 		void SetAnimationName(const std::wstring& name) { mAnimationName = name; }
 		void SetRotate(bool rotate) { bRotate = rotate; }
 		void SetDirection(Vector2 direction) { mDirection = direction; }
-		std::wstring& GetAnimationName() { return mAnimationName; }
+		std::wstring& GetAnimationName() {return mAnimationName;}
 	
 	
 	private:

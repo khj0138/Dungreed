@@ -82,6 +82,7 @@ namespace hj
 
 	std::vector<GameObject*>& Scene::GetGameObjects(eLayerType layer)
 	{
+		
 		return mLayers[(UINT)layer].GetGameObjects();
 	}
 

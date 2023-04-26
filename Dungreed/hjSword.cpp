@@ -65,29 +65,29 @@ namespace hj
 
 		if (sState == SwordState::up)
 		{
-			mSpawnDir = math::Rotate(dir, -5.0f * flipNum + 180.0f * (float)isFlip);
+			mSpawnDir = math::Rotate(dir, -5.0f * flipNum + 180.0f * (float)isFlip); // 무기 비틀기
 
 			mSpawn = pos
-				+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y } // 원 중심 이동
+				+ Vector2{ (xtemp)*heroSize.x * flipNum,0.0f }// (ytemp)*heroSize.y} // 원 중심 이동
 				+ math::Rotate((dir), -90.0f * flipNum) * mRadius // 원 중심을 기준으로 위치 회전
 				- imgVect / 2.f // lefttop -> middle
-				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length();
+				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length(); // 무기를 각도에 맞게 밀어내기
 		}
 		else
 		{
-			mSpawnDir = math::Rotate(dir, -175.0f * flipNum + 180.0f * (float)isFlip);
+			mSpawnDir = math::Rotate(dir, -175.0f * flipNum + 180.0f * (float)isFlip); // 무기 비틀기
 
 			mSpawn = pos
-				+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y } // 원 중심 이동
+				+ Vector2{ (xtemp)*heroSize.x * flipNum,0.0f }// (ytemp)*heroSize.y} // 원 중심 이동
 				+ math::Rotate((dir), -180.0f * flipNum) * mRadius//; // 원 중심을 기준으로 위치 회전
 				- imgVect / 2.f// lefttop -> middle
-				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length();
+				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length(); // 무기를 각도에 맞게 밀어내기
 			//+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / 8.f * 3.f).Length();
 		}
 
 		GetComponent<Transform>()->SetPos(pos
-			+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y }
-			+ (dir * ((float)mImage->GetHeight() - fabs(posCol[0].x) * 0.8f))
+			+ Vector2{ (xtemp)*heroSize.x ,0.0f } // 무기 실제 위치 원 중심으로 이동
+			+ (dir * ((float)mImage->GetHeight() - fabs(posCol[0].x) * 0.8f)) // 각도에 따라 무기 위치 이동
 		);
 		Collider* collider = GetComponent<Collider>();
 		collider->SetPos(
@@ -146,6 +146,7 @@ namespace hj
 	void Sword::Create()
 	{
 		//Weapon::SetAsRatio(Vector2::One * ((float)application.GetWidth() / 960.0f));
+		SetStat(10.0f, 5.0f, 0.3f, 0.0f);
 		mEffects = GetEmanager();
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
@@ -178,9 +179,6 @@ namespace hj
 			posCol.push_back(rect[i]);
 		}
 
-		//Weapon::SetReloadTime(0.3f);
-		//Weapon::SetWaitTime(0.0f);
-		//Weapon::AddComponent<SpriteRenderer>();
 
 	}
 

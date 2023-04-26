@@ -98,18 +98,18 @@ namespace hj
 		}*/
 		//SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile).clear();
 
-		/*EliteSkelWarrior* mon = new EliteSkelWarrior();
+		EliteSkelWarrior* mon = new EliteSkelWarrior();
 		AddGameObject(mon, eLayerType::Monster);
 		mon->Initialize();
 
-		SkeletonWarrior* mon2 = new SkeletonWarrior();
+		/*SkeletonWarrior* mon2 = new SkeletonWarrior();
 		AddGameObject(mon2, eLayerType::Monster);
 		mon2->Initialize();
 		mon2->GetComponent<Transform>()->SetPos(
-			mon2->GetComponent<Transform>()->GetPos() + Vector2{ 200.0f, 0.0f });
+			mon2->GetComponent<Transform>()->GetPos() + Vector2{ 200.0f, 0.0f });*/
 		if (GetHero() != nullptr)
 			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 0.0f, 561.0f } + 
-				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });*/
+				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_1_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_1Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";

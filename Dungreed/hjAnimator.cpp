@@ -73,7 +73,7 @@ namespace hj
 		animation->Create(sheet, leftTop, column, row, spriteLength, offset, duration);
 		animation->SetName(name);
 		animation->SetAnimator(this);
-
+		animation->SetAnimationName(name);
 		
 		mAnimations.insert(std::make_pair(name, animation));
 		Events* event = new Events();

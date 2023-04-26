@@ -294,6 +294,9 @@
       <Filter>Contents\Monster</Filter>
     </ClInclude>
     <ClInclude Include="hjAnimObject.h" />
+    <ClInclude Include="hjBow.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -473,5 +476,8 @@
       <Filter>Contents\Monster</Filter>
     </ClCompile>
     <ClCompile Include="hjAnimObject.cpp" />
+    <ClCompile Include="hjBow.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

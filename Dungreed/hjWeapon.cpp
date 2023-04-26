@@ -12,8 +12,9 @@ namespace hj
 	}
 	void Weapon::Update()
 	{
-		mPos = GetOwner()->GetComponent<Transform>()->GetPos();
-		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos, Vector2::One)).Normalize();
+		mPos = GetOwner()->GetComponent<Transform>()->GetPos()- Vector2{ 0.0f,GetOwner()->GetComponent<Collider>()->GetSize().y / 2.f };
+		mDir = (Mouse::GetPos() - Camera::CaluatePos(mPos /*- Vector2{ 0.0f,GetOwner()->GetComponent<Collider>()->GetSize().y / 2.f }*/
+			, Vector2::One)).Normalize();
 		isFlip = GetOwner()->GetFlip();
 	}
 	void Weapon::Render(HDC hdc)

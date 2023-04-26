@@ -26,7 +26,7 @@ namespace hj
 
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void CreateWeapon(const std::wstring& name, eWeaponType wType);
-		void EquipWeapon(const std::wstring& name, UINT index);
+		void EquipWeapon(const std::wstring& name /*,UINT index*/);
 		void ReleaseWeapon();
 
 		Weapon* FindWeapon(const std::wstring& name);

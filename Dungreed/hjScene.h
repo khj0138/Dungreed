@@ -21,6 +21,7 @@ namespace hj
 
 		void AddGameObject(GameObject* obj, eLayerType layer);
 		std::vector<GameObject*>& GetGameObjects(eLayerType layer);
+		bool LayerEmpty(eLayerType layer) { return mLayers.empty(); }
 		void SetAsRatio(Vector2 ratio) { asRatio = ratio; }
 		Vector2 GetAsRatio() { return asRatio; }
 	private:

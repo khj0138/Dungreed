@@ -16,6 +16,7 @@
 #include "hjLayer.h"
 #include "hjTown.h"
 #include "hjWeapon.h"
+#include "hjBow.h"
 
 extern hj::Application application;
 namespace hj
@@ -75,7 +76,7 @@ namespace hj
 		StateChange(eHeroState::Idle, L"Idle", true);
 
 		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2{ 48.0f, 96.0f });
+		collider->SetSize(Vector2{ 48.0f, 92.0f });
 		Vector2 colSize = collider->GetSize();
 		collider->SetCenter(Vector2{ (-0.5f) * colSize.x, (-1.0f) * colSize.y });
 
@@ -86,9 +87,10 @@ namespace hj
 		mWeapons->SetOwner(this);
 		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
 		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
-		mWeapons->EquipWeapon(L"Sword",0);
+		mWeapons->EquipWeapon(L"Sword");
+		mWeapons->CreateWeapon(L"Bow", eWeaponType::BOW);
+		//mWeapons->EquipWeapon(L"Bow");
 
-		mWeapons->GetActiveWeapon()->SetStat(10.0f, 5.0f, 0.3f, 0.0f);
 
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
@@ -134,7 +136,10 @@ namespace hj
 				200.0f
 				});
 		}
-
+		if (Input::GetKey(eKeyCode::U))
+		{
+			mWeapons->EquipWeapon(L"Bow");
+		}
 		if (isJump == false)
 		{
 			if (!(GetComponent<Rigidbody>()->GetGround()))
@@ -227,7 +232,7 @@ namespace hj
 		{
 			mAnimator->Play(anim, loop);
 		}
-		mAnimator->Reset();
+		//mAnimator->Reset();
 	}
 
 	void Hero::Attack(Weapon* attacker)
@@ -315,7 +320,7 @@ namespace hj
 
 		else
 		{
-			Flip(L"Idle");
+			Flip();
 		}
 	}
 
@@ -368,7 +373,7 @@ namespace hj
 				velocity.x = 400.0f;
 				mRigidbody->SetVelocity(velocity);
 			}
-			Flip(L"Run");
+			Flip();
 		}
 
 
@@ -459,7 +464,7 @@ namespace hj
 				}
 			}
 		}
-		Flip(L"Jump");
+		Flip();
 	}
 
 	void Hero::dash()
@@ -519,16 +524,41 @@ namespace hj
 		}
 	}
 
-	void Hero::Flip(std::wstring Anim)
+	void Hero::Flip()
 	{
-		if (GetFlip())
+		std::wstring Anim = GetComponent<Animator>()->GetActiveAnimation()->GetAnimationName();
+		if (Anim != L"")
 		{
-			std::wstring flipAnim = L"Flipped";
-			flipAnim.append(Anim);
-			mAnimator->Flip(flipAnim);
+			if (GetFlip())
+			{
+				int temp = Anim.find(L"Flipped");
+				std::wstring flipAnim = L"Flipped";
+				if (temp == std::wstring::npos)
+				{
+					flipAnim.append(Anim);
+					mAnimator->Flip(flipAnim);
+				}
+				else
+				{
+					mAnimator->Flip(Anim);
+				}
+			}
+			else
+			{
+				int temp = Anim.find(L"Flipped");
+				if (temp == std::wstring::npos)
+				{
+					mAnimator->Flip(Anim);
+				}
+				else
+				{
+					Anim.erase(Anim.begin(), Anim.begin() + 7);
+					mAnimator->Flip(Anim);
+				}
+				mAnimator->Flip(Anim);
+
+			}
 		}
-		else
-			mAnimator->Flip(Anim);
 	}
 
 }

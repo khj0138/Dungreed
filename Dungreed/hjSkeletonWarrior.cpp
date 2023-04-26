@@ -29,6 +29,8 @@ namespace hj
 	}
 	SkeletonWarrior::~SkeletonWarrior()
 	{
+		delete mWeapons;
+		mWeapons = nullptr;
 		//delete mEffects;
 		mEffects = nullptr;
 	}
@@ -80,22 +82,9 @@ namespace hj
 		/*mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
 		mWeapons->EquipWeapon(L"Empty", 1);*/
 		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD_MON);
-		mWeapons->EquipWeapon(L"Sword", 1);
+		mWeapons->EquipWeapon(L"Sword");
 
 		mWeapons->GetActiveWeapon()->SetStat(2.0f, 0.0f, 0.3f, 0.6f);
-		//mWeapons->GetActiveWeapon()->SetReloadTime(0.3f);
-		//mWeapons->GetActiveWeapon()->SetWaitTime(0.6f);
-		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
-		//mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
-		//mWeapons->EquipWeapon(L"Sword");
-
-	/*	mEffects = new Emanager();
-		mEffects->SetOwner(this);
-
-		mEffects->RegisterEffect(L"RunEffect", L"..\\Resource\\Char\\RunEffect.bmp", false, false, 5, Vector2{ (-1.5f) * colSize.x, 0.0f }, 0.04f, Vector2::One * 1.5f);
-		mEffects->RegisterEffect(L"DashEffect", L"..\\Resource\\Char\\DashEffect.bmp", true, false, 1, Vector2{ 0.0f, 0.0f }, 0.08f, Vector2::One * ((float)application.GetWidth() / 960.0f));
-		mEffects->RegisterEffect(L"JumpEffect", L"..\\Resource\\Char\\JumpFX.bmp", false, false, 5, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.03f);
-		mEffects->RegisterEffect(L"DJumpEffect", L"..\\Resource\\Char\\DoubleJumpFX.bmp", false, false, 6, Vector2{ (-0.5f) * colSize.x, 0.0f }, 0.03f);*/
 
 		GameObject::Initialize();
 	}
