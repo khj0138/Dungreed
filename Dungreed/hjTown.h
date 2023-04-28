@@ -20,12 +20,18 @@ namespace hj
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
+		void DungeonEatOpenEvent();
+		void DungeonEatCloseEvent();
 		//void SetHero(Hero* hero) { mHero = hero; }
 		/*virtual void AddGameObject(GameObject* obj, eLayerType layer) override
 		{
 			Scene::GetLayer(layer).AddGameObject(obj);
 		}*/
 	private:
+		GameObject* DungeonEatOpen;
+		GameObject* DungeonEatClose;
+
+
 		//Hero* mHero;
 		//BackGround* bg;
 	};

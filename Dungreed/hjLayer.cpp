@@ -33,7 +33,10 @@ namespace hj
 		{
 			if (gameObj == nullptr)
 				continue;
-
+			if (gameObj->GetState() == GameObject::eState::Pause)
+				continue;
+			if (gameObj->GetState() == GameObject::eState::Wait)
+				continue;
 			gameObj->Update();
 		}
 	}
@@ -43,7 +46,8 @@ namespace hj
 		{
 			if (gameObj == nullptr)
 				continue;
-
+			if (gameObj->GetState() == GameObject::eState::Pause)
+				continue;
 			gameObj->Render(hdc);
 		}
 	}

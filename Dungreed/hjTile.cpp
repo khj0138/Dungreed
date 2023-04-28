@@ -520,7 +520,7 @@ namespace hj {
 			if (hero == nullptr)
 				return;
 		}
-		if (mIndex == 4 || mIndex == 5)
+		if (mIndex == 3 || mIndex == 4 || mIndex == 5)
 		{
 			bCollision = false;
 		}

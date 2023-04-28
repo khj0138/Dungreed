@@ -12,6 +12,7 @@ namespace hj
 		{
 			Active,
 			Pause,
+			Wait,
 			Death,
 		};
 

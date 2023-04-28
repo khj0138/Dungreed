@@ -16,6 +16,11 @@
 #include "hjHero.h"
 
 #include "hjMonster.h"
+#include "hjArrow.h"
+#include "hjBaseBullet.h"
+
+#include "hjPSceneManager.h"
+#include "hjSceneManager.h"
 
 extern hj::Application application;
 namespace hj
@@ -34,6 +39,23 @@ namespace hj
 	{
 		delete mEffects;
 		mEffects = nullptr;
+		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+		{
+			if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
+			{
+
+				std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Bullet_Player));
+
+				auto it = std::find(temp.begin(), temp.end(), arrow);
+				if (it != temp.end())
+				{
+					temp.erase(it);
+					continue;
+				}
+			}
+		}
+		delete arrow;
+		arrow = nullptr;
 	}
 	void Bow::Initialize()
 	{
@@ -44,7 +66,7 @@ namespace hj
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector2 heroSize = tr->GetSize();
 
-		mWstate = Weapon::GetState();
+		mWstate = Weapon::GetWState();
 
 		float length = mImage->GetHeight();
 		Vector2 pos = GetPos();
@@ -147,8 +169,11 @@ namespace hj
 		mAnimator->GetCompleteEvent(L"Shoot") = std::bind(&Bow::shootCompleteEvent, this);
 		mAnimator->GetCompleteEvent(L"FlippedShoot") = std::bind(&Bow::shootCompleteEvent, this);
 		
-		
-
+		arrow = new Arrow();
+		arrow->Create();
+		arrow->SetState(GameObject::eState::Pause);
+		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			scene->AddGameObject((GameObject*)arrow, eLayerType::Bullet_Player);
 
 	}
 
@@ -187,6 +212,10 @@ namespace hj
 		Play(L"Shoot", true);
 		Weapon::Attack();
 		Damage = GetDamage();
+		arrow->SetStat(Damage, GetDir());
+		arrow->Spawn(GetComponent<Transform>()->GetPos()
+		-arrow->GetComponent<Transform>()->GetSize()/2.f
+		);
 		//sState = (BowState)(((UINT)sState + 1) % (UINT)BowState::END);
 	}
 	void Bow::Reload()

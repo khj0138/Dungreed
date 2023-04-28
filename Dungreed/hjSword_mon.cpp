@@ -75,7 +75,7 @@ namespace hj
 		Collider* col = GetOwner()->GetComponent<Collider>();
 		Vector2 heroSize = col->GetSize();
 
-		mWstate = Weapon::GetState();
+		mWstate = Weapon::GetWState();
 
 		float length = mImage->GetHeight();
 		Vector2 pos = GetPos();
@@ -96,7 +96,7 @@ namespace hj
 			mSpawnDir = math::Rotate(dir, -5.0f * flipNum + 180.0f * (float)isFlip);
 
 			mSpawn = pos
-				+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y } // 원 중심 이동
+				+ Vector2{ (xtemp)*heroSize.x * flipNum,0.0f } // 원 중심 이동
 				+ math::Rotate((dir), -90.0f * flipNum) * mRadius // 원 중심을 기준으로 위치 회전
 				- imgVect / 2.f // lefttop -> middle
 				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length();
@@ -106,7 +106,7 @@ namespace hj
 			mSpawnDir = math::Rotate(dir, -175.0f * flipNum + 180.0f * (float)isFlip);
 
 			mSpawn = pos
-				+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y } // 원 중심 이동
+				+ Vector2{ (xtemp)*heroSize.x * flipNum, 0.0f } // 원 중심 이동
 				+ math::Rotate((dir), -180.0f * flipNum) * mRadius//; // 원 중심을 기준으로 위치 회전
 				- imgVect / 2.f// lefttop -> middle
 				+ math::Rotate(mSpawnDir, -90.0f) * (imgVect / hands).Length();
@@ -114,7 +114,7 @@ namespace hj
 		}
 
 		GetComponent<Transform>()->SetPos(pos
-			+ Vector2{ (xtemp)*heroSize.x * flipNum, (ytemp)*heroSize.y }
+			+ Vector2{ (xtemp)*heroSize.x * flipNum, 0.0f }
 			+ (dir * ((float)mImage->GetHeight() - fabs(posCol[0].x) * 0.8f))
 		);
 		Collider* collider = GetComponent<Collider>();
@@ -201,12 +201,12 @@ namespace hj
 			SetCAttack(true);
 			if (GetBAttack() == true)
 			{
-				if (AttackCheck(other))
-				{
+				/*if (AttackCheck(other))
+				{*/
 					// other에게 알려줘야함
 					hero->Attack(this);
 					SetBCollision(true);
-				}
+				//}
 			}
 		}
 	}
@@ -219,12 +219,12 @@ namespace hj
 			SetCAttack(true);
 			if (GetBAttack() == true)
 			{
-				if (AttackCheck(other))
-				{
+				/*if (AttackCheck(other))
+				{*/
 					// other에게 알려줘야함
 					hero->Attack(this);
 					SetBCollision(true);
-				}
+				//}
 			}
 		}
 	}

@@ -28,6 +28,8 @@ namespace hj
 		void CreateWeapon(const std::wstring& name, eWeaponType wType);
 		void EquipWeapon(const std::wstring& name /*,UINT index*/);
 		void ReleaseWeapon();
+		void ReleaseDashWeapon();
+		void SetState(GameObject::eState type);
 
 		Weapon* FindWeapon(const std::wstring& name);
 		Weapon* GetActiveWeapon() { return mActiveWeapon; }
@@ -47,6 +49,7 @@ namespace hj
 		//std::map<std::wstring, Wfuncs*> mWeapons;
 		Vector2 mDir;
 		Weapon* mActiveWeapon;
+		Weapon* mDashWeapon;
 		std::map<std::wstring, Weapon*> mWeapons;
 		GameObject* mOwner;
 		Vector2 mPos;

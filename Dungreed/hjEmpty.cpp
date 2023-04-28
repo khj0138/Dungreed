@@ -13,7 +13,7 @@
 #include "hjMouse.h"
 #include "hjTime.h"
 #include "hjCamera.h"
-#include "hjHero.h"
+#include "hjMonster.h"
 
 extern hj::Application application;
 //extern GraphicsPath Path;
@@ -40,26 +40,17 @@ namespace hj
 	}
 	void Empty::Update()
 	{
-		Weapon::Update();
-		Collider* tr = GetOwner()->GetComponent<Collider>();
-		Vector2 ownerSize = tr->GetSize();
-
-		mWstate = GetState();
-		Vector2 pos = GetPos();
-		isFlip = GetFlip();
-
-		float flipNum = 1.0f - 2.0f * (float)(isFlip);
-
-		Collider* collider = GetComponent<Collider>();
-		collider->SetPos(pos
-			- Vector2{collider->GetSize().x * isFlip * 1.f, collider->GetSize().y * 1.f}
-			+ Vector2{ ownerSize.x / 2.f * (flipNum) ,0.0f }
-		);
-		GetComponent<Transform>()->SetPos(collider->GetPos());
-		//mEffects->Update();
-
+		//Weapon::Update();
+		if (GetBAttack() == false)
+		{
+			SetBCollision(false);
+		}
+		Transform* HeroTr = GetOwner()->GetComponent<Transform>();
 		
-		mWstate = Weapon::GetState();
+		GetComponent<Transform>()->SetPos(HeroTr->GetPos());
+		GetComponent<Collider>()->Update();
+
+		mWstate = Weapon::GetWState();
 		switch (mWstate)
 		{
 		case eWeaponState::IDLE:
@@ -87,25 +78,23 @@ namespace hj
 
 	void Empty::Create()
 	{
-		// collider 설정
-		
 		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2::One * GetOwner()->GetComponent<Collider>()->GetSize().y);
-		//collider->SetCenter(Vector2{ collider->GetSize().x / -2.f, collider->GetSize().y });
-		
-		Weapon::SetReloadTime(0.3f);
-
+		collider->SetSize(GetOwner()->GetComponent<Collider>()->GetSize());
+		collider->SetCenter(
+			Vector2{
+				GetComponent<Collider>()->GetSize().x / 2.f
+			, GetComponent<Collider>()->GetSize().y * -1.f }
+		);
 	}
 
 	void Empty::OnCollisionEnter(Collider* other)
 	{
-		Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
-		if (hero != NULL)
+		Monster* mon = dynamic_cast<Monster*>(other->GetOwner());
+		if (mon != NULL)
 		{
-			SetCAttack(true);
 			if (GetBAttack() == true)
 			{
-				hero->Attack(this);
+				mon->Attack(this);
 				SetBCollision(true);
 			}
 		}
@@ -119,33 +108,20 @@ namespace hj
 
 	void Empty::OnCollisionStay(Collider* other)
 	{
-		Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
-		if (hero != NULL)
+		/*Monster* mon = dynamic_cast<Monster*>(other->GetOwner());
+		if (mon != NULL)
 		{
-			SetCAttack(true);
 			if (GetBAttack() == true)
 			{
-				hero->Attack(this);
+				mon->Attack(this);
 				SetBCollision(true);
 			}
-		}
+		}*/
 	}
 
 	void Empty::OnCollisionExit(Collider* other)
 	{
-		//Hero* hero = dynamic_cast<Hero*>(other->GetOwner());
-		//if (hero != nullptr)
-		//{
-		//	// 공격 준비상태가 돼야함
-		//	mTime = 0.0f;
-		//	SetBAttack(false);
-		//	SetState(eWeaponState::IDLE);
-		//}
-		Hero* victim2 = dynamic_cast<Hero*>(other->GetOwner());
-		if (victim2 != NULL)
-		{
-			SetCAttack(false);
-		}
+		
 	}
 
 	void Empty::Idle()

@@ -129,10 +129,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="hjEliteIceSkelWarrior.h" />
     <ClInclude Include="hjAnimObject.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
+    <ClInclude Include="hjArrow.h" />
+    <ClInclude Include="hjArrow_mon.h" />
     <ClInclude Include="hjBow.h" />
+    <ClInclude Include="hjBow_mon.h" />
     <ClInclude Include="hjDungeon1_0.h" />
     <ClInclude Include="hjDungeon1_1.h" />
     <ClInclude Include="framework.h" />
@@ -143,6 +147,7 @@
     <ClInclude Include="hjEliteSkelWarrior.h" />
     <ClInclude Include="hjEmanager.h" />
     <ClInclude Include="hjEmpty.h" />
+    <ClInclude Include="hjEmpty_mon.h" />
     <ClInclude Include="hjGround.h" />
     <ClInclude Include="hjAnimation.h" />
     <ClInclude Include="hjAnimator.h" />
@@ -159,6 +164,7 @@
     <ClInclude Include="hjGameObject.h" />
     <ClInclude Include="hjHero.h" />
     <ClInclude Include="HjHjEngine.h" />
+    <ClInclude Include="hjIceBullet.h" />
     <ClInclude Include="hjImage.h" />
     <ClInclude Include="hjInput.h" />
     <ClInclude Include="hjLayer.h" />
@@ -176,6 +182,7 @@
     <ClInclude Include="hjRscManager.h" />
     <ClInclude Include="hjScene.h" />
     <ClInclude Include="hjSceneManager.h" />
+    <ClInclude Include="hjSkeletonArcher.h" />
     <ClInclude Include="hjSpriteRenderer.h" />
     <ClInclude Include="hjSword.h" />
     <ClInclude Include="hjSword_mon.h" />
@@ -196,8 +203,12 @@
     <ClInclude Include="hjPSceneList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="hjEliteIceSkelWarrior.cpp" />
     <ClCompile Include="hjAnimObject.cpp" />
+    <ClCompile Include="hjArrow.cpp" />
+    <ClCompile Include="hjArrow_mon.cpp" />
     <ClCompile Include="hjBow.cpp" />
+    <ClCompile Include="hjBow_mon.cpp" />
     <ClCompile Include="hjDungeon1_0.cpp" />
     <ClCompile Include="hjDungeon1_1.cpp" />
     <ClCompile Include="hjDungeon1_2.cpp" />
@@ -207,6 +218,7 @@
     <ClCompile Include="hjEliteSkelWarrior.cpp" />
     <ClCompile Include="hjEmanager.cpp" />
     <ClCompile Include="hjEmpty.cpp" />
+    <ClCompile Include="hjEmpty_mon.cpp" />
     <ClCompile Include="hjGround.cpp" />
     <ClCompile Include="hjAnimation.cpp" />
     <ClCompile Include="hjAnimator.cpp" />
@@ -221,6 +233,7 @@
     <ClCompile Include="hjEntity.cpp" />
     <ClCompile Include="hjGameObject.cpp" />
     <ClCompile Include="hjHero.cpp" />
+    <ClCompile Include="hjIceBullet.cpp" />
     <ClCompile Include="hjImage.cpp" />
     <ClCompile Include="hjInput.cpp" />
     <ClCompile Include="hjLayer.cpp" />
@@ -237,6 +250,7 @@
     <ClCompile Include="hjRscManager.cpp" />
     <ClCompile Include="hjScene.cpp" />
     <ClCompile Include="hjSceneManager.cpp" />
+    <ClCompile Include="hjSkeletonArcher.cpp" />
     <ClCompile Include="hjSpriteRenderer.cpp" />
     <ClCompile Include="hjSword.cpp" />
     <ClCompile Include="hjSword_mon.cpp" />

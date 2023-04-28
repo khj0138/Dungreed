@@ -30,13 +30,15 @@ namespace hj
 			Collider* leftCollider = leftObject->GetComponent<Collider>();
 			if (leftCollider == nullptr)
 				continue;
-			
+			if (leftCollider->GetOwner()->GetState() == GameObject::eState::Pause)
+				continue;
 			for (auto rightObject : rights)
 			{
 				Collider* rightCollider = rightObject->GetComponent<Collider>();
 				if (rightCollider == nullptr)
 					continue;
-
+				if (rightCollider->GetOwner()->GetState() == GameObject::eState::Pause)
+					continue;
 				if (leftObject == rightObject)
 					continue;
 

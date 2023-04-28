@@ -11,6 +11,7 @@
 #include "hjSword.h"
 #include "hjEmpty.h"
 #include "hjBow.h"
+#include "hjRigidBody.h"
 namespace hj
 {
 
@@ -23,11 +24,13 @@ namespace hj
 		, mPos(Vector2::Zero)
 		, isFlip(false)
 	{
+
 	}
 
 	Wmanager::~Wmanager()
 	{
 		//for (std::pair<std::wstring, Weapon*> weapon : mWeapons).0000000
+		ReleaseDashWeapon();
 		ReleaseWeapon();
 		for (auto weapon : mWeapons)
 		{
@@ -38,6 +41,8 @@ namespace hj
 			delete weapon.second;
 			weapon.second = nullptr;
 		}
+		delete mDashWeapon;
+		mDashWeapon = nullptr;
 	}
 
 	void Wmanager::Initialize()
@@ -46,20 +51,44 @@ namespace hj
 
 	void Wmanager::Update()
 	{
+		/*if (GetOwner()->GetState() == GameObject::eState::Pause ||
+			GetOwner()->GetState() == GameObject::eState::Wait
+			)
+		{
+			mActiveWeapon->GameObject::SetState(GetOwner()->GetState());
+			mDashWeapon->GameObject::SetState(GetOwner()->GetState());
+		}*/
+		if (!(GetOwner()->GetComponent<Rigidbody>()->GetGravity()))
+		{
+			if (mDashWeapon->GetWState() == Weapon::eWeaponState::IDLE)
+			{
+				mDashWeapon->SetBAttack(true);
+				mDashWeapon->SetWState(Weapon::eWeaponState::ATTACK);
+			}
+		}
+		else
+		{
+			if (mDashWeapon->GetWState() == Weapon::eWeaponState::ATTACK)
+			{
+				mDashWeapon->SetBAttack(false);
+				mDashWeapon->SetWState(Weapon::eWeaponState::IDLE);
+			}
+		}
+		
 		if (Mouse::GetLstate() == eKeyState::Down)
 		{
-			if (mActiveWeapon->GetState() == Weapon::eWeaponState::IDLE)
+			if (mActiveWeapon->GetWState() == Weapon::eWeaponState::IDLE)
 			{
-				mActiveWeapon->SetState(Weapon::eWeaponState::WAIT);
+				mActiveWeapon->SetWState(Weapon::eWeaponState::WAIT);
 				return;
 			}
 		}
-		if (mActiveWeapon->GetState() == Weapon::eWeaponState::WAIT)
+		if (mActiveWeapon->GetWState() == Weapon::eWeaponState::WAIT)
 		{
 			if (mActiveWeapon->GetWaitTime() == 0.0f)
 			{
 				mActiveWeapon->SetBAttack(true);
-				mActiveWeapon->SetState(Weapon::eWeaponState::ATTACK);
+				mActiveWeapon->SetWState(Weapon::eWeaponState::ATTACK);
 				return;
 			}
 			else if(mTime < mActiveWeapon->GetWaitTime())
@@ -77,13 +106,13 @@ namespace hj
 				{
 					mActiveWeapon->SetDamage((UINT)(mActiveWeapon->GetStat().power * (mTime / mActiveWeapon->GetStat().wait)));
 					mActiveWeapon->SetBAttack(true);
-					mActiveWeapon->SetState(Weapon::eWeaponState::ATTACK);
+					mActiveWeapon->SetWState(Weapon::eWeaponState::ATTACK);
 					mTime = 0.0f;
 				}
 				else
 				{
 					mTime = 0.0f;
-					mActiveWeapon->SetState(Weapon::eWeaponState::IDLE);
+					mActiveWeapon->SetWState(Weapon::eWeaponState::IDLE);
 				}
 				
 				return;
@@ -91,20 +120,20 @@ namespace hj
 		}
 		
 
-		if (mActiveWeapon->GetState() == Weapon::eWeaponState::ATTACK)
+		if (mActiveWeapon->GetWState() == Weapon::eWeaponState::ATTACK)
 		{
 			mActiveWeapon->SetBAttack(false);
-			mActiveWeapon->SetState(Weapon::eWeaponState::RELOAD);
+			mActiveWeapon->SetWState(Weapon::eWeaponState::RELOAD);
 			return;
 		}
 
-		if (mActiveWeapon->GetState() == Weapon::eWeaponState::RELOAD)
+		if (mActiveWeapon->GetWState() == Weapon::eWeaponState::RELOAD)
 		{
 			mTime += Time::DeltaTime();
 			if (mTime > mActiveWeapon->GetReloadTime())
 			{
 				mTime = 0.0f;
-				mActiveWeapon->SetState(Weapon::eWeaponState::IDLE);
+				mActiveWeapon->SetWState(Weapon::eWeaponState::IDLE);
 			}
 			return;
 		}
@@ -186,24 +215,28 @@ namespace hj
 
 	void Wmanager::EquipWeapon(const std::wstring& name/*, UINT index*/)
 	{
-		ReleaseWeapon();
+		if (mActiveWeapon == nullptr)
+		{
+			CreateWeapon(L"Empty", eWeaponType::EMPTY);
 
+			Empty* newWeapon = new Empty();
+			if (newWeapon != nullptr)
+			{
+				newWeapon->SetOwner(mOwner);
+				newWeapon->Create();
+				mDashWeapon = newWeapon;
+				newWeapon->GetComponent<Collider>()->SetSize(
+					GetOwner()->GetComponent<Collider>()->GetSize());
+				for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+					scene->AddGameObject(mDashWeapon, eLayerType::Weapon_Player);
+			}
+		}
+		ReleaseWeapon();
 		mActiveWeapon = FindWeapon(name);
 		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
 			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Player);
-		/*if (index == 0)
-		{
+		mDashWeapon->SetStat(mActiveWeapon->GetStat().dashPower, 0.0f, 0.0f, 0.0f);
 
-		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
-			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Player);
-			
-		}
-		else if (index == 1)
-		{
-			PlayScene* scene = SceneManager::GetPManager()->GetPlayScene();
-			scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Monster);
-			mActiveWeapon->Initialize();
-		}*/
 		if (mActiveWeapon == nullptr)
 			return;
 	}
@@ -226,20 +259,34 @@ namespace hj
 						continue;
 					}
 				}
-				/*if (!(scene->LayerEmpty(eLayerType::Weapon_Monster)))
+			}
+		}
+	}
+	void Wmanager::ReleaseDashWeapon()
+	{
+		if (mDashWeapon != nullptr)
+		{
+			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			{
+				if (!(scene->LayerEmpty(eLayerType::Weapon_Player)))
 				{
-					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Monster));
-					auto it = std::find(temp.begin(), temp.end(), mActiveWeapon);
+					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Weapon_Player));
+
+					auto it = std::find(temp.begin(), temp.end(), mDashWeapon);
 					if (it != temp.end())
 					{
 						temp.erase(it);
 						continue;
 					}
-				}*/
+				}
 			}
 		}
 	}
-
+	void Wmanager::SetState(GameObject::eState type)
+	{
+		mActiveWeapon->GameObject::SetState(type);
+		mDashWeapon->GameObject::SetState(type);
+	}
 	//	return wfuncs->Wrender.mWfunc;
 	//}
 }

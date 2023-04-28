@@ -50,12 +50,6 @@
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{aa86cdf9-5e83-48e6-afb6-44739cef1c19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Weapon">
-      <UniqueIdentifier>{b1a6a93d-39da-438a-b983-2b816323a838}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Weapon\Bullet">
-      <UniqueIdentifier>{0aa414ab-887c-450b-83eb-5c1092fa9773}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\Monster">
       <UniqueIdentifier>{3e81c787-7eb0-471c-85e6-a0ff327d1dd2}</UniqueIdentifier>
     </Filter>
@@ -103,6 +97,15 @@
     </Filter>
     <Filter Include="Contents\Scene\PlayScene\Dungeon">
       <UniqueIdentifier>{7d9ae7c7-cdbc-4977-9886-50681fd223dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Weapon">
+      <UniqueIdentifier>{b1a6a93d-39da-438a-b983-2b816323a838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Weapon\Bullet">
+      <UniqueIdentifier>{0aa414ab-887c-450b-83eb-5c1092fa9773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\AnimObject">
+      <UniqueIdentifier>{35a0ce3a-333b-41ff-aacb-c7b2d2cbe6b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +296,32 @@
     <ClInclude Include="hjEliteSkelWarrior.h">
       <Filter>Contents\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="hjAnimObject.h" />
     <ClInclude Include="hjBow.h">
       <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjEmpty_mon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjArrow.h">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="hjBow_mon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSkeletonArcher.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjArrow_mon.h">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="hjIceBullet.h">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="hjEliteIceSkelWarrior.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjAnimObject.h">
+      <Filter>Contents\AnimObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -475,9 +501,32 @@
     <ClCompile Include="hjEliteSkelWarrior.cpp">
       <Filter>Contents\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="hjAnimObject.cpp" />
     <ClCompile Include="hjBow.cpp">
       <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjEmpty_mon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjArrow.cpp">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="hjBow_mon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSkeletonArcher.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hjArrow_mon.cpp">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="hjIceBullet.cpp">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="hjEliteIceSkelWarrior.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hjAnimObject.cpp">
+      <Filter>Contents\AnimObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

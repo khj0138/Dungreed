@@ -17,6 +17,7 @@
 #include "hjTown.h"
 #include "hjWeapon.h"
 #include "hjBow.h"
+#include "hjBaseBullet.h"
 
 extern hj::Application application;
 namespace hj
@@ -204,6 +205,11 @@ namespace hj
 		mState = state;
 		switch (state)
 		{
+		case eHeroState::Idle:
+		{
+			leftRight.clear();
+			break;
+		}
 		case eHeroState::Jump:
 		{
 			if (bDash)
@@ -243,7 +249,14 @@ namespace hj
 			Damage(attacker->GetStat().power);
 		}
 	}
-
+	void Hero::Attack(BaseBullet* attacker)
+	{
+		if (bAttack == true)
+		{
+			bAttack = false;
+			Damage(attacker->GetStat().power);
+		}
+	}
 	void Hero::OnCollisionEnter(Collider* other)
 	{
 		Tile* tile = dynamic_cast<Tile*>(other->GetOwner());
@@ -286,6 +299,11 @@ namespace hj
 	void Hero::OnCollisionExit(Collider* other)
 	{
 
+	}
+	void Hero::SetState(GameObject::eState type)
+	{
+		mWeapons->SetState(type);
+		GameObject::SetState(type);
 	}
 	void Hero::idle()
 	{
@@ -395,7 +413,7 @@ namespace hj
 
 		if (mDash > 0)
 		{
-			if (((UINT)mDash % 2 == 0) && ((UINT)mDash / 2 > 4))
+			if (/*((UINT)mDash % 2 == 0) &&*/ ((UINT)mDash > 8))
 				mEffects->CreateEffect(L"DashEffect");
 			mDash--;
 			if (mDash == 0)
@@ -480,11 +498,11 @@ namespace hj
 		}
 		dir = dir / (n / 16.f);*/
 		dir.Normalize();
-		dir = dir * 16.f;
+		dir = dir * 24.f;
 		//Vector2 velocity = mRigidbody->GetVelocity();
 		Vector2 velocity = dir;
 		mRigidbody->SetVelocity(velocity);
-		mDash = 16;
+		mDash = 12;
 		mRigidbody->SetGravity(false);
 		mRigidbody->SetGround(false);
 		StateChange(eHeroState::Jump, L"Jump", true);

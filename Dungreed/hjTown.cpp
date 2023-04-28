@@ -11,10 +11,12 @@
 #include "hjTilePalatte.h"
 #include "hjPlaneObject.h"
 #include "hjPSceneManager.h"
+#include "hjRigidBody.h"
 
 #include "hjMonster.h"
 #include "hjSkeletonWarrior.h"
 #include "hjEliteSkelWarrior.h"
+#include "hjAnimObject.h"
 extern hj::Application application;
 
 namespace hj
@@ -52,6 +54,13 @@ namespace hj
 		PlaneObject* TownFloor = new PlaneObject(L"TownFloor", L"..\\Resource\\Town\\TownFloor.bmp", asRatio, Vector2{ 0.0f, 1600.0f}, Vector2::One);
 		AddGameObject(TownFloor, eLayerType::Ground);
 
+		DungeonEatOpen = new AnimObject(L"DungeonEatOpen", L"../Resource/Town/DungeonEatOpen.bmp", asRatio, Vector2{ 8.0f, 1.0f }, Vector2{ 0.0f, 0.0f }, Vector2::One, 0.05f);
+		AddGameObject(DungeonEatOpen, eLayerType::Ground);
+		DungeonEatClose = new AnimObject(L"DungeonEatClose", L"../Resource/Town/DungeonEatClose.bmp", asRatio, Vector2{ 20.0f, 1.0f }, Vector2{ 0.0f, 0.0f }, Vector2::One, 0.05f);
+		AddGameObject(DungeonEatClose, eLayerType::Ground);
+
+		DungeonEatOpen->SetState(GameObject::eState::Pause);
+		DungeonEatClose->SetState(GameObject::eState::Pause);
 		/*Monster* mon = new Monster();
 		AddGameObject(mon, eLayerType::Monster);*/
 		
@@ -63,6 +72,8 @@ namespace hj
 		asRatio = asRatio / 3.f;
 
 		Scene::Initialize();
+		DungeonEatOpen->GetComponent<Animator>()->GetCompleteEvent(L"anim") = std::bind(&Town::DungeonEatOpenEvent, this);
+		DungeonEatClose->GetComponent<Animator>()->GetCompleteEvent(L"anim") = std::bind(&Town::DungeonEatCloseEvent, this);
 	}
 	void Town::Update()
 	{
@@ -73,6 +84,26 @@ namespace hj
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_0);
+			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
+			return;
+		}
+		if (
+			GetHero()->GetComponent<Transform>()->GetPos().x >= 4000.0f &&
+			GetHero()->GetComponent<Transform>()->GetPos().x <= 5320.0f &&
+			GetHero()->GetComponent<Transform>()->GetPos().y >= 1590.0f &&
+			GetHero()->GetComponent<Rigidbody>()->GetGround() &&
+			DungeonEatOpen->GetState() == GameObject::eState::Pause &&
+			DungeonEatClose->GetState() == GameObject::eState::Pause
+			)
+		{
+			DungeonEatOpen->SetState(GameObject::eState::Active);
+			GetHero()->SetState(GameObject::eState::Wait);
+			GetHero()->StateChange(Hero::eHeroState::Idle, L"Idle", true);
+			GetHero()->GetComponent<Rigidbody>()->SetVelocity(Vector2::Zero);
+			Transform* tr = DungeonEatOpen->GetComponent<Transform>();
+			tr->SetPos(GetHero()->GetComponent<Transform>()->GetPos()
+				- Vector2{ tr->GetSize().x / 2.f, tr->GetSize().y }
+			);
 			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 			return;
 		}
@@ -110,6 +141,7 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, true);
 
 
 		/*SkeletonWarrior* mon = new SkeletonWarrior();
@@ -149,9 +181,27 @@ namespace hj
 		wchar_t clean[256] = L"\0";
 		TilePalatte::Load(clean);
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
+
+		GetHero()->SetState(GameObject::eState::Active);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, false);
 		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, false);
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, false);
+	}
+	void Town::DungeonEatOpenEvent()
+	{
+		GetHero()->SetState(GameObject::eState::Pause);
+		DungeonEatClose->SetState(GameObject::eState::Active);
+		DungeonEatOpen->SetState(GameObject::eState::Pause);
+		Transform* tr = DungeonEatClose->GetComponent<Transform>();
+		tr->SetPos(GetHero()->GetComponent<Transform>()->GetPos()
+			- Vector2{ tr->GetSize().x / 2.f, tr->GetSize().y }
+		);
+		//return;
+	}
+	void Town::DungeonEatCloseEvent()
+	{
+		GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_0);
+		//return;
 	}
 }

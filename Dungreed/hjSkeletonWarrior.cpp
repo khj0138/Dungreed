@@ -20,6 +20,7 @@
 #include "hjPlayScene.h"
 #include "hjHero.h"
 #include "hjWeapon.h"
+#include "hjWmanager_mon.h"
 extern hj::Application application;
 
 namespace hj
@@ -219,9 +220,14 @@ namespace hj
 		}
 		mAnimator->Reset();
 	}
+	void SkeletonWarrior::SetState(GameObject::eState type)
+	{
+		mWeapons->SetState(type);
+		GameObject::SetState(type);
+	}
 	void SkeletonWarrior::idle()
 	{
-		if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::WAIT)
+		if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::WAIT)
 		{
 			StateChange(eSkeletonWarriorState::AttackWait, L"AttackWait", false);
 			return;
@@ -245,7 +251,7 @@ namespace hj
 	}
 	void SkeletonWarrior::run()
 	{
-		if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::WAIT)
+		if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::WAIT)
 		{
 			StateChange(eSkeletonWarriorState::AttackWait, L"AttackWait", false);
 			return;
@@ -349,14 +355,14 @@ namespace hj
 		Vector2 velocity = mRigidbody->GetVelocity();
 		velocity.x = 0.0f;
 		mRigidbody->SetVelocity(velocity);
-		if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::RELOAD)
+		if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::RELOAD)
 		{
 			StateChange(eSkeletonWarriorState::AttackReload, L"AttackReload", false);
 		}
 	}
 	void SkeletonWarrior::attackReload()
 	{
-		if (mWeapons->GetActiveWeapon()->GetState() != Weapon::eWeaponState::RELOAD)
+		if (mWeapons->GetActiveWeapon()->GetWState() != Weapon::eWeaponState::RELOAD)
 		{
 			if (hero != nullptr)
 			{

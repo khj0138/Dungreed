@@ -38,6 +38,7 @@ namespace hj
 		virtual void OnCollisionExit(Collider* other) override;
 		void StateChange(eSkeletonWarriorState state, std::wstring anim, bool loop);
 		Vector2 GetHeroPos() { return heroPos; }
+		virtual void SetState(GameObject::eState type);
 		//bool GetFlip() { return mFlip; }
 
 		//Vector2 prevPos;

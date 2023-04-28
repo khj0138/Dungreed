@@ -14,7 +14,10 @@
 
 #include "hjMonster.h"
 #include "hjSkeletonWarrior.h"
+#include "hjSkeletonArcher.h"
 #include "hjEliteSkelWarrior.h"
+#include "hjEliteIceSkelWarrior.h"
+
 extern hj::Application application;
 
 namespace hj
@@ -90,6 +93,12 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, true);
+		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Bullet_Player, true);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Monster, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, true);
+		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Bullet_Monster, true);
+
 
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
@@ -98,18 +107,32 @@ namespace hj
 		}*/
 		//SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile).clear();
 
-		EliteSkelWarrior* mon = new EliteSkelWarrior();
+		/*EliteSkelWarrior* mon = new EliteSkelWarrior();
 		AddGameObject(mon, eLayerType::Monster);
-		mon->Initialize();
+		mon->Initialize();*/
 
-		/*SkeletonWarrior* mon2 = new SkeletonWarrior();
+		SkeletonWarrior* mon2 = new SkeletonWarrior();
 		AddGameObject(mon2, eLayerType::Monster);
 		mon2->Initialize();
 		mon2->GetComponent<Transform>()->SetPos(
-			mon2->GetComponent<Transform>()->GetPos() + Vector2{ 200.0f, 0.0f });*/
+			Vector2{ 800.0f, 600.0f });
+
+		SkeletonArcher* mon3 = new SkeletonArcher();
+		AddGameObject(mon3, eLayerType::Monster);
+		mon3->Initialize();
+		mon3->GetComponent<Transform>()->SetPos(
+			 Vector2{ 800.0f, 400.0f });
+
+		EliteIceSkelWarrior* mon4 = new EliteIceSkelWarrior();
+		AddGameObject(mon4, eLayerType::Monster);
+		mon4->Initialize();
+		mon4->GetComponent<Transform>()->SetPos(
+			Vector2{ 800.0f, 500.0f });
+		
 		if (GetHero() != nullptr)
-			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 0.0f, 561.0f } + 
+			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 80.0f, 561.0f } + 
 				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });
+
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_1_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_1Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";

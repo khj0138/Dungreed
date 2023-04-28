@@ -7,6 +7,7 @@
 namespace hj
 {
 	class Emanager;
+	class Arrow;
 	class Bow : public Weapon
 	{
 
@@ -29,6 +30,7 @@ namespace hj
 		void shootCompleteEvent();
 		void Play(std::wstring anim, bool loop);
 		void Flip();
+		
 
 		//virtual void Reset();
 	private:
@@ -46,6 +48,7 @@ namespace hj
 		//bool bCollision;
 		Emanager* mEffects;
 		float Damage;
+		Arrow* arrow;
 	};
 }
 

@@ -14,6 +14,7 @@
 #include "hjLayer.h"
 #include "hjTown.h"
 #include "hjTile.h"
+#include "hjWmanager_mon.h"
 
 #include "hjSceneManager.h"
 #include "hjScene.h"
@@ -53,7 +54,7 @@ namespace hj
 		Transform* tr = GetComponent<Transform>();
 		tr->SetSize(size);
 		tr->SetVelocity(Vector2{ 300.0f, 0.0f });
-		tr->SetPos(Vector2{ 3400.0f, 1400.0f });
+		//tr->SetPos(Vector2{ 3400.0f, 1400.0f });
 
 		Vector2 pos = tr->GetPos();
 
@@ -93,15 +94,15 @@ namespace hj
 	void EliteSkelWarrior::Update()
 	{
 		SetBAttack(true);
-		if (hero == nullptr)
+		if (GetHero() == nullptr)
 		{
 			Scene* b = SceneManager::FindScene(eSceneType::Play);
 			PlayScene* c = dynamic_cast<PlayScene*>(b);
 			PlayScene* a = dynamic_cast<PlayScene*>(SceneManager::FindScene(eSceneType::Play));
 			if (a == nullptr)
 				return;
-			hero = a->GetHero();
-			if (hero == nullptr)
+			SetHero(a->GetHero());
+			if (GetHero() == nullptr)
 				return;
 		}
 		prevPos = GetComponent<Transform>()->GetPos();
@@ -116,9 +117,9 @@ namespace hj
 				});
 		}
 
-		if (hero != nullptr)
+		if (GetHero() != nullptr)
 		{
-			heroPos = hero->GetComponent<Transform>()->GetPos();
+			heroPos = GetHero()->GetComponent<Transform>()->GetPos();
 
 			Transform* tr = GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
@@ -221,14 +222,19 @@ namespace hj
 		}
 		mAnimator->Reset();
 	}
+	void EliteSkelWarrior::SetState(GameObject::eState type)
+	{
+		mWeapons->SetState(type);
+		GameObject::SetState(type);
+	}
 	void EliteSkelWarrior::idle()
 	{
-		if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::WAIT)
+		if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::WAIT)
 		{
 			StateChange(eEliteSkelWarriorState::AttackWait, L"AttackWait", false);
 			return;
 		}
-		if (hero != nullptr)
+		if (GetHero() != nullptr)
 		{
 
 			Transform* tr = GetComponent<Transform>();
@@ -250,12 +256,12 @@ namespace hj
 	}
 	void EliteSkelWarrior::run()
 	{
-		if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::WAIT)
+		if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::WAIT)
 		{
 			StateChange(eEliteSkelWarriorState::AttackWait, L"AttackWait", false);
 			return;
 		}
-		if (hero != nullptr)
+		if (GetHero() != nullptr)
 		{
 			Transform* tr = GetComponent<Transform>();
 			Collider* col = GetComponent<Collider>();
@@ -313,7 +319,7 @@ namespace hj
 	}
 	void EliteSkelWarrior::jump()
 	{
-		/*if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::WAIT)
+		/*if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::WAIT)
 		{
 			StateChange(eEliteSkelWarriorState::Attack, L"Attack", true);
 		}*/
@@ -399,16 +405,16 @@ namespace hj
 		Vector2 velocity = mRigidbody->GetVelocity();
 		velocity.x = 0.0f;
 		mRigidbody->SetVelocity(velocity);
-		if (mWeapons->GetActiveWeapon()->GetState() == Weapon::eWeaponState::RELOAD)
+		if (mWeapons->GetActiveWeapon()->GetWState() == Weapon::eWeaponState::RELOAD)
 		{
 			StateChange(eEliteSkelWarriorState::AttackReload, L"AttackReload", false);
 		}
 	}
 	void EliteSkelWarrior::attackReload()
 	{
-		if (mWeapons->GetActiveWeapon()->GetState() != Weapon::eWeaponState::RELOAD)
+		if (mWeapons->GetActiveWeapon()->GetWState() != Weapon::eWeaponState::RELOAD)
 		{
-			if (hero != nullptr)
+			if (GetHero() != nullptr)
 			{
 
 				Transform* tr = GetComponent<Transform>();

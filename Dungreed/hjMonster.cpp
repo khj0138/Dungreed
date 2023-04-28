@@ -20,6 +20,9 @@
 #include "hjPlayScene.h"
 #include "hjHero.h"
 #include "hjWeapon.h"
+#include "hjBaseBullet.h"
+#include "hjWmanager_mon.h"
+
 extern hj::Application application;
 
 namespace hj
@@ -375,5 +378,16 @@ namespace hj
 			bAttack = false;
 			Damage(attacker->GetStat().power);
 		}
+	}
+	void Monster::Attack(BaseBullet* attacker)
+	{
+		if (bAttack == true)
+		{
+			bAttack = false;
+			Damage(attacker->GetStat().power);
+		}
+	}
+	void Monster::SetState(GameObject::eState type)
+	{
 	}
 }

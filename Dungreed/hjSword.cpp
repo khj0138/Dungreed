@@ -16,6 +16,7 @@
 #include "hjHero.h"
 
 #include "hjMonster.h"
+#include "hjBaseBullet.h"
 
 extern hj::Application application;
 //extern GraphicsPath Path;
@@ -47,7 +48,7 @@ namespace hj
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector2 heroSize = tr->GetSize();
 
-		mWstate = Weapon::GetState();
+		mWstate = Weapon::GetWState();
 
 		float length = mImage->GetHeight();
 		Vector2 pos = GetPos();
@@ -86,7 +87,7 @@ namespace hj
 		}
 
 		GetComponent<Transform>()->SetPos(pos
-			+ Vector2{ (xtemp)*heroSize.x ,0.0f } // 무기 실제 위치 원 중심으로 이동
+			+ Vector2{ (xtemp)*heroSize.x * flipNum ,0.0f } // 무기 실제 위치 원 중심으로 이동
 			+ (dir * ((float)mImage->GetHeight() - fabs(posCol[0].x) * 0.8f)) // 각도에 따라 무기 위치 이동
 		);
 		Collider* collider = GetComponent<Collider>();
@@ -146,7 +147,7 @@ namespace hj
 	void Sword::Create()
 	{
 		//Weapon::SetAsRatio(Vector2::One * ((float)application.GetWidth() / 960.0f));
-		SetStat(10.0f, 5.0f, 0.3f, 0.0f);
+		SetStat(10.0f, 5.0f, 0.05f, 0.0f);
 		mEffects = GetEmanager();
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
@@ -186,81 +187,58 @@ namespace hj
 	{
 		if (GetBAttack() == true)
 		{
-			Hero* attacker = dynamic_cast<Hero*>(this->GetOwner());
-			if (attacker != NULL)
-			{
-				Monster* victim = dynamic_cast<Monster*>(other->GetOwner());
-				if (victim != NULL)
-				{
 
-					if (AttackCheck(other))
-					{
-						// other에게 알려줘야함
-						victim->Attack(this);
-						SetBCollision(true);
-					}
+			Monster* victim = dynamic_cast<Monster*>(other->GetOwner());
+			if (victim != NULL)
+			{
+				if (AttackCheck(other))
+				{
+					// other에게 알려줘야함
+					victim->Attack(this);
+					SetBCollision(true);
 				}
-				else
-					return;
 				return;
 			}
-			Monster* attacker2 = dynamic_cast<Monster*>(this->GetOwner());
-			if (attacker2 != NULL)
+			BaseBullet* bullet = dynamic_cast<BaseBullet*>(other->GetOwner());
+			if (bullet != NULL)
 			{
-				Hero* victim2 = dynamic_cast<Hero*>(other->GetOwner());
-				if (victim2 != NULL)
+				if (AttackCheck(other))
 				{
-
-					if (AttackCheck(other))
-					{
-						// other에게 알려줘야함
-
-						SetBCollision(true);
-					}
+					// other에게 알려줘야함
+					bullet->Attack();
+					SetBCollision(true);
 				}
-				else
-					return;
+				return;
 			}
 		}
+		
 	}
 
 	void Sword::OnCollisionStay(Collider* other)
 	{
 		if (GetBAttack() == true)
 		{
-			Hero* attacker = dynamic_cast<Hero*>(this->GetOwner());
-			if (attacker != NULL)
+			Monster* victim = dynamic_cast<Monster*>(other->GetOwner());
+			if (victim != NULL)
 			{
-				Monster* victim = dynamic_cast<Monster*>(other->GetOwner());
-				if (victim != NULL)
+				if (AttackCheck(other))
 				{
-
-					if (AttackCheck(other))
-					{
-						// other에게 알려줘야함
-						victim->Attack(this);
-						SetBCollision(true);
-					}
+					// other에게 알려줘야함
+					victim->Attack(this);
+					SetBCollision(true);
 				}
-				else
-					return;
 				return;
 			}
-			Monster* attacker2 = dynamic_cast<Monster*>(this->GetOwner());
-			if (attacker2 != NULL)
+			BaseBullet* bullet = dynamic_cast<BaseBullet*>(other->GetOwner());
+			if (bullet != NULL)
 			{
-				Hero* victim2 = dynamic_cast<Hero*>(other->GetOwner());
-				if (victim2 != NULL)
+				if (AttackCheck(other))
 				{
-
-					if (AttackCheck(other))
-					{
-						// other에게 알려줘야함
-						SetBCollision(true);
-					}
+					// other에게 알려줘야함
+					bullet->Attack();
+					SetBCollision(true);
 				}
-				else
-					return;
+				return;
 			}
 		}
 	}

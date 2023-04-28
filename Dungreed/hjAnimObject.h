@@ -12,7 +12,7 @@ namespace hj
 	class AnimObject : public GameObject
 	{
 	public:
-		AnimObject(const std::wstring name, const std::wstring path, Vector2 asRatio, Vector2 colRow, Vector2 offset = Vector2::Zero, Vector2 moveRate = Vector2::One );
+		AnimObject(const std::wstring name, const std::wstring path, Vector2 asRatio, Vector2 colRow, Vector2 offset = Vector2::Zero, Vector2 moveRate = Vector2::One, float PlayRate = 0.1f );
 		~AnimObject();
 
 		virtual void Initialize() override;

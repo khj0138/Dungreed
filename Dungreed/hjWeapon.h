@@ -65,7 +65,7 @@ namespace hj
 		//bool isComplete() { return mbComplete; }
 		//void SetWmanager(Wmanager* manager) { mWmanager = manager; }
 		void SetDir(Vector2 direction) { mDir = direction; }
-		void SetState(eWeaponState state) { mWstate = (eWeaponState)state; }
+		void SetWState(eWeaponState state) { mWstate = (eWeaponState)state; }
 		void SetAsRatio(Vector2 asRatio) { mAsRatio = asRatio; }
 		void wCheckCol(Collider* target, Collider* other);
 		void colRender(HDC hdc, std::vector<Vector2> posCol, bool bCollision);
@@ -75,7 +75,7 @@ namespace hj
 		void SetCAttack(bool attack) { cAttack = attack; }
 		void SetDamage(UINT damage) { mDamage = damage; }
 
-		eWeaponState GetState() { return mWstate; }
+		eWeaponState GetWState() { return mWstate; }
 		Animator* GetAnimator() { return mAnimator; }
 		//Wmanager* GetManager() { return mWmanager; }
 		Vector2 GetAsRatio() { return mAsRatio; }

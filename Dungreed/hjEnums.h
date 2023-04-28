@@ -33,7 +33,8 @@ enum class eLayerType
 	Monster,
 	Weapon_Player,
 	Weapon_Monster,
-	Bullet,
+	Bullet_Player,
+	Bullet_Monster,
 	Test,
 	Effect,
 	UI,
@@ -57,6 +58,7 @@ enum class eWeaponType {
 	EMPTY,
 	BOW,
 	SWORD_MON,
+	BOW_MON,
 	END,
 };
 

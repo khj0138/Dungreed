@@ -38,6 +38,7 @@ namespace hj
 		Vector2 GetDir() { return mDir; }
 		Vector2 GetPos() { return mPos; }
 		bool GetFlip() { return isFlip; }
+		void ReleaseDashWeapon();
 		/*Weapon::Wfuncs* FindWeapon(const std::wstring& name);
 
 		std::function<void()>& Wupdate(const std::wstring& name);
@@ -47,6 +48,7 @@ namespace hj
 		//std::map<std::wstring, Wfuncs*> mWeapons;
 		Vector2 mDir;
 		Weapon* mActiveWeapon;
+		Weapon* mDashWeapon;
 		std::map<std::wstring, Weapon*> mWeapons;
 		GameObject* mOwner;
 		Vector2 mPos;

@@ -13,6 +13,7 @@
 #include "hjPSceneManager.h"
 #include "hjAnimObject.h"
 
+#include "hjRigidBody.h"
 #include "hjMonster.h"
 #include "hjSkeletonWarrior.h"
 #include "hjEliteSkelWarrior.h"
@@ -100,9 +101,15 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, true);
+		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Bullet_Player, true);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Monster, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, true);
 
 		if (GetHero() != nullptr)
-			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 500.0f, 1200.0f });
+			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 500.0f, 1361.0f });
+		GetHero()->StateChange(Hero::eHeroState::Idle, L"Idle", true);
+		GetHero()->GetComponent<Rigidbody>()->SetVelocity(Vector2::Zero);
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_0_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_0Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";

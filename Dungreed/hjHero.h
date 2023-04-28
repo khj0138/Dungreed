@@ -3,7 +3,6 @@
 #include "hjImage.h"
 #include "hjWmanager.h"
 #include "hjEmanager.h"
-
 #include "hjInput.h"
 //#include "hjMath.h"
 
@@ -12,6 +11,7 @@ namespace hj
 {
 	class Rigidbody;
 	class Animator;
+	class BaseBullet;
 	class Hero : public GameObject
 	{
 	public:
@@ -39,8 +39,10 @@ namespace hj
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
+		virtual void SetState(GameObject::eState type);
 		void StateChange(eHeroState state, std::wstring anim, bool loop);
 		void Attack(Weapon* attacker);
+		void Attack(BaseBullet* attacker);
 		void Damage(float damage) 
 		{
 			stat.HP -= (UINT)damage;
@@ -48,6 +50,7 @@ namespace hj
 				stat.HP = 0.0f;
 			int a = 0;
 		}
+		
 		//Vector2 prevPos;
 
 	private:
