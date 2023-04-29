@@ -38,6 +38,7 @@ namespace hj
 		Vector2 GetCenter() { return mCenter; }
 		void SetScale(Vector2 scale) { mScale = scale; };
 		void SetPos(Vector2 pos) { mPos = pos; }
+		void SetCollision(bool col) { collisionCheck = col; }
 		bool CollisionCheck() { return collisionCheck; }
 
 		UINT GetID() { return mID; }

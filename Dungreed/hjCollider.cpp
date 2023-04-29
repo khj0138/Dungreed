@@ -63,13 +63,13 @@ namespace hj
 	void Collider::OnCollisionEnter(Collider* other)
 	{
 		//lother- this
-		collisionCheck = true;
+		//collisionCheck = true;
 		GetOwner()->OnCollisionEnter(other);
 	}
 
 	void Collider::OnCollisionStay(Collider* other)
 	{
-		collisionCheck = true;
+		//collisionCheck = true;
 		mCollisionCount = 1;
 		GetOwner()->OnCollisionStay(other);
 	}

@@ -148,11 +148,11 @@ struct Vector2
 	}
 	bool operator<(const Vector2& other)
 	{
-		return (x < other.x && y < other.y);
+		return (x < other.x && y > other.y);
 	}
 	bool operator>(const Vector2& other)
 	{
-		return (x > other.x && y > other.y);
+		return (x > other.x && y < other.y);
 	}
 	void Clear()
 	{
@@ -245,8 +245,9 @@ namespace hj::math
 					target = Line1_p1;
 				else
 					target = Line2_p1;
-				return true;
 			
+				target = Vector2{ 0.0f, 0.0f };
+				return true;
 			}
 			else
 			{

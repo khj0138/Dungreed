@@ -114,97 +114,32 @@ namespace hj {
 		{
 		case 0:
 		{
-
 			
-			Vector2 a1 = (*hero).prevPos;
-			Transform* heroTr = hero->GetComponent<Transform>();
-			Vector2 a2 = heroTr->GetPos();
-			if (!(rb->GetGravity()))
-			{
-				a1 = a1 + Vector2{ 0.0f, -1.0f };
-				a2 = a2 + Vector2{ 0.0f, -1.0f };
-			}
-			float a22 = GetComponent<Collider>()->GetSize().x;
-
-			Vector2 b1 = this->GetComponent<Collider>()->GetPos() + Vector2{ 0.0f,0.0f };
-			Vector2 b2 = this->GetComponent<Collider>()->GetPos() + Vector2{ GetComponent<Collider>()->GetSize().x ,0.0f };
-
-			Vector2 a = a2 - a1;
-			Vector2 b = b2 - b1;
 			Vector2 target = Vector2::Zero;
-
-			if (math::Intersection_Lines(a1, a2, b1, b2, target))
+			for (int i = 0; i < 4; i++)
 			{
-				Vector2 f = (target - a1) / (a2 - a1);
-				Vector2 e = a2 - target;
-				if (rb->GetGround())
+				if (!(other->CollisionCheck()))
 				{
+					if(CollisionCheck(target, hero, (UINT)i))
+					{
+						//other->SetCollision(true);
+						if(i < 2)
+							rb->SetVelocity(Vector2{ rb->GetVelocity().x,0.0f });
 
-					float dir = (math::Dot(e, b) > 0.0f) ? 1.0f : -1.0f;
-					float len = e.Length();
-					Vector2 result = target + b.Normalize() * len * dir;
-
-
-					hero->GetComponent<Transform>()->SetPos(result + Vector2{ 0.0f, 1.0f });
+						else
+							rb->SetVelocity(Vector2{ 0.0f, rb->GetVelocity().y });
+						if (i == 0)
+							rb->SetGround(true);
+						hero->GetComponent<Transform>()->SetPos(target);
+						break;
+					}
 				}
-				else if (rb->GetVelocity().y >= 0.0f)
-				{
-
-					float len = math::Dot(e, b);
-					hero->GetComponent<Transform>()->SetPos(target + Vector2{ 0.0f, 1.0f });
-					rb->SetGround(true);
-				}
-
 			}
-
-			heroTr = hero->GetComponent<Transform>();
-			Collider* heroCol = hero->GetComponent<Collider>();
-			Vector2 c1 = (*hero).prevPos - Vector2{ 0.0f, heroCol->GetSize().y };
-			Vector2 c2 = heroTr->GetPos() - Vector2{ 0.0f, heroCol->GetSize().y };
-
-			if (!(rb->GetGravity()))
-			{
-				c1 = c1 + Vector2{ 0.0f, 1.0f };
-				c2 = c2 + Vector2{ 0.0f, 1.0f };
-			}
-			float c22 = GetComponent<Collider>()->GetSize().x;
-
-			Vector2 d1 = this->GetComponent<Collider>()->GetPos() + Vector2{ 0.0f,GetComponent<Collider>()->GetSize().y };
-			Vector2 d2 = this->GetComponent<Collider>()->GetPos() + Vector2{ GetComponent<Collider>()->GetSize().x ,GetComponent<Collider>()->GetSize().y };
-
-			Vector2 c = c2 - c1;
-			Vector2 d = d2 - d1;
-			target = Vector2::Zero;
-
-			if (math::Intersection_Lines(c1, c2, d1, d2, target))
-			{
-				Vector2 f = (target - c1) / (c2 - c1);
-				Vector2 e = c2 - target;
-				if (rb->GetGround())
-				{
-
-					float dir = (math::Dot(e, d) > 0.0f) ? 1.0f : -1.0f;
-					float len = e.Length();
-					Vector2 result = target + d.Normalize() * len * dir;
-
-					hero->GetComponent<Transform>()->SetPos(target + Vector2{ 0.0f, hero->GetComponent<Collider>()->GetSize().y } + Vector2{ 0.0f, -1.0f });
-				}
-				else if (rb->GetVelocity().y <= 0.0f)
-				{
-					hero->GetComponent<Rigidbody>()->SetVelocity(Vector2{ hero->GetComponent<Rigidbody>()->GetVelocity().x, 0.0f });
-					float len = math::Dot(e, d);
-					hero->GetComponent<Transform>()->SetPos(target + Vector2{ 0.0f, hero->GetComponent<Collider>()->GetSize().y } + Vector2{ 0.0f, -1.0f });
-					
-				}
-				
-			}
-
-
 			break;
 		}
 		case 1:
 		{
-			float fLenX = (heroPos.x + heroCol->GetSize().x / 2.0f - groundPos.x - groundCol->GetSize().x / 2.0f);
+			/*float fLenX = (heroPos.x + heroCol->GetSize().x / 2.0f - groundPos.x - groundCol->GetSize().x / 2.0f);
 			float fSizeX = (heroCol->GetSize().x / 2.0f) + (groundCol->GetSize().x / 2.0f);
 			
 			if (fabs(fLenX) <= fSizeX)
@@ -218,7 +153,7 @@ namespace hj {
 				else
 					heroPos = Vector2{ groundPos.x + groundCol->GetSize().x + heroCol->GetSize().x / 2.0f + 1.f, heroPos.y };
 				heroTr->SetPos(heroPos);
-			}
+			}*/
 			break;
 		}
 		
@@ -422,7 +357,7 @@ namespace hj {
 			if (hero == nullptr)
 				return;
 		}
-		if (mIndex == 3 || mIndex == 4 || mIndex == 5)
+		if ((mIndex == 3 || mIndex == 4 || mIndex == 5)&&(!(other->CollisionCheck())))
 		{
 			Rigidbody* rb = hero->GetComponent<Rigidbody>();
 			if (rb->GetGravity())
@@ -476,11 +411,13 @@ namespace hj {
 					}
 					else if (mIndex == 4)
 					{
+						//other->SetCollision(true);
 						lineStart = colPos + Vector2{ 0.0f,1.0f };
 						lineEnd = colPos + Vector2{ colSize.x ,colSize.y + 1.0f };
 					}
 					else if (mIndex == 5)
 					{
+						//other->SetCollision(true);
 						lineStart = colPos + Vector2{ 0.0f,colSize.y + 1.0f };
 						lineEnd = colPos + Vector2{ colSize.x ,1.0f };
 					}
@@ -559,7 +496,8 @@ namespace hj {
 		Vector2 heroVector = curHPos - prevHPos;
 		Vector2 lineVector = lineEnd - lineStart;
 
-		
+		if (heroVector == Vector2::Zero)
+			return false;
 		for (int i = -4; i < 5; i++)
 		{
 			bool check = false;
@@ -571,6 +509,8 @@ namespace hj {
 					Vector2 f = (target - prevHPos) / (curHPos - prevHPos);
 					Vector2 e = curHPos - target;
 
+					if (target == Vector2::Zero)
+						target = curHPos;
 					if (rb->GetVelocity().y >= 0.0f)
 					{
 						return true;
@@ -578,6 +518,116 @@ namespace hj {
 				}
 			}
 		}
+		return false;
+
+	}
+	bool Tile::CollisionCheck(Vector2& target, GameObject* hero, UINT index)
+	{
+		Rigidbody* rb = hero->GetComponent<Rigidbody>();
+
+		Vector2 prevHPos = (*hero).prevPos;
+		Transform* heroTr = hero->GetComponent<Transform>();
+		Vector2 heroColSIze = hero->GetComponent<Collider>()->GetSize();
+		Vector2 curHPos = heroTr->GetPos();
+		Vector2 tempPos = curHPos;
+
+		Vector2 colPos = this->GetComponent<Collider>()->GetPos();
+		Vector2 colSize = this->GetComponent<Collider>()->GetSize();
+
+		Vector2 lineStart = Vector2::Zero;
+		Vector2 lineEnd = Vector2::Zero;
+
+
+		if (index == 0)
+		{
+			lineStart = colPos + Vector2{ 0.0f,1.0f };
+			lineEnd = colPos + Vector2{ colSize.x ,1.0f };
+			
+		}
+		else if (index == 1)
+		{
+			lineStart = colPos + Vector2{ 0.0f,colSize.y - 1.0f };
+			lineEnd = colPos + Vector2{ colSize.x ,colSize.y - 1.0f };
+			curHPos = curHPos + Vector2{ 0.0f, heroColSIze.y * -1.0f };
+			prevHPos = prevHPos + Vector2{ 0.0f, heroColSIze.y * -1.0f };
+		}
+		else if (index == 2)
+		{
+			lineStart = colPos + Vector2{ 1.0f, 0.0f  };
+			lineEnd = colPos + Vector2{ 1.0f , colSize.y };
+			curHPos = curHPos + Vector2{ heroColSIze.x / 2.0f, heroColSIze.y / -2.0f };
+			prevHPos = prevHPos + Vector2{ heroColSIze.x / 2.0f, heroColSIze.y / -2.0f };
+		}
+		else if (index == 3)
+		{
+			lineStart = colPos + Vector2{ colSize.x - 1.0f,0.0f };
+			lineEnd = colPos + Vector2{ colSize.x - 1.0f,colSize.y };
+			curHPos = curHPos + Vector2{ heroColSIze.x / -2.0f, heroColSIze.y / -2.0f };
+			prevHPos = prevHPos + Vector2{ heroColSIze.x / -2.0f, heroColSIze.y / -2.0f };
+		}
+
+		Vector2 heroVector = curHPos - prevHPos;
+		Vector2 lineVector = lineEnd - lineStart;
+
+		if (heroVector == Vector2::Zero)
+		{
+			target = curHPos;
+			return true;
+		}
+		if (math::Intersection_Lines(prevHPos , curHPos , lineStart, lineEnd, target))
+		{
+
+			Vector2 f = (target - prevHPos) / (curHPos - prevHPos);
+			Vector2 e = curHPos - target;
+
+			if (index == 0 && rb->GetVelocity().y >= 0.0f)
+			{
+				if (!(rb->GetGravity()))
+				{
+					target = Vector2{ curHPos.x, target.y };
+				}
+				if ((rb->GetVelocity().y == 0.0f))
+				{
+					target = Vector2{ curHPos.x, target.y };
+				}
+
+				return true;
+			}
+			if (index == 1 && rb->GetVelocity().y <= 0.0f)
+			{
+				if (!(rb->GetGravity()))
+				{
+					target = Vector2{ curHPos.x, target.y };
+				}
+				target = Vector2{ target.x, target.y + 1.0f }
+				- Vector2{ 0.0f, heroColSIze.y * -1.0f };
+				/*if (rb->GetVelocity().y == 0.0f)
+					target = Vector2{ curHPos.x, target.y };*/
+				return true;
+			}
+			if (index == 2 && rb->GetVelocity().x >= 0.0f)
+			{
+				target = Vector2{ target.x - 1.0f, curHPos.y }
+				-Vector2{ heroColSIze.x / 2.0f, heroColSIze.y / -2.0f };
+				/*if (rb->GetVelocity().x == 0.0f)
+					target = Vector2{ target.x, curHPos.y };*/
+				return true;
+			}
+			if (index == 3 && rb->GetVelocity().x <= 0.0f)
+			{
+				target = Vector2{ target.x + 1.0f, curHPos.y }
+				- Vector2{ heroColSIze.x / -2.0f, heroColSIze.y / -2.0f };
+				/*if (rb->GetVelocity().x == 0.0f)
+					target = Vector2{ target.x, curHPos.y };*/
+				return true;
+			}
+			else
+			{
+				//target = tempPos;
+				return false;
+			}
+		}
+		
 		return false;
 
 	}

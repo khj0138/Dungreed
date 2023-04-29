@@ -28,6 +28,7 @@ namespace hj
 		void OnCollisionExit(Collider* other);
 		void SetBCollision(bool col) { bCollision = col; }
 		bool CollisionCheck(Vector2& target, GameObject* hero);
+		bool CollisionCheck(Vector2& target, GameObject* hero, UINT index);
 		
 	private:
 		Img* mAtlas;

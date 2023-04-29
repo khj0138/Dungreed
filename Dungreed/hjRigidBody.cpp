@@ -98,7 +98,7 @@ namespace hj
 		// 속도에 맞게끔 물체를 이동시킨다.
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		if (!mbGround && !mbGravity)
+		if (!mbGravity)
 			pos = pos + mVelocity;
 		else
 		{
