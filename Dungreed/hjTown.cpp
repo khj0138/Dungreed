@@ -17,6 +17,7 @@
 #include "hjSkeletonWarrior.h"
 #include "hjEliteSkelWarrior.h"
 #include "hjAnimObject.h"
+#include "hjNiflheim.h"
 extern hj::Application application;
 
 namespace hj
@@ -157,6 +158,11 @@ namespace hj
 		mon2->Initialize();
 		mon2->GetComponent<Transform>()->SetPos(
 			mon2->GetComponent<Transform>()->GetPos() + Vector2{ 200.0f, 0.0f });*/
+
+		/*Niflheim* mon2 = new Niflheim();
+		AddGameObject(mon2, eLayerType::Monster);
+		mon2->Initialize();
+		mon2->GetComponent<Transform>()->SetPos(Vector2{ 3200.0f, 450.0f });*/
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
 			delete gameObj;

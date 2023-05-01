@@ -50,7 +50,10 @@ namespace hj
 				stat.HP = 0.0f;
 			int a = 0;
 		}
-		
+		void ResetPrevPos()
+		{
+			prevPos = GetComponent<Transform>()->GetPos();
+		}
 		//Vector2 prevPos;
 
 	private:

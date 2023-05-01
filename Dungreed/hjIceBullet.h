@@ -26,9 +26,13 @@ namespace hj
 
 		virtual void OnCollisionEnter(class Collider* other) override;
 
+		void SetBossRoom(bool set) { bossRoom = set; }
+		void SetSpeed(float speed) { mSpeed = speed; }
 		//virtual void Reset();
 	private:
 		Img* mImage;
+		bool bossRoom;
+		float mSpeed;
 		//float mRadius;
 		//SwordState sState;
 		//Vector2 mSpawn;

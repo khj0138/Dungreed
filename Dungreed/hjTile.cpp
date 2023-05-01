@@ -101,10 +101,12 @@ namespace hj {
 			hero = dynamic_cast<Monster*>(other->GetOwner());
 			if(hero == nullptr)
 				return;
+			
 		}
 
 		Rigidbody* rb = hero->GetComponent<Rigidbody>();
-
+		if (rb == nullptr)
+			return;
 		Collider* heroCol = hero->GetComponent<Collider>();
 		Vector2 heroPos = heroCol->GetPos();
 
@@ -360,6 +362,8 @@ namespace hj {
 		if ((mIndex == 3 || mIndex == 4 || mIndex == 5)&&(!(other->CollisionCheck())))
 		{
 			Rigidbody* rb = hero->GetComponent<Rigidbody>();
+			if (rb == nullptr)
+				return;
 			if (rb->GetGravity())
 			{
 				GameObject* hero = dynamic_cast<Hero*>(other->GetOwner());
@@ -579,7 +583,8 @@ namespace hj {
 
 			Vector2 f = (target - prevHPos) / (curHPos - prevHPos);
 			Vector2 e = curHPos - target;
-
+			if (target == Vector2::Zero)
+				return false;
 			if (index == 0 && rb->GetVelocity().y >= 0.0f)
 			{
 				if (!(rb->GetGravity()))

@@ -15,6 +15,7 @@
 #include "hjMonster.h"
 #include "hjSkeletonWarrior.h"
 #include "hjEliteSkelWarrior.h"
+#include "hjNiflheim.h"
 
 extern hj::Application application;
 
@@ -93,7 +94,16 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, true);
+		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Bullet_Player, true);
+		//CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Monster, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, true);
+		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Bullet_Monster, true);
 
+		Niflheim* mon2 = new Niflheim();
+		AddGameObject(mon2, eLayerType::Monster);
+		mon2->Initialize();
+		mon2->GetComponent<Transform>()->SetPos(Vector2{ 1280.0f, 640.0f });
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
 			delete gameObj;

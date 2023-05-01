@@ -82,7 +82,7 @@ namespace hj
 		collider->SetSize(GetOwner()->GetComponent<Collider>()->GetSize());
 		collider->SetCenter(
 			Vector2{
-				GetComponent<Collider>()->GetSize().x / 2.f
+				GetComponent<Collider>()->GetSize().x / -2.f
 			, GetComponent<Collider>()->GetSize().y * -1.f }
 		);
 	}

@@ -514,9 +514,10 @@ namespace hj
 	}
 	void EliteIceSkelWarrior::skillAttackReload()
 	{
-		if ((mTime - 0.6f) >= (index * 0.1f) && (mTime <= 1.0f))
+		if ((mTime - 0.69f) >= (index * 0.1f) && (mTime <= 1.0f))
 		{
 			mBullets[index]->SetStat(5.0f, mAttackDir);
+			mBullets[index]->SetSpeed(500.0f);
 			mBullets[index]->Spawn(GetComponent<Transform>()->GetPos()
 				- Vector2{ 0.0f,GetComponent<Collider>()->GetSize().y / 2.f }
 				- mBullets[index]->GetComponent<Transform>()->GetSize() / 2.f

@@ -16,6 +16,7 @@
 #include "hjRigidBody.h"
 #include "hjMonster.h"
 #include "hjSkeletonWarrior.h"
+#include "hjGameObject.h"
 #include "hjEliteSkelWarrior.h"
 
 extern hj::Application application;
@@ -70,9 +71,12 @@ namespace hj
 			TilePalatte::tRenderChange();
 			BackGround::bRenderChange();
 		}*/
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		if (GetHero()->GetComponent<Transform>()->GetPos().x >= 1520.0f
+			&& GetHero()->GetComponent<Transform>()->GetPos().y >= 640.0f
+			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 881.0f)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_1);
+			//GetHero()->GameObject::SetState(GameObject::eState::Pause);
 			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 			return;
 		}
@@ -128,5 +132,13 @@ namespace hj
 
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
+		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, false);
+		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, false);
+		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, false);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, false);
+		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Bullet_Player, false);
+		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Monster, false);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, false);
+		CollisionManager::Clear();
 	}
 }

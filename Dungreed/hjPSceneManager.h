@@ -54,6 +54,7 @@ namespace hj
 			mPlayScene = mPlayScenes[(UINT)index];
 			SceneManager::ChangePlayScene(mPlayScene);
 			SceneManager::LoadScene(eSceneType::Play);
+			mPlayScene->GetHero()->ResetPrevPos();
 			//delete prevScene;
 			//mPlayScene->OnEnter();
 		}

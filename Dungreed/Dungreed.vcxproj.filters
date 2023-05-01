@@ -323,6 +323,12 @@
     <ClInclude Include="hjAnimObject.h">
       <Filter>Contents\AnimObject</Filter>
     </ClInclude>
+    <ClInclude Include="hjIcePillar.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjNiflheim.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -527,6 +533,12 @@
     </ClCompile>
     <ClCompile Include="hjAnimObject.cpp">
       <Filter>Contents\AnimObject</Filter>
+    </ClCompile>
+    <ClCompile Include="hjIcePillar.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hjNiflheim.cpp">
+      <Filter>Contents\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

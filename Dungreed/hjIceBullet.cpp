@@ -24,8 +24,18 @@ void hj::IceBullet::Update()
 	Transform* tr = GetComponent<Transform>();
 	tr->SetPos(
 		tr->GetPos()
-		+ GetStat().direction.Normalize() * 500.0f * Time::DeltaTime()
+		+ GetStat().direction.Normalize() * mSpeed * Time::DeltaTime()
 	);
+
+	if (bossRoom)
+	{
+		Vector2 pos = tr->GetPos();
+		if(pos.x >= 2480 ||
+			pos.x <= 80 ||
+			pos.y >= 1120 ||
+			pos.y <= 160)
+			SetState(GameObject::eState::Pause);
+	}
 	Collider* col = GetComponent<Collider>();
 	col->SetPos(
 		tr->GetPos()
@@ -33,6 +43,7 @@ void hj::IceBullet::Update()
 		+ col->GetCenter() // collider¿« ¡ﬂæ” ∏¬√„
 	
 	);
+
 }
 
 void hj::IceBullet::Render(HDC hdc)

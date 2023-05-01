@@ -165,6 +165,7 @@
     <ClInclude Include="hjHero.h" />
     <ClInclude Include="HjHjEngine.h" />
     <ClInclude Include="hjIceBullet.h" />
+    <ClInclude Include="hjIcePillar.h" />
     <ClInclude Include="hjImage.h" />
     <ClInclude Include="hjInput.h" />
     <ClInclude Include="hjLayer.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="hjMonsterP.h" />
     <ClInclude Include="hjMouse.h" />
     <ClInclude Include="hjDungeonNIflheim.h" />
+    <ClInclude Include="hjNiflheim.h" />
     <ClInclude Include="hjObject.h" />
     <ClInclude Include="hjPlaneObject.h" />
     <ClInclude Include="hjPlatform.h" />
@@ -234,6 +236,7 @@
     <ClCompile Include="hjGameObject.cpp" />
     <ClCompile Include="hjHero.cpp" />
     <ClCompile Include="hjIceBullet.cpp" />
+    <ClCompile Include="hjIcePillar.cpp" />
     <ClCompile Include="hjImage.cpp" />
     <ClCompile Include="hjInput.cpp" />
     <ClCompile Include="hjLayer.cpp" />
@@ -242,6 +245,7 @@
     <ClCompile Include="hjMonsterP.cpp" />
     <ClCompile Include="hjMouse.cpp" />
     <ClCompile Include="hjDungeonNIflheim.cpp" />
+    <ClCompile Include="hjNiflheim.cpp" />
     <ClCompile Include="hjPlaneObject.cpp" />
     <ClCompile Include="hjPlatform.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
