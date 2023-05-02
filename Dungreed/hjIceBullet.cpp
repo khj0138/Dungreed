@@ -30,11 +30,14 @@ void hj::IceBullet::Update()
 	if (bossRoom)
 	{
 		Vector2 pos = tr->GetPos();
-		if(pos.x >= 2480 ||
+		if (pos.x >= 2480 ||
 			pos.x <= 80 ||
 			pos.y >= 1120 ||
 			pos.y <= 160)
+		{
+			mEffects->CreateEffect(L"IceBulletFX");
 			SetState(GameObject::eState::Pause);
+		}
 	}
 	Collider* col = GetComponent<Collider>();
 	col->SetPos(
@@ -69,13 +72,19 @@ void hj::IceBullet::Create()
 	col->SetCenter(
 		Vector2{ col->GetSize().x / -2.f, col->GetSize().y / -2.f }
 	);
+
+	mEffects = new Emanager();
+	mEffects->SetOwner(this);
+	//mEffects->RegisterEffect(L"IceBulletFX", L"..\\Resource\\Ice\\IceBulletEnter.bmp", false, false, 3, Vector2{ 0.0f, 0.0f }, 0.02f, Vector2::One * 4.0f, false);
+	mEffects->RegisterEffect(L"IceBulletFX", L"..\\Resource\\Ice\\IceBulletExit.bmp", false, false, 3, Vector2{ 0.0f, 0.0f }, 0.02f, Vector2::One * 4.0f, false);
+	
 }
 
 void hj::IceBullet::Spawn(Vector2 pos)
 {
 	SetState(GameObject::eState::Active);
-	GetComponent<Transform>()->SetPos(pos
-	);
+	GetComponent<Transform>()->SetPos(pos);
+	mEffects->CreateEffect(L"IceBulletFX");
 }
 
 void hj::IceBullet::OnCollisionEnter(Collider* other)
@@ -86,6 +95,7 @@ void hj::IceBullet::OnCollisionEnter(Collider* other)
 		if (tile->Index() <= 2)
 		{
 			SetState(GameObject::eState::Pause);
+			mEffects->CreateEffect(L"IceBulletFX");
 		}
 		return;
 	}
@@ -94,6 +104,7 @@ void hj::IceBullet::OnCollisionEnter(Collider* other)
 	{
 		hero->Attack(this);
 		SetState(GameObject::eState::Pause);
+		mEffects->CreateEffect(L"IceBulletFX");
 		return;
 	}
 	Weapon* weapon = dynamic_cast<Weapon*>(other->GetOwner());
@@ -102,6 +113,7 @@ void hj::IceBullet::OnCollisionEnter(Collider* other)
 		if (weapon->GetBCollision())
 		{
 			SetState(GameObject::eState::Pause);
+			mEffects->CreateEffect(L"IceBulletFX");
 		}
 	}
 }

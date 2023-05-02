@@ -15,6 +15,7 @@ namespace hj
 	class Hero;
 	class IceBullet;
 	class Niflheim;
+	class MonsterHPBar;
 	class IcePillar : public Monster
 	{
 	public:
@@ -23,6 +24,7 @@ namespace hj
 			Idle,
 			AttackWait,
 			Attack,
+			Pause,
 			End,
 		};
 		struct command
@@ -60,6 +62,7 @@ namespace hj
 		bool GetBAttack() { return bAttack; }
 
 		void enterCompleteEvent();
+		void exitCompleteEvent();
 
 		void SetCommand(float delayTime,
 			Vector2 attackDir,
@@ -78,7 +81,7 @@ namespace hj
 		void idle();
 		void attackWait();
 		void attack();
-
+	
 		void Flip(std::wstring name);
 		//.bool checkFlip() { return mFlip; }
 
@@ -102,6 +105,7 @@ namespace hj
 		command cmd;
 		UINT index;
 		bool bAttack;
+		MonsterHPBar* hpBar;
 	};
 
 }

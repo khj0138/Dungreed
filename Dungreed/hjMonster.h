@@ -2,7 +2,7 @@
 #include "hjGameObject.h"
 #include "hjImage.h"
 
-#include "hjEmanager.h"
+//#include "hjEmanager.h"
 #include "hjInput.h"
 
 namespace hj
@@ -14,6 +14,7 @@ namespace hj
 	class Hero;
 	class Weapon;
 	class MonsterHPBar;
+	class Emanager;
 	class Monster : public GameObject
 	{
 	public:
@@ -45,9 +46,12 @@ namespace hj
 		Vector2 GetHeroPos() { return heroPos; }
 		Hero* GetHero() { return mHero; }
 
+		Emanager* GetEmanager() { return mEffects; }
+		void SetEmanager(Emanager* manager) { mEffects = manager; }
 		void SetBAttack(bool attack) { bAttack = attack; }
 		void Attack(Weapon* attacker);
 		void Attack(BaseBullet* attacker);
+		
 		void Damage(float damage)
 		{
 			if (stat.HP < (UINT)damage)

@@ -64,9 +64,18 @@ namespace hj
 		{
 			TilePalatte::tRenderChange();
 		}*/
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		//if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		//{
+		//	GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_2);
+		//	//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
+		//	return;
+		//}
+		if (GetHero()->GetComponent<Transform>()->GetPos().x >= 2800.0f
+			&& GetHero()->GetComponent<Transform>()->GetPos().y >= 400.0f
+			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 720.0f)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_2);
+			//GetHero()->GameObject::SetState(GameObject::eState::Pause);
 			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 			return;
 		}
@@ -145,8 +154,7 @@ namespace hj
 			Vector2{ 1480.0f, 721.0f });
 		
 		if (GetHero() != nullptr)
-			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 80.0f, 561.0f } + 
-				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });
+			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 120.0f, 721.0f });
 
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_1_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_1Tile.Tile\0";

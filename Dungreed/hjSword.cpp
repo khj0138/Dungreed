@@ -152,7 +152,8 @@ namespace hj
 		mEffects = new Emanager();
 		mEffects->SetOwner(this);
 		//mEffects->RegisterEffect(L"RunEffect", L"..\\Resource\\Char\\SwingEffect.bmp", false, false, 5, Vector2{ (-1.5f) * colSize.x, 0.0f }, 0.07f);
-		mEffects->RegisterEffect(L"SwingEffect", L"..\\Resource\\Char\\SwingFX.bmp", false, true, 3, Vector2{ 0.0f, 0.0f }, 0.03f, Vector2::One * 3.f);
+		mEffects->RegisterEffect(L"SwingEffect", L"..\\Resource\\Char\\SwingFX.bmp", false, true, 3, Vector2{ 0.0f, 0.0f }, 0.03f, Vector2::One * 4.f);
+		//mEffects->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\HitFX.bmp", false, true, 6, Vector2{ 0.0f, 0.0f }, 0.01f, Vector2::One * 4.f);
 
 		Weapon::SetAsRatio(Vector2::One * 4.f);
 
@@ -226,6 +227,7 @@ namespace hj
 					// other에게 알려줘야함
 					victim->Attack(this);
 					SetBCollision(true);
+					//mEffects->CreateEffect(L"HitEffect", GetDir());
 				}
 				return;
 			}

@@ -98,9 +98,9 @@ namespace hj
 			pos.y -= mSpriteSheet[mSpriteIndex].size.y / 2.0f;
 
 			mAnimator->GetOwner()->GetComponent<SpriteRenderer>()->rotateRender(hdc, ImgHdc,
-				Vector2{ mSpriteSheet[mSpriteIndex].size.x
-				, mSpriteSheet[mSpriteIndex].size.y }
-			, atan2(dir.y, dir.x)/PI * 180.f, pos);
+				Vector2{ mSpriteSheet[mSpriteIndex].size.x 
+				, mSpriteSheet[mSpriteIndex].size.y } 
+			, atan2(dir.y, dir.x)/PI * 180.f, pos + mSpriteSheet[mSpriteIndex].offset);
 			DeleteObject(ImgBmp);
 			DeleteDC(ImgHdc);
 			return;

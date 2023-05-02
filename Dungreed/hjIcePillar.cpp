@@ -24,6 +24,7 @@
 #include "hjWeapon.h"
 #include "hjIceBullet.h"
 #include "hjNiflheim.h"
+#include "hjMonsterHPBar.h"
 
 extern hj::Application application;
 
@@ -64,6 +65,13 @@ namespace hj
 	}
 	void IcePillar::Initialize()
 	{
+		Monster::SetStat(100.0f, 100.0f);
+		hpBar = new MonsterHPBar(L"MonsterHPBar", L"..\\Resource\\Monster\\LifeBar", Vector2::One * 2.f);
+		hpBar->Initialize();
+		hpBar->SetMonster(this);
+
+
+
 		mAnimator = AddComponent<Animator>();
 		Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
 		asRatio = asRatio * 1.2f;
@@ -73,7 +81,7 @@ namespace hj
 		mImage->SetMoveRate(Vector2::One);
 		Vector2 size = Vector2::Zero;
 		size.x = mImage->GetWidth() / 20.0f;
-		size.y = mImage->GetHeight() / 2.0f;
+		size.y = mImage->GetHeight() / 3.0f;
 
 		Transform* tr = GetComponent<Transform>();
 		tr->SetSize(size);
@@ -83,14 +91,16 @@ namespace hj
 		Vector2 pos = tr->GetPos();
 
 		UINT index = 0;
-		mAnimator->CreateAnimation(L"Enter", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 2, 20, Vector2::Zero, 0.05);
-		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 2, 1, Vector2::Zero, 0.1);
+		mAnimator->CreateAnimation(L"Enter", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 20, Vector2::Zero, 0.03);
+		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 1, Vector2::Zero, 0.1);
+		mAnimator->CreateAnimation(L"Exit", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 20, Vector2::Zero, 0.03);
 		
 		SetFlip(false);
 		StateChange(eIcePillarState::Idle);
 
 		AnimPlay(L"Enter", false);
 		mAnimator->GetCompleteEvent(L"Enter") = std::bind(&IcePillar::enterCompleteEvent, this);
+		mAnimator->GetCompleteEvent(L"Exit") = std::bind(&IcePillar::exitCompleteEvent, this);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2{ GetComponent<Transform>()->GetSize() });
@@ -116,189 +126,55 @@ namespace hj
 
 		GameObject::Initialize();
 		GetComponent<SpriteRenderer>()->SetRotate(true);
+		Emanager* emanager = new Emanager();
+		SetEmanager(emanager);
+		GetEmanager()->SetOwner(this);
+		GetEmanager()->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\BossHitFX.bmp", false, true, 5,
+			Vector2::Zero,
+			0.01f, Vector2::One * 1.f);
 	}
 	void IcePillar::Update()
 	{
-		GetComponent<SpriteRenderer>()->SetDir(math::Rotate(GetDir(), 0.0f));
-		GetComponent<Animator>()->Update();
-		GetComponent<Collider>()->Update();
-		if (bAttack && cmd.zenTime > 0.03f)
+		if (GetStat().HP == 0 && mState != eIcePillarState::Pause)
 		{
-			mTime += Time::DeltaTime();
-			if (
-				mTime > (cmd.delayTime + (float)index * cmd.zenTime)
-				&& (index < cmd.attackLimit)
-				)
-			{
-				mBullets[index]->SetSpeed(cmd.attackSpeed);
-				mBullets[index]->SetStat(5.0f, cmd.attackDir);
-				mBullets[index]->Spawn(
-					GetComponent<Transform>()->GetPos()
-					- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
-				);
-				index++;
-			}
+			Monster::SetBAttack(false);
+			SetBAttack(false);
+			SetState(eState::Pause);
 		}
-		else if (bAttack)
+		if (mState != eIcePillarState::Pause)
+			Monster::SetBAttack(true);
+
+		switch (mState)
 		{
-			mTime += Time::DeltaTime();
-			if (
-				mTime > (cmd.delayTime + (float)index * cmd.zenTime)
-				&& (index < cmd.attackLimit)
-				)
-			{
-				if (index % 3 == 0)
-				{
-					mBullets[index]->SetSpeed(cmd.attackSpeed);
-					mBullets[index]->Spawn(
-						GetComponent<Transform>()->GetPos()
-						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
-
-					);
-					mBullets[index]->SetStat(5.0f, cmd.attackDir);
-					index++;
-				}
-				else if (index % 3 == 1)
-				{
-					mBullets[index]->SetSpeed(cmd.attackSpeed);
-
-					Vector2 spawnPos = GetComponent<Transform>()->GetPos()
-						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
-					- Vector2(GetDir().y, GetDir().x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
-
-					cmd.attackDir = (GetHero()->GetComponent<Transform>()->GetPos()
-						- Vector2{ 0.0f,GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
-						- spawnPos).Normalize();
-
-					mBullets[index]->SetStat(5.0f
-						, cmd.attackDir);
-					mBullets[index]->Spawn(spawnPos);
-					index++;
-				}
-				else if (index % 3 == 2)
-				{
-					mBullets[index]->SetSpeed(cmd.attackSpeed);
-					Vector2 spawnPos = GetComponent<Transform>()->GetPos()
-						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
-						+ Vector2(GetDir().y, GetDir().x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
-
-					cmd.attackDir = (GetHero()->GetComponent<Transform>()->GetPos()
-						- Vector2{ 0.0f,GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
-						- spawnPos).Normalize();
-
-					mBullets[index]->SetStat(5.0f
-						, cmd.attackDir);
-					mBullets[index]->Spawn(spawnPos);
-					index++;
-				}
-			}
-		}
-		else
-		{
-			mTime = 0.0f;
-			index = 0;
-		}
-		/*switch (GetNiflheim()->GetNFState())
-		{
-		case (Niflheim::eNiflheimState::Idle):
+		case eIcePillarState::Idle:
 		{
 			idle();
 			break;
 		}
-		}*/
-		//SetBAttack(true);m
-
-		//mTime += Time::DeltaTime();
-		//if (GetHero() == nullptr)
-		//{
-		//	Scene* b = SceneManager::FindScene(eSceneType::Play);
-		//	PlayScene* c = dynamic_cast<PlayScene*>(b);
-		//	PlayScene* a = dynamic_cast<PlayScene*>(SceneManager::FindScene(eSceneType::Play));
-		//	if (a == nullptr)
-		//		return;
-		//	SetHero(a->GetHero());
-		//	if (GetHero() == nullptr)
-		//		return;
-		//}
-		//prevPos = GetComponent<Transform>()->GetPos();
-
-
-
-		//if (Input::GetKey(eKeyCode::R))
-		//{
-		//	GetComponent<Transform>()->SetPos(Vector2{
-		//		GetComponent<Transform>()->GetPos().x,
-		//		200.0f
-		//		});
-		//}
-
-		//if (GetHero() != nullptr)
-		//{
-		//	heroPos = GetHero()->GetComponent<Transform>()->GetPos();
-
-		//	Transform* tr = GetComponent<Transform>();
-		//	Vector2 pos = tr->GetPos();
-		//	if (heroPos.x > pos.x)
-		//		SetFlip(false);
-		//	else
-		//		SetFlip(true);
-		//}
-		//if (isJump == false)
-		//{
-		//	if (!(GetComponent<Rigidbody>()->GetGround()))
-		//		isJump = true;
-		//}
-		//else if (!(GetComponent<Rigidbody>()->GetGround()))
-		//{
-		//	if (mState != eIcePillarState::Jump)
-		//	{
-		//		StateChange(eIcePillarState::Jump, L"Jump", true);
-		//	}
-		//}
-		//else
-		//{
-		//	isJump = false;
-		//}
-
-		//switch (mState)
-		//{
-
-		//case hj::IcePillar::eIcePillarState::Idle:
-		//	idle();
-		//	break;
-		//case hj::IcePillar::eIcePillarState::Run:
-		//	run();
-		//	break;
-		//case hj::IcePillar::eIcePillarState::Jump:
-		//	jump();
-		//	break;
-		//case hj::IcePillar::eIcePillarState::AttackWait:
-		//	attackWait();
-		//	break;
-		//case hj::IcePillar::eIcePillarState::AttackReload:
-		//	attackReload();
-		//	break;
-		//case hj::IcePillar::eIcePillarState::SkillAttackWait:
-		//	skillAttackWait();
-		//	break;
-		//case hj::IcePillar::eIcePillarState::SkillAttackReload:
-		//	skillAttackReload();
-		//	break;
-		//}
-
-		//Transform* tr = GetComponent<Transform>();
-		//Vector2 size = tr->GetSize();
-
-		//if (mState != hj::IcePillar::eIcePillarState::SkillAttackWait &&
-		//	mState != hj::IcePillar::eIcePillarState::SkillAttackReload)
-		//	mWeapons->Update();
-		////mEffects->Update();
-		//GameObject::Update();
+		case eIcePillarState::AttackWait:
+		{
+			attackWait();
+			break;
+		}
+		case eIcePillarState::Attack:
+		{
+			attack();
+			break;
+		}
+		}
+		GetComponent<SpriteRenderer>()->SetDir(math::Rotate(GetDir(), 0.0f));
+		GetComponent<Animator>()->Update();
+		GetComponent<Collider>()->Update();
+		hpBar->Update();
+		
+		
 	}
 	void IcePillar::Render(HDC hdc)
 	{
-		GetComponent<Animator>()->Render(hdc);
-		GetComponent<Collider>()->Render(hdc);
+		/*GetComponent<Animator>()->Render(hdc);
+		GetComponent<Collider>()->Render(hdc);*/
+		GameObject::Render(hdc);
+		hpBar->Render(hdc);
 	}
 	void IcePillar::Release()
 	{
@@ -330,33 +206,124 @@ namespace hj
 	}
 	void IcePillar::SetState(GameObject::eState type)
 	{
-		GameObject::SetState(type);
+		if (type == eState::Pause)
+		{
+			StateChange(eIcePillarState::Pause);
+			Monster::SetBAttack(false);
+			SetBAttack(false);
+			AnimPlay(L"Exit", false);
+		}
+		else if (type == eState::Active)
+		{
+			GameObject::SetState(type);
+			StateChange(eIcePillarState::Idle);
+			AnimPlay(L"Enter", false);
+		}
 	}
 	void IcePillar::enterCompleteEvent()
 	{
 		AnimPlay(L"Idle", false);
 	}
+	void IcePillar::exitCompleteEvent()
+	{
+		GameObject::SetState(GameObject::eState::Pause);
+	}
 	void IcePillar::idle()
 	{	
-		GetComponent<Transform>()->SetPos(mOwner->GetComponent<Transform>()->GetPos()
-			+ Vector2{ 0.0f, mOwner->GetComponent<Collider>()->GetSize().y * -0.5f }
-			+ GetDir() * 200.0f // 원 중심을 기준으로 그림 위치 회전
-		);
+		mTime = 0.0f;
+		index = 0;
+		if (bAttack)
+			StateChange(eIcePillarState::AttackWait);
 	}
 	void IcePillar::attackWait()
 	{
-		Vector2 velocity = mRigidbody->GetVelocity();
-		velocity.x = 0.0f;
-		mRigidbody->SetVelocity(velocity);
-
-		
+		mTime += Time::DeltaTime();
+		if (mTime > cmd.delayTime)
+		{
+			mTime = 0.0f;
+			StateChange(eIcePillarState::Attack);
+		}
 	}
 	void IcePillar::attack()
 	{
-		Vector2 velocity = mRigidbody->GetVelocity();
-		velocity.x = 0.0f;
-		mRigidbody->SetVelocity(velocity);
+		if (bAttack == false)
+		{
+			mTime = 0.0f;
+			StateChange(eIcePillarState::Idle);
+		}
+		else
+		{
+			mTime += Time::DeltaTime();
+		}
+		if (cmd.zenTime > 0.03f)
+		{
+			if (
+				mTime > ((float)index * cmd.zenTime)
+				&& (index < cmd.attackLimit)
+				)
+			{
+				mBullets[index]->SetSpeed(cmd.attackSpeed);
+				mBullets[index]->SetStat(5.0f, cmd.attackDir);
+				mBullets[index]->Spawn(
+					GetComponent<Transform>()->GetPos()
+					- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
+				);
+				index++;
+			}
+		}
+		else
+		{
+			if (
+				mTime > ( (float)index * cmd.zenTime)
+				&& (index < cmd.attackLimit)
+				)
+			{
+				if (index % 3 == 0)
+				{
+					mBullets[index]->SetSpeed(cmd.attackSpeed);
+					mBullets[index]->Spawn(
+						GetComponent<Transform>()->GetPos()
+						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
 
+					);
+					mBullets[index]->SetStat(5.0f, cmd.attackDir);
+					index++;
+				}
+				else if (index % 3 == 1)
+				{
+					mBullets[index]->SetSpeed(cmd.attackSpeed);
+
+					Vector2 spawnPos = GetComponent<Transform>()->GetPos()
+						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
+					- Vector2(GetDir().y, GetDir().x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
+
+					cmd.attackDir = (GetHero()->GetComponent<Transform>()->GetPos()
+						- Vector2{ 0.0f,GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
+					- spawnPos).Normalize();
+
+					mBullets[index]->SetStat(5.0f
+						, cmd.attackDir);
+					mBullets[index]->Spawn(spawnPos);
+					index++;
+				}
+				else if (index % 3 == 2)
+				{
+					mBullets[index]->SetSpeed(cmd.attackSpeed);
+					Vector2 spawnPos = GetComponent<Transform>()->GetPos()
+						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
+					+ Vector2(GetDir().y, GetDir().x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
+
+					cmd.attackDir = (GetHero()->GetComponent<Transform>()->GetPos()
+						- Vector2{ 0.0f,GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
+					- spawnPos).Normalize();
+
+					mBullets[index]->SetStat(5.0f
+						, cmd.attackDir);
+					mBullets[index]->Spawn(spawnPos);
+					index++;
+				}
+			}
+		}
 		
 	}
 }

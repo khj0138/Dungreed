@@ -44,6 +44,6 @@ namespace hj
 		//bool bRender;
 		////bool bAttack;
 		////bool bCollision;
-		//Emanager* mEffects;
+		Emanager* mEffects;
 	};
 }

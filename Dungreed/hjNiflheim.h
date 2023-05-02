@@ -14,6 +14,7 @@ namespace hj
 	class Animator;
 	class Hero;
 	class IcePillar;
+	class BossHPBar;
 	class Niflheim : public Monster
 	{
 	public:
@@ -30,7 +31,8 @@ namespace hj
 			Attack3,
 			Attack4,
 			AttackReload,
-
+			Groggy,
+			StandUp,
 			End,
 		};
 		
@@ -47,6 +49,8 @@ namespace hj
 		virtual void OnCollisionExit(Collider* other) override;
 		void StateChange(eNiflheimState state);
 		void AnimPlay(std::wstring anim, bool loop = false);
+		void ExitCompleteEvent();
+		void EnterCompleteEvent();
 		Vector2 GetHeroPos() { return heroPos; }
 		virtual void SetState(GameObject::eState type);
 
@@ -69,9 +73,12 @@ namespace hj
 		void attack3();
 		void attack4();
 		void attackReload();
+		void groggy();
+		
 
 		void pillarMove(UINT posIndex, UINT dirIndex);
 		void pillarTeleport(UINT posIndex, UINT dirIndex);
+		void teleport(Vector2 pos);
 
 		void Flip(std::wstring name);
 		//.bool checkFlip() { return mFlip; }
@@ -87,15 +94,16 @@ namespace hj
 		Emanager* mEffects;
 		Rigidbody* mRigidbody;
 		
-		float coolTime[4];
-		bool bAttack[4];
-		float mTime[5];
+		float coolTime[5];
+		bool bAttack[5];
+		float mTime[6];
 		Vector2 mAttackDir;
 		UINT index;
 		std::vector<IcePillar*> mPillars;
 		std::vector<std::vector<Vector2>> pillarVector;
 		std::vector<std::vector<Vector2>> pillarDir;
 		UINT Degree;
+		BossHPBar* hpBar;
 	};
 
 }

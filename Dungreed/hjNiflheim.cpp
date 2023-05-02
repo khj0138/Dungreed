@@ -23,6 +23,7 @@
 #include "hjHero.h"
 #include "hjWeapon.h"
 #include "hjIcePillar.h"
+#include "hjBossHPBar.h"
 extern hj::Application application;
 
 namespace hj
@@ -63,6 +64,13 @@ namespace hj
 	}
 	void Niflheim::Initialize()
 	{
+		SetStat(1000, 1000);
+		bAttack[0] = true;
+		bAttack[1] = true;
+		bAttack[2] = false;
+		bAttack[3] = false;
+		bAttack[4] = true;
+
 		mAnimator = AddComponent<Animator>();
 
 		Vector2 asRatio = Vector2::One * ((float)application.GetWidth() / 960.0f);
@@ -85,13 +93,15 @@ namespace hj
 		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 6, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"Attack", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 11, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"Die", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 30, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Enter", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 16, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Exit", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 16, Vector2::Zero, 0.1);
+		mAnimator->CreateAnimation(L"Enter", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 16, Vector2::Zero, 0.03);
+		mAnimator->CreateAnimation(L"Exit", mImage, size * Vector2{ 0.0f, (float)index++ }, 30, 5, 16, Vector2::Zero, 0.03);
 
 		SetFlip(false);
 		StateChange(eNiflheimState::Idle);
 		AnimPlay(L"Idle", true);
-		
+
+		mAnimator->GetCompleteEvent(L"Exit") = std::bind(&Niflheim::ExitCompleteEvent, this);
+		mAnimator->GetCompleteEvent(L"Enter") = std::bind(&Niflheim::EnterCompleteEvent, this);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2{ 80.0f, 120.0f });
@@ -116,7 +126,7 @@ namespace hj
 			pillarDir[3].push_back(Vector2::Zero);
 			pillarDir[4].push_back(Vector2::Zero);
 		}
-		pillarVector[1].push_back( Vector2{760.0f, 520.f});
+		pillarVector[1].push_back(Vector2{ 760.0f, 520.f });
 		pillarVector[1].push_back(Vector2{ 760.0f, 760.f });
 		pillarVector[1].push_back(Vector2{ 1800.0f, 520.f });
 		pillarVector[1].push_back(Vector2{ 1800.0f, 760.f });
@@ -141,11 +151,11 @@ namespace hj
 			pillarVector[0][i] =
 				GetComponent<Transform>()->GetPos()
 				+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-				+ pillarDir[0][i] * 200.0;
-				//+ Vector2{ 0.0f, mPillars[i]->GetComponent<Collider>()->GetSize().y * 0.5f };
+			+ pillarDir[0][i] * 200.0;
+			//+ Vector2{ 0.0f, mPillars[i]->GetComponent<Collider>()->GetSize().y * 0.5f };
 			mPillars[i]->GetComponent<Transform>()->SetPos(pillarVector[0][i]);
 			mPillars[i]->SetNiflheim(this);
-			
+
 		}
 		/*pillarVector[0] = Vector2{ 760.0f, 520.f };
 		pillarVector[1] = Vector2{ 760.0f, 760.f };
@@ -159,7 +169,7 @@ namespace hj
 
 		//Vector2 temp1[4] = {Vector2{ 520.0f, -120.f },Vector2{ -520.0f, -120.f },Vector2{ -520.0f, 120.f },Vector2{ 520.0f, 120.f }};
 		//Vector2 temp2[4] = { Vector2{ -510.0f, -120.f },Vector2{ -170.0f, -120.f },Vector2{ 170.0f, -120.f },Vector2{ 510.0f, -120.f } };
-		
+
 		/*temp[0] = Vector2(520.0f, -120.f );
 		temp[1] = Vector2(-520.0f, -120.f);
 		temp[2] = Vector2(-520.0f, 120.f);
@@ -172,17 +182,37 @@ namespace hj
 		temp[3] = Vector2(510.0f, -120.f);
 		pillarVector.push_back(temp);*/
 
-		coolTime[0] = 100.0f;
-		coolTime[1] = 200.0f;
-		coolTime[2] = 300.0f;
-		coolTime[3] = 4.0f;
+		coolTime[0] = 3.0f;
+		coolTime[1] = 5.0f;
+		coolTime[2] = 5.0f;
+		coolTime[3] = 5.0f;
+		coolTime[4] = 10.0f;
 
 		GameObject::Initialize();
+		hpBar = new BossHPBar(L"BossHPBar", L"..\\Resource\\Monster\\Boss_LifeBar", Vector2::One, Vector2{ 800.0f, 800.0f });
+		hpBar->Initialize();
+		hpBar->SetMonster((Monster*)this);
+
+		Emanager* emanager = new Emanager();
+		SetEmanager(emanager);
+		GetEmanager()->SetOwner(this);
+		GetEmanager()->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\BossHitFX.bmp", false, true, 5,
+			Vector2::Zero,
+			0.01f, Vector2::One * 1.f);
 	}
 	void Niflheim::Update()
 	{
 		//SetBAttack(true);
-		
+		if (GetStat().HP == 0 && mState != eNiflheimState::Die)
+		{
+			StateChange(eNiflheimState::Die);
+			AnimPlay(L"Die", false);
+			mRigidbody->SetGravity(true);
+			for (int i = 0; i < 4; i++)
+			{
+				mPillars[i]->SetState(eState::Pause);
+			}
+		}
 		if (GetHero() == nullptr)
 		{
 			/*Scene* b = SceneManager::FindScene(eSceneType::Play);
@@ -212,8 +242,38 @@ namespace hj
 		{
 			heroPos = GetHero()->GetComponent<Transform>()->GetPos();
 		}
-		
-		
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (mPillars[i]->GetStat().HP != 0)
+			{
+				break;
+			}
+			else if (i == 3 &&
+				mState != Niflheim::eNiflheimState::Groggy &&
+				mState != Niflheim::eNiflheimState::StandUp &&
+				mState != Niflheim::eNiflheimState::Die)
+			{
+				mTime[0] = 0.0f;
+				mRigidbody->SetGravity(true);
+				StateChange(Niflheim::eNiflheimState::Groggy);
+			}
+		}
+
+		if (mState == Niflheim::eNiflheimState::Attack1 ||
+			mState == Niflheim::eNiflheimState::AttackWait1 ||
+			mState == Niflheim::eNiflheimState::Attack2 ||
+			mState == Niflheim::eNiflheimState::AttackWait2 ||
+			mState == Niflheim::eNiflheimState::Idle)
+		{
+			mTime[5] += Time::DeltaTime();
+			if (mTime[5] >= coolTime[4])
+			{
+				mTime[5] = 0.0f;
+				AnimPlay(L"Exit", false);
+			}
+		}
+
 
 		switch (mState)
 		{
@@ -221,7 +281,7 @@ namespace hj
 		case hj::Niflheim::eNiflheimState::Idle:
 			idle();
 			break;
-		
+
 		case hj::Niflheim::eNiflheimState::AttackWait1:
 		{
 			moveAttackWait(1);
@@ -234,8 +294,8 @@ namespace hj
 		}
 		case hj::Niflheim::eNiflheimState::AttackWait3:
 		{
-			teleportAttackWait(3);
-			break;
+teleportAttackWait(3);
+break;
 		}
 		case hj::Niflheim::eNiflheimState::AttackWait4:
 		{
@@ -263,13 +323,20 @@ namespace hj
 			break;
 		}
 		case hj::Niflheim::eNiflheimState::AttackReload:
+		{
 			attackReload();
 			break;
 		}
+		case hj::Niflheim::eNiflheimState::Groggy:
+		{
+			groggy();
+			break;
+		}
+		}
 
-		
 
-		
+
+
 		//mEffects->Update();
 		GameObject::Update();
 	}
@@ -277,6 +344,7 @@ namespace hj
 	{
 		//mWeapons->Render(hdc);
 		GameObject::Render(hdc);
+		hpBar->Render(hdc);
 	}
 	void Niflheim::Release()
 	{
@@ -291,7 +359,7 @@ namespace hj
 		Vector2 size = Vector2::Zero;
 		size.x = col->GetSize().x * 1.5f;
 		size.y = col->GetSize().y;
-		
+
 	}
 
 	void Niflheim::OnCollisionStay(Collider* other)
@@ -313,6 +381,71 @@ namespace hj
 
 		mAnimator->Reset();
 	}
+	void Niflheim::ExitCompleteEvent()
+	{
+		if (mState == eNiflheimState::StandUp ||
+			mState == eNiflheimState::AttackWait3 ||
+			mState == eNiflheimState::AttackWait4)
+		{
+			GetComponent<Transform>()->SetPos(Vector2{ 1280.0f, 600.0f });
+		}
+		else
+		{
+			UINT temp = ((int)(mTime[5] / 0.01f) % 4);
+			switch (temp)
+			{
+			case 0:
+			{
+				GetComponent<Transform>()->SetPos(Vector2{ 480.0f, 320.0f });
+				break;
+			}
+			case 1:
+			{
+				GetComponent<Transform>()->SetPos(Vector2{ 480.0f, 960.0f });
+				break;
+			}
+			case 2:
+			{
+				GetComponent<Transform>()->SetPos(Vector2{ 2080.0f, 960.0f });
+				break;
+			}
+			case 3:
+			{
+				GetComponent<Transform>()->SetPos(Vector2{ 2080.0f, 320.0f });
+				break;
+			}
+			}
+		}
+		
+		AnimPlay(L"Enter", false);
+	}
+	void Niflheim::EnterCompleteEvent()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			pillarVector[0][i] =
+				GetComponent<Transform>()->GetPos()
+				+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
+			+ pillarDir[0][i] * 200.0;
+		}
+		if (mState == eNiflheimState::StandUp)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				mPillars[i]->SetStat(mPillars[i]->GetStat().maxHP, mPillars[i]->GetStat().maxHP);
+				mPillars[i]->SetState(eState::Active);
+				mPillars[i]->SetDir(pillarDir[0][i]);
+				mPillars[i]->GetComponent<Transform>()->SetPos(pillarVector[0][i]);
+			}
+
+			StateChange(eNiflheimState::Idle);
+		}
+		if (mTime[5] >= coolTime[4])
+		{
+			mTime[5] = 0.0f;
+		}
+		AnimPlay(L"Idle", true);
+	}
 	void Niflheim::SetState(GameObject::eState type)
 	{
 		mWeapons->SetState(type);
@@ -325,9 +458,10 @@ namespace hj
 		mTime[2] += Time::DeltaTime();
 		mTime[3] += Time::DeltaTime();
 		mTime[4] += Time::DeltaTime();
-
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			Vector2 dir = mPillars[i]->GetDir();
 			mPillars[i]->SetDir(math::Rotate((dir), -1.f));
 			mPillars[i]->GetComponent<Transform>()->SetPos(GetComponent<Transform>()->GetPos()
@@ -338,37 +472,17 @@ namespace hj
 		}
 		for (int i = 4; i >= 1; i--)
 		{
-			if (mTime[i] >= coolTime[i - 1])
+			if (mTime[i] >= coolTime[i - 1] && bAttack[i-1])
 			{
+				if (i == 3 || i == 4)
+					AnimPlay(L"Exit", false);
+				
 				mTime[i] = 0.0f;
 				StateChange(eNiflheimState(i+1));
 				return;
 			}
 		}
 		
-		//for (int i = 0; i < 4; i++)
-		//{
-		//	Vector2 dir = mPillars[i]->GetDir();
-		//	Vector2 mSpawnDir = math::Rotate(dir, -5.0f); // 무기 비틀기
-		//	//Degree = (Degree + 1) % 360;
-		//	mPillars[i]->SetDir(math::Rotate((dir), -6.f));
-		//	mPillars[i]->GetComponent<Transform>()->SetPos(GetComponent<Transform>()->GetPos()
-		//		+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-		//		+ mPillars[i]->GetDir() * 124.0f // 원 중심을 기준으로 그림 위치 회전
-		//	);
-		//}
-		//for (int i = 0; i < 4; i++)
-		//{
-		//	Vector2 dir = mPillars[i]->GetDir();
-		//	Vector2 mSpawnDir = math::Rotate(dir, -5.0f); // 무기 비틀기
-		//	//Degree = (Degree + 1) % 360;
-		//	mPillars[i]->SetDir(math::Rotate((dir), -12.f));
-		//	mPillars[i]->GetComponent<Transform>()->SetPos(
-		//		GetComponent<Transform>()->GetPos()
-		//		+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-		//		+ pillarVector[i]
-		//	);
-		//}
 		if (GetHero() != nullptr)
 		{
 
@@ -378,11 +492,6 @@ namespace hj
 			Vector2 size = Vector2::Zero;
 			size.x = col->GetSize().x * 1.5f;
 			size.y = col->GetSize().y;
-
-			
-
-			
-
 		}
 	}
 	void Niflheim::moveAttackWait(UINT index)
@@ -391,6 +500,8 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
 				mPillars[i]->SetTPPos(mPillars[i]->GetComponent<Transform>()->GetPos());
 				if(index == 0)
 					pillarVector[0][i] =
@@ -418,101 +529,30 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				/*if(index == 4)
-					pillarDir[index][i] = 
-					math::Rotate(
-						heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
-						- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
-					, (float)(i - 2) * -90.f).Normalize();*/
-				if (index == 3)
-					pillarVector[index][i] =
-						GetComponent<Transform>()->GetPos()
-						+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-						+ pillarDir[index][i] * 124.0;
+				
 				mPillars[i]->SetState(eState::Pause);
 			}
 
 		}
 		else if (mTime[index] > 1.f)
 		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
+				if (index == 3)
+					pillarVector[index][i] =
+					GetComponent<Transform>()->GetPos()
+					+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
+				+ pillarDir[index][i] * 124.0;
+			}
 			pillarTeleport(index, index);
 			mTime[index] = 0.0f - Time::DeltaTime();
 			StateChange(eNiflheimState(5 + index));
 		}
 		mTime[index] += Time::DeltaTime();
 	}
-	/*void Niflheim::attackWait1()
-	{
-		if (mTime[0] <= 0.0000001f)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				mPillars[i]->SetTPPos(mPillars[i]->GetComponent<Transform>()->GetPos());
-				pillarVector[0][i] =
-					GetComponent<Transform>()->GetPos()
-					+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-					+ pillarDir[0][i] * 200.0
-					+ Vector2{ 0.0f, mPillars[i]->GetComponent<Collider>()->GetSize().y * 0.5f };
-			}
-
-		}
-		else if (mTime[0] < 0.4f)
-		{
-			pillarMove(0, 0);
-		}
-		else
-		{
-			mTime[0] = 0.0f - Time::DeltaTime();
-			StateChange(eNiflheimState::Idle);
-		}
-	}*/
-	/*void Niflheim::attackWait2()
-	{
-		if (mTime[1] <= 0.0000001f)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				mPillars[i]->SetTPPos(mPillars[i]->GetComponent<Transform>()->GetPos());
-			}
-			mTime[1] += Time::DeltaTime();
-			return;
-		}
-		mTime[1] += Time::DeltaTime();
-		if (mTime[1] < 0.4f)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				Vector2 SpawnPos = GetComponent<Transform>()->GetPos()
-					+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-					+ pillarVector[i]
-					+ Vector2{ 0.0f, mPillars[i]->GetComponent<Collider>()->GetSize().y * 0.5f };
-				mPillars[i]->GetComponent<Transform>()->SetPos(
-					mPillars[i]->GetTPPos()
-					+ (SpawnPos - mPillars[i]->GetTPPos()) * (mTime[1] / 0.4f)
-				);
-			}
-			return;
-		}
-		else
-		{
-			mTime[1] = 0.0f;
-			for (int i = 0; i < 4; i++)
-			{
-				mPillars[i]->SetCommand(
-					0.8f * (float)i
-					, heroPos
-					- (mPillars[i]->GetComponent<Transform>()->GetPos()
-						- Vector2{ 0.0f,mPillars[i]->GetComponent<Collider>()->GetSize().y / 2.f })
-					, 500.0f
-					, 8
-				);
-				mPillars[i]->SetDir(Vector2::Up);
-				mPillars[i]->SetBAttack(true);
-			}
-
-			StateChange(eNiflheimState::Attack2);
-		}
-	}*/
+	
 	void Niflheim::attackWait3()
 	{
 	}
@@ -522,6 +562,8 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
 				mPillars[i]->SetBAttack(true);
 				mPillars[i]->SetCommand(
 					0.8f * (float)i
@@ -542,6 +584,8 @@ namespace hj
 		mTime[1] += Time::DeltaTime();
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			Vector2 dir = mPillars[i]->GetDir();
 			mPillars[i]->SetDir(math::Rotate((dir), -4.8f));
 			if(mTime[1] >= (0.625f * (float)(index)) && index == i)
@@ -561,7 +605,7 @@ namespace hj
 				index++;
 			}
 		}
-		if (mTime[1] >= 2.6f)
+		if (mTime[1] >= 3.0f)
 		{
 			mTime[1] = 0.0f;
 			StateChange(eNiflheimState::AttackReload);
@@ -573,6 +617,8 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
 				mPillars[i]->SetBAttack(true);
 				
 				mPillars[i]->GetComponent<Transform>()->SetPos(pillarVector[2][i]);
@@ -582,6 +628,8 @@ namespace hj
 		mTime[2] += Time::DeltaTime();
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			Vector2 dir = mPillars[i]->GetDir();
 			
 			//Degree = (Degree + 1) % 360;
@@ -594,7 +642,7 @@ namespace hj
 				, 0.0625f
 			);
 		}
-		if (mTime[2] >= 2.5f)
+		if (mTime[2] >= 3.0f)
 		{
 			mTime[2] = 0.0f;
 			StateChange(eNiflheimState::AttackReload);
@@ -606,6 +654,8 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
 				mPillars[i]->SetBAttack(true);
 				/*mPillars[i]->GetComponent<Transform>()->SetPos(pillarVector[2][i]);
 				mPillars[i]->SetDir(pillarDir[[i]);*/
@@ -614,6 +664,8 @@ namespace hj
 		mTime[3] += Time::DeltaTime();
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			Vector2 dir = mPillars[i]->GetDir();
 
 			//Degree = (Degree + 1) % 360;
@@ -631,7 +683,7 @@ namespace hj
 				+ mPillars[i]->GetDir() * 124.f
 			);
 		}
-		if (mTime[3] >= 2.f)
+		if (mTime[3] >= 2.5f)
 		{
 			mTime[3] = 0.0f;
 			StateChange(eNiflheimState::AttackReload);
@@ -658,6 +710,8 @@ namespace hj
 		mTime[4] += Time::DeltaTime();
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			
 			mPillars[i]->SetCommand(
 				0.0f
@@ -738,7 +792,7 @@ namespace hj
 			if (mTime[4] > 1.0f)
 				mPillars[i]->SetBAttack(true);
 		}
-		if (mTime[4] >= 3.f)
+		if (mTime[4] >= 3.5f)
 		{
 			mTime[4] = 0.0f;
 			StateChange(eNiflheimState::AttackReload);
@@ -750,6 +804,8 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
 				mPillars[i]->SetTPPos(mPillars[i]->GetComponent<Transform>()->GetPos());
 				pillarVector[0][i] =
 					GetComponent<Transform>()->GetPos()
@@ -770,6 +826,8 @@ namespace hj
 			StateChange(eNiflheimState::Idle);
 			for (int i = 0; i < 4; i++)
 			{
+				if (mPillars[i]->GetStat().HP == 0)
+					continue;
 				mPillars[i]->GetComponent<Transform>()->SetPos(pillarVector[0][i]);
 				mPillars[i]->SetDir(pillarDir[0][i]);
 			}
@@ -777,11 +835,43 @@ namespace hj
 		mTime[0] += Time::DeltaTime();
 	}
 
+	void Niflheim::groggy()
+	{
+		if (mTime[0] > 5.0f && mState != eNiflheimState::StandUp)
+		{
+			mTime[0] = 0.0f;
+			mRigidbody->SetGravity(false);
+			mRigidbody->SetGround(false);
+			Monster::SetBAttack(false);
+			AnimPlay(L"Exit", false);
+			StateChange(eNiflheimState::StandUp);
+			return;
+		}
+		else if ((float)(GetStat().HP) / (float)(GetStat().maxHP) <= 0.5f && 
+			bAttack[2] == false &&
+			bAttack[3] == false)
+		{
+			mTime[0] = 0.0f;
+			mRigidbody->SetGravity(false);
+			mRigidbody->SetGround(false);
+			Monster::SetBAttack(false);
+			AnimPlay(L"Exit", false);
+			StateChange(eNiflheimState::StandUp);
+			bAttack[2] = true;
+			bAttack[3] = true;
+			return;
+		}
+		mTime[0] += Time::DeltaTime();
+		Monster::SetBAttack(true);
+	}
+
 	void Niflheim::pillarMove(UINT posIndex, UINT dirIndex)
 	{
 
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			Vector2 dir = mPillars[i]->GetDir();
 			if (!(fabs(dir.x - pillarDir[dirIndex][i].x) < 0.1f &&fabs(dir.y- pillarDir[dirIndex][i].y) < 0.1f))
 				mPillars[i]->SetDir(math::Rotate((dir), -12.f));
@@ -800,6 +890,8 @@ namespace hj
 
 		for (int i = 0; i < 4; i++)
 		{
+			if (mPillars[i]->GetStat().HP == 0)
+				continue;
 			mPillars[i]->SetDir(
 				pillarDir[posIndex][i]
 			);
@@ -810,4 +902,9 @@ namespace hj
 
 		}
 	}
-}
+	
+}/*
+mon2->GetComponent<Transform>()->SetPos(Vector2{ 480.0f, 320.0f });
+mon2->GetComponent<Transform>()->SetPos(Vector2{ 480.0f, 960.0f });
+mon2->GetComponent<Transform>()->SetPos(Vector2{ 2080.0f, 960.0f });
+mon2->GetComponent<Transform>()->SetPos(Vector2{ 2080.0f, 320.0f });*/

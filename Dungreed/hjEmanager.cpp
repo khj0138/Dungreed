@@ -81,6 +81,10 @@ namespace hj
 			{
 				newEffect->Create(eInfo->mImage, eInfo->mName, eInfo->mFrame, 0, eInfo->mOffset, eInfo->mPlayRate, false);
 			}
+			else if (!(eInfo->bFlip))
+			{
+				newEffect->Create(eInfo->mImage, eInfo->mName, eInfo->mFrame, 0, eInfo->mOffset, eInfo->mPlayRate, false);
+			}
 			else if (GetFlip())
 			{
 				//newEffect->SetName(eInfo->mName);
@@ -118,7 +122,7 @@ namespace hj
 	}
 
 	void Emanager::RegisterEffect(const std::wstring& name, const std::wstring& path,
-		bool loop, bool rotate, UINT frame, Vector2 offset, float playRate, Vector2 size)
+		bool loop, bool rotate, UINT frame, Vector2 offset, float playRate, Vector2 size, bool flip)
 	{
 		//SetAsRatio(Vector2::One * ((float)application.GetWidth() / 960.0f));
 		SetAsRatio(size);
@@ -133,6 +137,7 @@ namespace hj
 		newEffect->bDuplicate = loop;
 		newEffect->bCreate = true;
 		newEffect->bRotate = rotate;
+		newEffect->bFlip = flip;
 		if (newEffect != nullptr)
 		{
 			mEffects.insert(std::make_pair(name, newEffect));

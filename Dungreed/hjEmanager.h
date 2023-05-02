@@ -19,6 +19,7 @@ namespace hj
 			bool bCreate;
 			bool bDuplicate;
 			bool bRotate;
+			bool bFlip;
 		};
 		//void Effect::Register(const std::wstring& name, const std::wstring& path, UINT frame, Vector2 offset, float playRate)
 		//{
@@ -41,7 +42,7 @@ namespace hj
 
 		void SetOwner(GameObject* owner) { mOwner = owner; }
 		void CreateEffect(const std::wstring& name, Vector2 direction = Vector2::Zero);
-		void RegisterEffect(const std::wstring& name, const std::wstring& path,bool loop, bool rotate, UINT frame, Vector2 offset, float playRate, Vector2 size = Vector2::One * 2.f);
+		void RegisterEffect(const std::wstring& name, const std::wstring& path,bool loop, bool rotate, UINT frame, Vector2 offset, float playRate, Vector2 size = Vector2::One * 2.f, bool flip = true);
 		
 		//void PlayEffect(const std::wstring& name);
 		void Clear();

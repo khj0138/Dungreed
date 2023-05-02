@@ -1,4 +1,4 @@
-#include "hjMonsterHPBar.h"
+#include "hjBossHPBar.h"
 #include "hjTime.h"
 #include "hjSceneManager.h"
 #include "hjInput.h"
@@ -14,13 +14,13 @@ extern hj::Application application;
 
 namespace hj
 {
-	MonsterHPBar::MonsterHPBar()
+	BossHPBar::BossHPBar()
 		: mTime(0.0f)
 		, mPos(Vector2::Zero)
 	{
 	}
 
-	MonsterHPBar::MonsterHPBar(const std::wstring name, const std::wstring path, Vector2 asRatio, Vector2 offset)
+	BossHPBar::BossHPBar(const std::wstring name, const std::wstring path, Vector2 asRatio, Vector2 offset)
 		: mTime(0.0f)
 		, mPos(offset)
 	{
@@ -39,40 +39,30 @@ namespace hj
 		image_full = RscManager::Load<Img>(fullName, fullPath);
 		image_empty = RscManager::Load<Img>(emptyName, emptyPath);
 
-		image_full->SetMoveRate(Vector2::One);
-		image_empty->SetMoveRate(Vector2::One);
+		image_full->SetMoveRate(Vector2::Zero);
+		image_empty->SetMoveRate(Vector2::Zero);
 		image_full->SetRepeat(false);
 		image_empty->SetRepeat(false);
 		image_full->MatchRatio(asRatio);
 		image_empty->MatchRatio(asRatio);
 	}
-	MonsterHPBar::~MonsterHPBar()
+	BossHPBar::~BossHPBar()
 	{
 	}
-	void MonsterHPBar::Initialize()
+	void BossHPBar::Initialize()
 	{
 		GameObject::Initialize();
 		Transform* tr = GetComponent<Transform>();
 		Vector2 ImgSize = Vector2{ (float)image_empty->GetWidth(), (float)image_empty->GetHeight() };
 		tr->SetPos(
 			mPos
-			+ Vector2{ ImgSize.x / 2.0f, ImgSize.y }
-			+ Vector2{ 0.0f, 0.0f }
 		);
 	}
-	void MonsterHPBar::Update()
+	void BossHPBar::Update()
 	{
-		Transform* tr = GetComponent<Transform>();
-		Vector2 ImgSize = Vector2{ (float)image_empty->GetWidth(), (float)image_empty->GetHeight() };
-		Collider* monCol = GetMonster()->GetComponent<Collider>();
-		mPos = monCol->GetPos()
-			+ Vector2{ monCol->GetSize().x / 2.f, 0.0f }
-		;
-		tr->SetPos(
-			mPos
-		);
+		//GameObject::Update();
 	}
-	void MonsterHPBar::Render(HDC hdc)
+	void BossHPBar::Render(HDC hdc)
 	{
 
 		Transform* tr = GetComponent<Transform>();
@@ -80,7 +70,7 @@ namespace hj
 		Vector2 pos = tr->GetPos();
 		pos.x -= (float)image_empty->GetWidth() / 2.0f;
 		pos.y -= image_empty->GetHeight();
-		pos = Camera::CaluatePos(pos);
+
 		TransparentBlt(hdc, pos.x, pos.y
 			, image_empty->GetWidth() * scale.x
 			, image_empty->GetHeight() * scale.y
@@ -94,17 +84,17 @@ namespace hj
 		float hpRate = (float)monsterHP / (float)monsterMaxHP;
 		UINT outputHP = 0;
 		if ((hpRate * 100.f) >= 0.0f)
-			outputHP = (UINT)(hpRate * 100.f) / (100 / image_empty->GetWidth());
+			outputHP = (UINT)(hpRate * 100.f);
 		if (outputHP > 0)
-			TransparentBlt(hdc, pos.x, pos.y
-				, outputHP, image_full->GetHeight()
+			TransparentBlt(hdc, pos.x + 106, pos.y
+				, outputHP * 5, image_full->GetHeight()
 				, image_full->GetHdc()
-				, 0, 0
-				, outputHP, image_full->GetHeight(),
+				, 106, 0
+				, outputHP * 5, image_full->GetHeight(),
 				RGB(255, 0, 255));
 	}
 
-	void MonsterHPBar::Release()
+	void BossHPBar::Release()
 	{
 		GameObject::Release();
 	}

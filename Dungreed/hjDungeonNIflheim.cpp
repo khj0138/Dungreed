@@ -103,7 +103,8 @@ namespace hj
 		Niflheim* mon2 = new Niflheim();
 		AddGameObject(mon2, eLayerType::Monster);
 		mon2->Initialize();
-		mon2->GetComponent<Transform>()->SetPos(Vector2{ 1280.0f, 640.0f });
+		mon2->GetComponent<Transform>()->SetPos(Vector2{ 1280.0f, 600.0f });
+
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
 			delete gameObj;

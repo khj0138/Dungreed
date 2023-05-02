@@ -335,7 +335,12 @@
     <ClInclude Include="hjHPBar.h">
       <Filter>Contents\UIObject</Filter>
     </ClInclude>
-    <ClInclude Include="hjMonsterHPBar.h" />
+    <ClInclude Include="hjMonsterHPBar.h">
+      <Filter>Contents\UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="hjBossHPBar.h">
+      <Filter>Contents\UIObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -550,6 +555,11 @@
     <ClCompile Include="hjHPBar.cpp">
       <Filter>Contents\UIObject</Filter>
     </ClCompile>
-    <ClCompile Include="hjMonsterHPBar.cpp" />
+    <ClCompile Include="hjMonsterHPBar.cpp">
+      <Filter>Contents\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="hjBossHPBar.cpp">
+      <Filter>Contents\UIObject</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
