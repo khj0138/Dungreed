@@ -13,6 +13,7 @@ namespace hj
 	class Animator;
 	class Hero;
 	class Weapon;
+	class MonsterHPBar;
 	class Monster : public GameObject
 	{
 	public:
@@ -97,6 +98,7 @@ namespace hj
 
 		status stat;
 		bool bAttack;
+		MonsterHPBar* hpBar;
 	};
 
 }

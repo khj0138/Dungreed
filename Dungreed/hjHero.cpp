@@ -18,6 +18,8 @@
 #include "hjWeapon.h"
 #include "hjBow.h"
 #include "hjBaseBullet.h"
+#include "hjPlaneObject.h"
+#include "hjHPBar.h"
 
 extern hj::Application application;
 namespace hj
@@ -37,6 +39,9 @@ namespace hj
 
 	void Hero::Initialize()
 	{
+		hpBar = new HPBar(L"HeroHPBar", L"..\\Resource\\Char\\LifeBar", Vector2::One );
+		hpBar->Initialize();
+		hpBar->SetHero(this);
 		mAnimator = AddComponent<Animator>();
 		isJump = false;
 		mDash = 0;
@@ -190,6 +195,7 @@ namespace hj
 	{
 		
 		mWeapons->Render(hdc);
+		hpBar->Render(hdc);
 		GameObject::Render(hdc);
 		//mWeapons->Render(hdc);
 		//mEffects->Render(hdc);

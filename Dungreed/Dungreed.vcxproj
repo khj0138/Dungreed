@@ -171,6 +171,7 @@
     <ClInclude Include="hjLayer.h" />
     <ClInclude Include="hjMath.h" />
     <ClInclude Include="hjMonster.h" />
+    <ClInclude Include="hjMonsterHPBar.h" />
     <ClInclude Include="hjMonsterP.h" />
     <ClInclude Include="hjMouse.h" />
     <ClInclude Include="hjDungeonNIflheim.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="hjToolScene.h" />
     <ClInclude Include="hjTown.h" />
     <ClInclude Include="hjTransform.h" />
+    <ClInclude Include="hjHPBar.h" />
     <ClInclude Include="hjWeapon.h" />
     <ClInclude Include="hjWmanager.h" />
     <ClInclude Include="hjPSceneManager.h" />
@@ -242,6 +244,7 @@
     <ClCompile Include="hjLayer.cpp" />
     <ClCompile Include="hjMath.cpp" />
     <ClCompile Include="hjMonster.cpp" />
+    <ClCompile Include="hjMonsterHPBar.cpp" />
     <ClCompile Include="hjMonsterP.cpp" />
     <ClCompile Include="hjMouse.cpp" />
     <ClCompile Include="hjDungeonNIflheim.cpp" />
@@ -265,6 +268,7 @@
     <ClCompile Include="hjToolScene.cpp" />
     <ClCompile Include="hjTown.cpp" />
     <ClCompile Include="hjTransform.cpp" />
+    <ClCompile Include="hjHPBar.cpp" />
     <ClCompile Include="hjWeapon.cpp" />
     <ClCompile Include="hjWmanager.cpp" />
     <ClCompile Include="hjWmanager_mon.cpp" />

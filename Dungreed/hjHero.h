@@ -12,6 +12,7 @@ namespace hj
 	class Rigidbody;
 	class Animator;
 	class BaseBullet;
+	class HPBar;
 	class Hero : public GameObject
 	{
 	public:
@@ -54,6 +55,12 @@ namespace hj
 		{
 			prevPos = GetComponent<Transform>()->GetPos();
 		}
+		void SetStat(UINT maxHP, UINT hp)
+		{
+			stat.HP = hp;
+			stat.maxHP = maxHP;
+		}
+		status GetStat() { return stat; }
 		//Vector2 prevPos;
 
 	private:
@@ -84,6 +91,7 @@ namespace hj
 		bool bDjump;
 		status stat;
 		bool bAttack;
+		HPBar* hpBar;
 	};
 
 }

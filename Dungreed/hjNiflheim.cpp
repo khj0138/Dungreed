@@ -418,16 +418,17 @@ namespace hj
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				if(index == 4)
+				/*if(index == 4)
 					pillarDir[index][i] = 
 					math::Rotate(
 						heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
 						- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
-					, (float)(i - 2) * -90.f).Normalize();
-				pillarVector[index][i] =
-					GetComponent<Transform>()->GetPos()
-					+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
-					+ pillarDir[index][i] * 124.0;
+					, (float)(i - 2) * -90.f).Normalize();*/
+				if (index == 3)
+					pillarVector[index][i] =
+						GetComponent<Transform>()->GetPos()
+						+ Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f }
+						+ pillarDir[index][i] * 124.0;
 				mPillars[i]->SetState(eState::Pause);
 			}
 
@@ -670,16 +671,70 @@ namespace hj
 				, 90
 				, 0.022222f
 			);
-			mPillars[i]->SetDir(
-				math::Rotate(
-					heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
-					- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
-					, (float)(i - 2) * -90.f).Normalize());
-			mPillars[i]->GetComponent<Transform>()->SetPos(
-				GetComponent<Transform>()->GetPos()
-				- Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / 2.f }
-				+ mPillars[i]->GetDir() * 124.f
-			);
+			switch (i)
+			{
+			case 0:
+			{
+				mPillars[i]->SetDir(
+					math::Rotate(
+						heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
+						- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
+						, 0.f).Normalize());
+				mPillars[i]->GetComponent<Transform>()->SetPos(
+					GetComponent<Transform>()->GetPos()
+					- Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / 2.f }
+					+ mPillars[i]->GetDir() * 124.f
+				);
+				break;
+			}
+			case 1:
+			{
+				mPillars[i]->SetDir(
+					math::Rotate(
+						heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
+						- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
+						, 45.f).Normalize());
+				mPillars[i]->GetComponent<Transform>()->SetPos(
+					GetComponent<Transform>()->GetPos()
+					- Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / 2.f }
+					+ mPillars[i]->GetDir() * 124.f
+					+ Vector2{ mPillars[i]->GetDir().y * -1.f, mPillars[i]->GetDir().x }*mPillars[0]->GetComponent<Collider>()->GetSize() / 2.f
+				);
+				break;
+			}
+			case 2:
+			{
+				mPillars[i]->SetDir(
+					math::Rotate(
+						heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
+						- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
+						, -45.f).Normalize());
+				mPillars[i]->GetComponent<Transform>()->SetPos(
+					GetComponent<Transform>()->GetPos()
+					- Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / 2.f }
+					+ mPillars[i]->GetDir() * 124.f
+					+ Vector2{ mPillars[i]->GetDir().y, mPillars[i]->GetDir().x * -1.f } * mPillars[0]->GetComponent<Collider>()->GetSize() / 2.f
+				);
+				break;
+			}
+			case 3:
+			{
+				mPillars[i]->SetDir(
+					math::Rotate(
+						heroPos - Vector2{ 0.0f, GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
+						- (GetComponent<Transform>()->GetPos() + Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y * -0.5f })
+						, 0.f).Normalize());
+				mPillars[i]->GetComponent<Transform>()->SetPos(
+					GetComponent<Transform>()->GetPos()
+					- Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / 2.f }
+					+ mPillars[i]->GetDir() * 0.f
+				);
+				break;
+			}
+			}
+		
+				
+			
 			if (mTime[4] > 1.0f)
 				mPillars[i]->SetBAttack(true);
 		}

@@ -46,14 +46,17 @@ namespace hj
 		BackGround* bg3 = new BackGround(L"TownLayer", L"..\\Resource\\Town\\TownLayer_Day.bmp", Vector2{0.5f, 0.5f}, asRatio, true, 0, Vector2{0.0f, 1680.0f - 900.0f * (1.0f - 0.5f)});
 		AddGameObject(bg3, eLayerType::BackBG);
 		
+		PlaneObject* TownFloor = new PlaneObject(L"TownFloor", L"..\\Resource\\Town\\TownModel.bmp", Vector2::One, Vector2{ 0.0f, 0.0f }, Vector2::One);
+		AddGameObject(TownFloor, eLayerType::FrontBG);
 		BackGround* TownTile = new BackGround(L"TownTile", L"../Resource/Town/TownGround.bmp", Vector2::One * 1.0f, asRatio/5.f , false);
 		AddGameObject(TownTile, eLayerType::FrontBG);
 
 		//BackGround* TownTile = new BackGround(L"TownTile", L"../Resource/Ice/Ice.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
 		//AddGameObject(TownTile, eLayerType::FrontBG);
 
-		PlaneObject* TownFloor = new PlaneObject(L"TownFloor", L"..\\Resource\\Town\\TownFloor.bmp", asRatio, Vector2{ 0.0f, 1600.0f}, Vector2::One);
-		AddGameObject(TownFloor, eLayerType::Ground);
+		/*PlaneObject* TownFloor = new PlaneObject(L"TownFloor", L"..\\Resource\\Town\\TownFloor.bmp", asRatio, Vector2{ 0.0f, 1600.0f}, Vector2::One);
+		AddGameObject(TownFloor, eLayerType::Ground);*/
+
 
 		DungeonEatOpen = new AnimObject(L"DungeonEatOpen", L"../Resource/Town/DungeonEatOpen.bmp", asRatio, Vector2{ 8.0f, 1.0f }, Vector2{ 0.0f, 0.0f }, Vector2::One, 0.05f);
 		AddGameObject(DungeonEatOpen, eLayerType::Ground);

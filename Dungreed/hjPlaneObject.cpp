@@ -35,12 +35,12 @@ namespace hj
 		GameObject::Initialize();
 		Transform* tr = GetComponent<Transform>();
 		Vector2 ImgSize = Vector2{ (float)mImage->GetWidth(), (float)mImage->GetHeight() };
-		if (mPos.x != 0.0f)
+		/*if (mPos.x != 0.0f)
 			ImgSize.x = mPos.x;
 		if (mPos.y != 0.0f)
-			ImgSize.y = mPos.y;
+			ImgSize.y = mPos.y;*/
 		tr->SetPos(
-			tr->GetPos()
+			mPos
 			+ Vector2{ ImgSize.x / 2.0f, ImgSize.y }
 			+ Vector2{ 0.0f, 0.0f }
 		);

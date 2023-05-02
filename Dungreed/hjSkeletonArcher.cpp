@@ -84,7 +84,8 @@ namespace hj
 
 		mWeapons->GetActiveWeapon()->SetStat(5.0f, 5.0f, 2.0f, 1.0f);
 
-		GameObject::Initialize();
+		Monster::Initialize();
+		SetStat(10, 10);
 	}
 	void SkeletonArcher::Update()
 	{
@@ -142,12 +143,12 @@ namespace hj
 
 		mWeapons->Update();
 		//mEffects->Update();
-		GameObject::Update();
+		Monster::Update();
 	}
 	void SkeletonArcher::Render(HDC hdc)
 	{
 		//mWeapons->Render(hdc);
-		GameObject::Render(hdc);
+		Monster::Render(hdc);
 	}
 	void SkeletonArcher::Release()
 	{

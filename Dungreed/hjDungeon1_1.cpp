@@ -47,7 +47,10 @@ namespace hj
 
 		BackGround* Dungeon1_1 = new BackGround(L"Dungeon1_1", L"../Resource/Ice/Dungeon1_1.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
 		AddGameObject(Dungeon1_1, eLayerType::BackBG);
-
+		BackGround* Dungeon1_1_foothold = new BackGround(L"Dungeon1_1_foothold", L"../Resource/Ice/Dungeon1_1_foothold.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
+		AddGameObject(Dungeon1_1_foothold, eLayerType::BackBG);
+		PlaneObject* Dungeon1_1_model = new PlaneObject(L"Dungeon1_1_model", L"..\\Resource\\Ice\\Dungeon1_1_model.bmp", Vector2::One, Vector2{ 860.0f, 960.0f } - Vector2{75.f, 150.f}, Vector2::One);
+		AddGameObject(Dungeon1_1_model, eLayerType::FrontBG);
 		/*Monster* mon = new Monster();
 		AddGameObject(mon, eLayerType::Monster);*/
 
@@ -85,7 +88,7 @@ namespace hj
 	void Dungeon1_1::OnEnter()
 	{
 		Camera::SetLookRange(
-			Vector2{ 1920.f, 1120.f }
+			Vector2{ 2880.f, 1120.f }
 		);
 		//GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 200.0f, 200.0f });
 		Camera::SetTarget(GetHero());
@@ -111,23 +114,35 @@ namespace hj
 		AddGameObject(mon, eLayerType::Monster);
 		mon->Initialize();*/
 
-		SkeletonWarrior* mon2 = new SkeletonWarrior();
-		AddGameObject(mon2, eLayerType::Monster);
-		mon2->Initialize();
-		mon2->GetComponent<Transform>()->SetPos(
-			Vector2{ 800.0f, 600.0f });
+		SkeletonWarrior* skelWarrior1 = new SkeletonWarrior();
+		AddGameObject(skelWarrior1, eLayerType::Monster);
+		skelWarrior1->Initialize();
+		skelWarrior1->GetComponent<Transform>()->SetPos(
+			Vector2{ 960.0f, 721.0f });
 
-		SkeletonArcher* mon3 = new SkeletonArcher();
-		AddGameObject(mon3, eLayerType::Monster);
-		mon3->Initialize();
-		mon3->GetComponent<Transform>()->SetPos(
-			 Vector2{ 800.0f, 400.0f });
+		SkeletonWarrior* skelWarrior2 = new SkeletonWarrior();
+		AddGameObject(skelWarrior2, eLayerType::Monster);
+		skelWarrior2->Initialize();
+		skelWarrior2->GetComponent<Transform>()->SetPos(
+			Vector2{ 2000.0f, 721.0f });
 
-		EliteIceSkelWarrior* mon4 = new EliteIceSkelWarrior();
-		AddGameObject(mon4, eLayerType::Monster);
-		mon4->Initialize();
-		mon4->GetComponent<Transform>()->SetPos(
-			Vector2{ 800.0f, 500.0f });
+		SkeletonArcher* skelArcher1 = new SkeletonArcher();
+		AddGameObject(skelArcher1, eLayerType::Monster);
+		skelArcher1->Initialize();
+		skelArcher1->GetComponent<Transform>()->SetPos(
+			 Vector2{ 760.0f, 401.0f });
+
+		SkeletonArcher* skelArcher2 = new SkeletonArcher();
+		AddGameObject(skelArcher2, eLayerType::Monster);
+		skelArcher2->Initialize();
+		skelArcher2->GetComponent<Transform>()->SetPos(
+			Vector2{ 2200.0f, 401.0f });
+
+		EliteIceSkelWarrior* eliteSkelIce1 = new EliteIceSkelWarrior();
+		AddGameObject(eliteSkelIce1, eLayerType::Monster);
+		eliteSkelIce1->Initialize();
+		eliteSkelIce1->GetComponent<Transform>()->SetPos(
+			Vector2{ 1480.0f, 721.0f });
 		
 		if (GetHero() != nullptr)
 			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 80.0f, 561.0f } + 

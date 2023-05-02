@@ -128,8 +128,9 @@ namespace hj
 				scene->AddGameObject((GameObject*)newBullet, eLayerType::Bullet_Monster);
 		}
 		coolTime = 7.0f;
-
-		GameObject::Initialize();
+		Monster::Initialize();
+		SetStat(20, 20);
+		//GameObject::Initialize();
 	}
 	void EliteIceSkelWarrior::Update()
 	{
@@ -220,12 +221,12 @@ namespace hj
 			mState != hj::EliteIceSkelWarrior::eEliteIceSkelWarriorState::SkillAttackReload)
 			mWeapons->Update();
 		//mEffects->Update();
-		GameObject::Update();
+		Monster::Update();
 	}
 	void EliteIceSkelWarrior::Render(HDC hdc)
 	{
 		//mWeapons->Render(hdc);
-		GameObject::Render(hdc);
+		Monster::Render(hdc);
 	}
 	void EliteIceSkelWarrior::Release()
 	{

@@ -89,7 +89,8 @@ namespace hj
 		mWeapons->EquipWeapon(L"Empty");
 		mWeapons->GetActiveWeapon()->SetStat(5.0f, 0.0f, 0.6f, 0.6f);
 
-		GameObject::Initialize();
+		Monster::Initialize();
+		SetStat(20, 20);
 	}
 	void EliteSkelWarrior::Update()
 	{
@@ -171,12 +172,12 @@ namespace hj
 
 		mWeapons->Update();
 		//mEffects->Update();
-		GameObject::Update();
+		Monster::Update();
 	}
 	void EliteSkelWarrior::Render(HDC hdc)
 	{
 		//mWeapons->Render(hdc);
-		GameObject::Render(hdc);
+		Monster::Render(hdc);
 	}
 	void EliteSkelWarrior::Release()
 	{

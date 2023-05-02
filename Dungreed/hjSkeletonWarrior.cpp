@@ -87,7 +87,8 @@ namespace hj
 
 		mWeapons->GetActiveWeapon()->SetStat(2.0f, 0.0f, 0.3f, 0.6f);
 
-		GameObject::Initialize();
+		Monster::Initialize();
+		SetStat(15, 15);
 	}
 	void SkeletonWarrior::Update()
 	{
@@ -168,12 +169,13 @@ namespace hj
 
 		mWeapons->Update();
 		//mEffects->Update();
-		GameObject::Update();
+		Monster::Update();
 	}
 	void SkeletonWarrior::Render(HDC hdc)
 	{
 		//mWeapons->Render(hdc);
-		GameObject::Render(hdc);
+		Monster::Render(hdc);
+		//GameObject::Render(hdc);
 	}
 	void SkeletonWarrior::Release()
 	{

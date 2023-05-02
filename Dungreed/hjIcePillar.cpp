@@ -164,7 +164,7 @@ namespace hj
 
 					Vector2 spawnPos = GetComponent<Transform>()->GetPos()
 						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
-					- Vector2(cmd.attackDir.y, cmd.attackDir.x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
+					- Vector2(GetDir().y, GetDir().x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
 
 					cmd.attackDir = (GetHero()->GetComponent<Transform>()->GetPos()
 						- Vector2{ 0.0f,GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
@@ -180,7 +180,7 @@ namespace hj
 					mBullets[index]->SetSpeed(cmd.attackSpeed);
 					Vector2 spawnPos = GetComponent<Transform>()->GetPos()
 						- Vector2{ mBullets[index]->GetComponent<Collider>()->GetSize() }
-						+ Vector2(cmd.attackDir.y, cmd.attackDir.x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
+						+ Vector2(GetDir().y, GetDir().x * -1.f) * GetComponent<Collider>()->GetSize().x / 4.f;
 
 					cmd.attackDir = (GetHero()->GetComponent<Transform>()->GetPos()
 						- Vector2{ 0.0f,GetHero()->GetComponent<Collider>()->GetSize().y / 2.f }
