@@ -64,7 +64,7 @@ namespace hj
 	}
 	void Niflheim::Initialize()
 	{
-		SetStat(1000, 1000);
+		SetStat(500, 500);
 		bAttack[0] = true;
 		bAttack[1] = true;
 		bAttack[2] = false;
@@ -184,8 +184,8 @@ namespace hj
 
 		coolTime[0] = 3.0f;
 		coolTime[1] = 5.0f;
-		coolTime[2] = 5.0f;
-		coolTime[3] = 5.0f;
+		coolTime[2] = 2.0f;
+		coolTime[3] = 2.0f;
 		coolTime[4] = 10.0f;
 
 		GameObject::Initialize();
@@ -193,12 +193,12 @@ namespace hj
 		hpBar->Initialize();
 		hpBar->SetMonster((Monster*)this);
 
-		Emanager* emanager = new Emanager();
+		/*Emanager* emanager = new Emanager();
 		SetEmanager(emanager);
 		GetEmanager()->SetOwner(this);
 		GetEmanager()->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\BossHitFX.bmp", false, true, 5,
 			Vector2::Zero,
-			0.01f, Vector2::One * 1.f);
+			0.01f, Vector2::One * 1.f);*/
 	}
 	void Niflheim::Update()
 	{
@@ -669,13 +669,13 @@ break;
 			Vector2 dir = mPillars[i]->GetDir();
 
 			//Degree = (Degree + 1) % 360;
-			mPillars[i]->SetDir(math::Rotate((dir), -9.f));
+			mPillars[i]->SetDir(math::Rotate((dir), -9.0f));
 			mPillars[i]->SetCommand(
 				0.0f
 				, mPillars[i]->GetDir()
 				, 500.0f
 				, 60
-				, 0.0333f
+				, 0.033333f
 			);
 			mPillars[i]->GetComponent<Transform>()->SetPos(
 				GetComponent<Transform>()->GetPos()
@@ -683,7 +683,7 @@ break;
 				+ mPillars[i]->GetDir() * 124.f
 			);
 		}
-		if (mTime[3] >= 2.5f)
+		if(mTime[3] >= 2.5f)
 		{
 			mTime[3] = 0.0f;
 			StateChange(eNiflheimState::AttackReload);
@@ -722,8 +722,8 @@ break;
 
 					).Normalize()
 				, 1500.0f
-				, 90
-				, 0.022222f
+				, 60
+				, 0.03f
 			);
 			switch (i)
 			{

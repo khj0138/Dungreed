@@ -41,7 +41,7 @@ namespace hj
 		virtual void Release() override;
 
 		void SetOwner(GameObject* owner) { mOwner = owner; }
-		void CreateEffect(const std::wstring& name, Vector2 direction = Vector2::Zero);
+		void CreateEffect(const std::wstring& name, Vector2 direction = Vector2::Zero, Vector2 changePos = Vector2::Zero);
 		void RegisterEffect(const std::wstring& name, const std::wstring& path,bool loop, bool rotate, UINT frame, Vector2 offset, float playRate, Vector2 size = Vector2::One * 2.f, bool flip = true);
 		
 		//void PlayEffect(const std::wstring& name);

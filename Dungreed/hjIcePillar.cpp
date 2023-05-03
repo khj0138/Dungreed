@@ -126,12 +126,12 @@ namespace hj
 
 		GameObject::Initialize();
 		GetComponent<SpriteRenderer>()->SetRotate(true);
-		Emanager* emanager = new Emanager();
+		/*Emanager* emanager = new Emanager();
 		SetEmanager(emanager);
 		GetEmanager()->SetOwner(this);
 		GetEmanager()->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\BossHitFX.bmp", false, true, 5,
 			Vector2::Zero,
-			0.01f, Vector2::One * 1.f);
+			0.01f, Vector2::One * 1.f);*/
 	}
 	void IcePillar::Update()
 	{

@@ -130,6 +130,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="hjBossHPBar.h" />
+    <ClInclude Include="hjCosmosSkill.h" />
+    <ClInclude Include="hjCosmosSword.h" />
     <ClInclude Include="hjEliteIceSkelWarrior.h" />
     <ClInclude Include="hjAnimObject.h" />
     <ClInclude Include="Client.h" />
@@ -209,6 +211,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hjBossHPBar.cpp" />
+    <ClCompile Include="hjCosmosSkill.cpp" />
+    <ClCompile Include="hjCosmosSword.cpp" />
     <ClCompile Include="hjEliteIceSkelWarrior.cpp" />
     <ClCompile Include="hjAnimObject.cpp" />
     <ClCompile Include="hjArrow.cpp" />

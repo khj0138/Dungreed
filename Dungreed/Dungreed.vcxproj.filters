@@ -341,6 +341,12 @@
     <ClInclude Include="hjBossHPBar.h">
       <Filter>Contents\UIObject</Filter>
     </ClInclude>
+    <ClInclude Include="hjCosmosSword.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjCosmosSkill.h">
+      <Filter>Contents\Weapon\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -560,6 +566,12 @@
     </ClCompile>
     <ClCompile Include="hjBossHPBar.cpp">
       <Filter>Contents\UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="hjCosmosSword.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjCosmosSkill.cpp">
+      <Filter>Contents\Weapon\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

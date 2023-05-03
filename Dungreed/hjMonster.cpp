@@ -45,11 +45,11 @@ namespace hj
 		hpBar->SetMonster(this);
 		GameObject::Initialize();
 
-		mEffects = new Emanager();
+		/*mEffects = new Emanager();
 		mEffects->SetOwner(this);
 		mEffects->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\HitFX.bmp", false, true, 6,
 			Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / -2.f },
-			0.01f, Vector2::One * 2.f);
+			0.01f, Vector2::One * 2.f);*/
 	}
 	void Monster::Update()
 	{
@@ -255,7 +255,7 @@ namespace hj
 		if (bAttack == true)
 		{
 			bAttack = false;
-			mEffects->CreateEffect(L"HitEffect", attacker->GetDir());
+			//mEffects->CreateEffect(L"HitEffect", attacker->GetDir());
 			Damage(attacker->GetStat().power);
 		}
 	}

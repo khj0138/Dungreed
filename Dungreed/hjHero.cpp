@@ -92,7 +92,7 @@ namespace hj
 		mWeapons = new Wmanager();
 		mWeapons->SetOwner(this);
 		//SceneManager::FindScene(eSceneType::Play)->AddGameObject(mWeapons, eLayerType::Bullet);
-		mWeapons->CreateWeapon(L"Sword", eWeaponType::SWORD);
+		mWeapons->CreateWeapon(L"Sword", eWeaponType::COSMOSSWORD);
 		mWeapons->EquipWeapon(L"Sword");
 		mWeapons->CreateWeapon(L"Bow", eWeaponType::BOW);
 		//mWeapons->EquipWeapon(L"Bow");

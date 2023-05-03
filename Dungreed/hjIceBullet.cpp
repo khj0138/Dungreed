@@ -5,6 +5,7 @@
 #include "hjTile.h"
 #include "hjHero.h"
 #include "hjWeapon.h"
+#include "hjEmanager.h"
 
 
 hj::IceBullet::IceBullet()

@@ -54,6 +54,7 @@ enum class eComponentType
 
 enum class eWeaponType {
 	SWORD,
+	COSMOSSWORD,
 	GUN,
 	EMPTY,
 	BOW,

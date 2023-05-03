@@ -72,7 +72,7 @@ namespace hj
 		//}
 		if (GetHero()->GetComponent<Transform>()->GetPos().x >= 2800.0f
 			&& GetHero()->GetComponent<Transform>()->GetPos().y >= 400.0f
-			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 720.0f)
+			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 721.0f)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_2);
 			//GetHero()->GameObject::SetState(GameObject::eState::Pause);

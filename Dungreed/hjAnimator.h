@@ -72,6 +72,7 @@ namespace hj
 		Animation* mActiveAnimation;
 		Img* mSpriteSheet;
 		bool mbLoop;
+		UINT index;
 	};
 
 }

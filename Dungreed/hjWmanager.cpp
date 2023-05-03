@@ -12,6 +12,7 @@
 #include "hjEmpty.h"
 #include "hjBow.h"
 #include "hjRigidBody.h"
+#include "hjCosmosSword.h"
 namespace hj
 {
 
@@ -181,6 +182,9 @@ namespace hj
 		{
 		case eWeaponType::SWORD:
 			newWeapon = new Sword();
+			break;
+		case eWeaponType::COSMOSSWORD:
+			newWeapon = new CosmosSword();
 			break;
 		case eWeaponType::EMPTY:
 			newWeapon = new Empty();

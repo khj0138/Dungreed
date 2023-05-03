@@ -59,10 +59,17 @@ namespace hj
 		{
 			TilePalatte::tRenderChange();
 		}*/
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		//if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		//{
+		//	GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
+		//	//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
+		//	return;
+		//}
+		if (GetHero()->GetComponent<Transform>()->GetPos().x >= 3360.0f
+			&& GetHero()->GetComponent<Transform>()->GetPos().y >= 160.0f
+			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 481.0f)
 		{
 			GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
-			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 			return;
 		}
 		/*if (Input::GetKeyState(eKeyCode::Q) == eKeyState::Down)

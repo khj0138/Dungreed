@@ -49,6 +49,7 @@ namespace hj
 		Emanager* GetEmanager() { return mEffects; }
 		void SetEmanager(Emanager* manager) { mEffects = manager; }
 		void SetBAttack(bool attack) { bAttack = attack; }
+		bool GetBAttack() { return bAttack; }
 		void Attack(Weapon* attacker);
 		void Attack(BaseBullet* attacker);
 		

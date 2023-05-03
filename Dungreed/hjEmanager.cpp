@@ -63,7 +63,7 @@ namespace hj
 	{
 	}
 
-	void Emanager::CreateEffect(const std::wstring& name, Vector2 direction)
+	void Emanager::CreateEffect(const std::wstring& name, Vector2 direction, Vector2 changePos)
 	{
 		effectInfo* eInfo = FindEffect(name);
 		if (eInfo != nullptr)
@@ -75,7 +75,9 @@ namespace hj
 					return;*/
 			Effect* newEffect = nullptr;
 			Vector2 pos = GetOwner()->GetComponent<Transform>()->GetPos();
-			newEffect = new Effect(GetOwner()->GetComponent<Transform>()->GetPos());
+			if (!(changePos == Vector2::Zero))
+				pos = changePos;
+			newEffect = new Effect(pos);
 
 			if (eInfo->bRotate)
 			{
