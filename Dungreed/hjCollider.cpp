@@ -5,6 +5,7 @@
 
 namespace hj
 {
+	bool Collider::colRender;
 	UINT Collider::ColliderNumber = 0;
 	Collider::Collider()
 		: Component(eComponentType::Collider)
@@ -36,6 +37,8 @@ namespace hj
 
 	void Collider::Render(HDC hdc)
 	{
+		if (!colRender)
+			return;
 		HPEN pen = NULL;
 		if (mCollisionCount <= 0)
 			pen = CreatePen(BS_SOLID, 2, RGB(0, 255, 0));

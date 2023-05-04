@@ -11,12 +11,10 @@
 #include "hjTilePalatte.h"
 #include "hjPlaneObject.h"
 #include "hjPSceneManager.h"
+#include "hjGameObject.h"
 
 #include "hjMonster.h"
-#include "hjSkeletonWarrior.h"
-#include "hjSkeletonArcher.h"
-#include "hjEliteSkelWarrior.h"
-#include "hjEliteIceSkelWarrior.h"
+#include "hjmonsterHeader.h"
 
 extern hj::Application application;
 
@@ -40,10 +38,10 @@ namespace hj
 
 		asRatio = asRatio * 3.f;
 
-		/*BackGround* bg2 = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1280.0f - 900.0f * (1.0f - 0.8f) });
-		AddGameObject(bg2, eLayerType::BackBG);*/
-		//BackGround* bg4 = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, true, 0, Vector2{ 0.0f, 1280.0f });
-		//AddGameObject(bg4, eLayerType::BackBG);
+		BackGround* BackBG = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1120.0f - 900.0f * (1.0f - 0.8f) });
+		AddGameObject(BackBG, eLayerType::BackBG);
+		BackGround* FrontBG = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, true, 0, Vector2{ 0.0f, 1120.0f });
+		AddGameObject(FrontBG, eLayerType::BackBG);
 
 		BackGround* Dungeon1_1 = new BackGround(L"Dungeon1_1", L"../Resource/Ice/Dungeon1_1.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
 		AddGameObject(Dungeon1_1, eLayerType::BackBG);
@@ -51,6 +49,14 @@ namespace hj
 		AddGameObject(Dungeon1_1_foothold, eLayerType::BackBG);
 		PlaneObject* Dungeon1_1_model = new PlaneObject(L"Dungeon1_1_model", L"..\\Resource\\Ice\\Dungeon1_1_model.bmp", Vector2::One, Vector2{ 860.0f, 960.0f } - Vector2{75.f, 150.f}, Vector2::One);
 		AddGameObject(Dungeon1_1_model, eLayerType::FrontBG);
+
+		PlaneObject* dungeonGate = new PlaneObject(L"DungeonGate_90", L"..\\Resource\\Ice\\DungeonGate\\DungeonGate_90.bmp", Vector2::One, Vector2{2720.0f, 406.0f}, Vector2::One);
+		AddGameObject(dungeonGate, eLayerType::FrontBG);
+		DungeonGate.push_back(dungeonGate);
+
+		dungeonGate = new PlaneObject(L"DungeonGate_270", L"..\\Resource\\Ice\\DungeonGate\\DungeonGate_270.bmp", Vector2::One, Vector2{ 0.0f, 406.0f }, Vector2::One);
+		AddGameObject(dungeonGate, eLayerType::FrontBG);
+		DungeonGate.push_back(dungeonGate);
 		/*Monster* mon = new Monster();
 		AddGameObject(mon, eLayerType::Monster);*/
 
@@ -70,6 +76,11 @@ namespace hj
 		//	//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 		//	return;
 		//}
+		if (GetHero()->monsterNum == 0)
+		{
+			for (auto gate : DungeonGate)
+				gate->SetState(GameObject::eState::Pause);
+		}
 		if (GetHero()->GetComponent<Transform>()->GetPos().x >= 2800.0f
 			&& GetHero()->GetComponent<Transform>()->GetPos().y >= 400.0f
 			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 721.0f)
@@ -97,7 +108,7 @@ namespace hj
 	void Dungeon1_1::OnEnter()
 	{
 		Camera::SetLookRange(
-			Vector2{ 2880.f, 1120.f }
+			Vector2{ 2800.f, 1120.f }
 		);
 		//GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 200.0f, 200.0f });
 		Camera::SetTarget(GetHero());
@@ -155,7 +166,7 @@ namespace hj
 		
 		if (GetHero() != nullptr)
 			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 120.0f, 721.0f });
-
+		GetHero()->monsterNum = 5;
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_1_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_1Tile.Tile\0";
 		//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";

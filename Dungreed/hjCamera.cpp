@@ -40,8 +40,13 @@ namespace hj
 
 		if (mTarget != nullptr)
 		{
-			mLookPosition
-				= mTarget->GetComponent<Transform>()->GetPos();
+			float distance = (mTarget->GetComponent<Transform>()->GetPos() - mLookPosition).Length();
+			if (distance < 1000.0f * Time::DeltaTime())
+				mLookPosition = mTarget->GetComponent<Transform>()->GetPos();
+			else if (distance > 4000.0f * Time::DeltaTime())
+				mLookPosition += (mTarget->GetComponent<Transform>()->GetPos() - mLookPosition).Normalize() * 2000.0f * Time::DeltaTime();
+			else
+				mLookPosition += (mTarget->GetComponent<Transform>()->GetPos() - mLookPosition).Normalize() * 1000.0f * Time::DeltaTime();
 		}
 
 		if (mLookPosition.x <= (mResolution.x / 2.0f))

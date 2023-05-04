@@ -40,8 +40,9 @@ namespace hj
 
 		delete mEffects;
 		mEffects = nullptr;*/
-
-		for (int i = 3; i >= 0; i--)
+		delete hpBar;
+		hpBar = nullptr;
+		for (int i = 59; i >= 0; i--)
 		{
 			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
 			{
@@ -93,7 +94,7 @@ namespace hj
 		UINT index = 0;
 		mAnimator->CreateAnimation(L"Enter", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 20, Vector2::Zero, 0.03);
 		mAnimator->CreateAnimation(L"Idle", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 1, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Exit", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 20, Vector2::Zero, 0.03);
+		mAnimator->CreateAnimation(L"Exit", mImage, size * Vector2{ 0.0f, (float)index++ }, 20, 3, 3, Vector2::Zero, 0.03);
 		
 		SetFlip(false);
 		StateChange(eIcePillarState::Idle);
@@ -111,7 +112,7 @@ namespace hj
 		mRigidbody->SetMass(1.0f);
 		mRigidbody->SetGround(false);*/
 
-		for (int i = 0; i < 180; i++)
+		for (int i = 0; i < 60; i++)
 		{
 
 			IceBullet* newBullet = new IceBullet();
@@ -165,6 +166,8 @@ namespace hj
 		GetComponent<SpriteRenderer>()->SetDir(math::Rotate(GetDir(), 0.0f));
 		GetComponent<Animator>()->Update();
 		GetComponent<Collider>()->Update();
+
+
 		hpBar->Update();
 		
 		

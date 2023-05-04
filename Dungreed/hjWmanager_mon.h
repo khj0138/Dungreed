@@ -33,6 +33,7 @@ namespace hj
 
 		Weapon* FindWeapon(const std::wstring& name);
 		Weapon* GetActiveWeapon() { return mActiveWeapon; }
+		Weapon* GetDashWeapon() { return mDashWeapon; }
 		GameObject* GetOwner() { return mOwner; }
 
 		Vector2 GetDir() { return mDir; }

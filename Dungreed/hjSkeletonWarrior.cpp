@@ -92,6 +92,12 @@ namespace hj
 	}
 	void SkeletonWarrior::Update()
 	{
+		if (GetStat().HP == 0)
+		{
+			mWeapons->GetActiveWeapon()->SetState(eState::Pause);
+			mWeapons->GetDashWeapon()->SetState(eState::Pause);
+			SetState(eState::Pause);
+		}
 		SetBAttack(true);
 		if (hero == nullptr)
 		{

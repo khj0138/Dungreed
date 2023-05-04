@@ -24,7 +24,7 @@ namespace hj
 	{
 		const std::vector<GameObject*>& lefts = scene->GetGameObjects(left);
 		const std::vector<GameObject*>& rights = scene->GetGameObjects(right);
-
+		
 		for (auto leftObject : lefts)
 		{
 			Collider* leftCollider = leftObject->GetComponent<Collider>();

@@ -76,6 +76,13 @@ namespace hj
 		if (!cFlip)
 			row = 1;
 		mName = name;
+		if (offset == Vector2::Zero
+			&& cFlip == false
+			&& GetComponent<SpriteRenderer>()->getRotate() == false)
+		{
+			float temp = (float)image->GetWidth() / (float)frame;
+			offset = Vector2{ temp / 2.f, temp };
+		}
 		mAnimator->CreateAnimation(name, image, leftTopIdx, frame, row, frame, offset, playRate);
 		mAnimator->SetOwner(this);
 		mAnimator->GetCompleteEvent(name) = std::bind(&Effect::effectCompleteEvent, this);

@@ -37,6 +37,11 @@ namespace hj
 	}
 	void SkeletonArcher::Initialize()
 	{
+		if (GetStat().HP == 0)
+		{
+			mWeapons->GetActiveWeapon()->SetState(eState::Pause);
+			SetState(eState::Pause);
+		}
 		mAnimator = AddComponent<Animator>();
 		isJump = false;
 		cJump = 1;
@@ -89,6 +94,12 @@ namespace hj
 	}
 	void SkeletonArcher::Update()
 	{
+		if (GetStat().HP == 0)
+		{
+			mWeapons->GetActiveWeapon()->SetState(eState::Pause);
+			mWeapons->GetDashWeapon()->SetState(eState::Pause);
+			SetState(eState::Pause);
+		}
 		SetBAttack(true);
 		if (GetHero() == nullptr)
 		{

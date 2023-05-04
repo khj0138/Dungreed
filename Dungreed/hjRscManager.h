@@ -68,7 +68,7 @@ namespace hj
 
 		static void Release()
 		{
-			for (auto pair : mRscManager)
+			for (auto& pair : mRscManager)
 			{
 				delete pair.second;
 				pair.second = nullptr;

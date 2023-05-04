@@ -44,13 +44,17 @@ namespace hj
 
 	void SceneManager::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::T))
+		if (Input::GetKeyDown(eKeyCode::J))
 		{
 			TilePalatte::tRenderChange();
 		}
-		if (Input::GetKeyDown(eKeyCode::B))
+		if (Input::GetKeyDown(eKeyCode::K))
 		{
 			BackGround::bRenderChange();
+		}
+		if (Input::GetKeyDown(eKeyCode::L))
+		{
+			Collider::cRenderChange();
 		}
 		mActiveScene->Update();
 	}

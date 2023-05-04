@@ -38,7 +38,7 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
+    //_CrtSetBreakAlloc(1184);
     // 1. Class for define Window's information to memory 
     // 2. Create Window using CreateWindow()
     // 3. Output Window to Screen using ShowWindow()

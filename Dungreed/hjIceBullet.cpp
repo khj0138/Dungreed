@@ -76,7 +76,7 @@ void hj::IceBullet::Create()
 
 	mEffects = new Emanager();
 	mEffects->SetOwner(this);
-	//mEffects->RegisterEffect(L"IceBulletFX", L"..\\Resource\\Ice\\IceBulletEnter.bmp", false, false, 3, Vector2{ 0.0f, 0.0f }, 0.02f, Vector2::One * 4.0f, false);
+	//mEffects->RegisterEffect(L"IceBulletFX", L"..\\Resource\\Ice\\IceBulletEnter.bmp", false, false00000000000000000, 3, Vector2{ 0.0f, 0.0f }, 0.02f, Vector2::One * 4.0f, false);
 	mEffects->RegisterEffect(L"IceBulletFX", L"..\\Resource\\Ice\\IceBulletExit.bmp", false, false, 3, Vector2{ 0.0f, 0.0f }, 0.02f, Vector2::One * 4.0f, false);
 	
 }
@@ -85,7 +85,7 @@ void hj::IceBullet::Spawn(Vector2 pos)
 {
 	SetState(GameObject::eState::Active);
 	GetComponent<Transform>()->SetPos(pos);
-	mEffects->CreateEffect(L"IceBulletFX");
+	mEffects->CreateEffect(L"IceBulletFX", Vector2::Zero, GetComponent<Transform>()->GetPos());// +GetComponent<Collider>()->GetSize() / 2.f);
 }
 
 void hj::IceBullet::OnCollisionEnter(Collider* other)

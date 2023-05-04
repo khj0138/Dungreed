@@ -132,6 +132,8 @@
     <ClInclude Include="hjBossHPBar.h" />
     <ClInclude Include="hjCosmosSkill.h" />
     <ClInclude Include="hjCosmosSword.h" />
+    <ClInclude Include="hjDashWeapon.h" />
+    <ClInclude Include="hjDashWeapon_mon.h" />
     <ClInclude Include="hjEliteIceSkelWarrior.h" />
     <ClInclude Include="hjAnimObject.h" />
     <ClInclude Include="Client.h" />
@@ -174,12 +176,14 @@
     <ClInclude Include="hjLayer.h" />
     <ClInclude Include="hjMath.h" />
     <ClInclude Include="hjMonster.h" />
+    <ClInclude Include="hjmonsterHeader.h" />
     <ClInclude Include="hjMonsterHPBar.h" />
     <ClInclude Include="hjMonsterP.h" />
     <ClInclude Include="hjMouse.h" />
     <ClInclude Include="hjDungeonNIflheim.h" />
     <ClInclude Include="hjNiflheim.h" />
     <ClInclude Include="hjObject.h" />
+    <ClInclude Include="hjOvibos.h" />
     <ClInclude Include="hjPlaneObject.h" />
     <ClInclude Include="hjPlatform.h" />
     <ClInclude Include="hjPlayScene.h" />
@@ -188,7 +192,9 @@
     <ClInclude Include="hjRscManager.h" />
     <ClInclude Include="hjScene.h" />
     <ClInclude Include="hjSceneManager.h" />
+    <ClInclude Include="hjSkelDog.h" />
     <ClInclude Include="hjSkeletonArcher.h" />
+    <ClInclude Include="hjSkelIceMagician.h" />
     <ClInclude Include="hjSpriteRenderer.h" />
     <ClInclude Include="hjSword.h" />
     <ClInclude Include="hjSword_mon.h" />
@@ -213,6 +219,8 @@
     <ClCompile Include="hjBossHPBar.cpp" />
     <ClCompile Include="hjCosmosSkill.cpp" />
     <ClCompile Include="hjCosmosSword.cpp" />
+    <ClCompile Include="hjDashWeapon.cpp" />
+    <ClCompile Include="hjDashWeapon_mon.cpp" />
     <ClCompile Include="hjEliteIceSkelWarrior.cpp" />
     <ClCompile Include="hjAnimObject.cpp" />
     <ClCompile Include="hjArrow.cpp" />
@@ -255,6 +263,7 @@
     <ClCompile Include="hjMouse.cpp" />
     <ClCompile Include="hjDungeonNIflheim.cpp" />
     <ClCompile Include="hjNiflheim.cpp" />
+    <ClCompile Include="hjOvibos.cpp" />
     <ClCompile Include="hjPlaneObject.cpp" />
     <ClCompile Include="hjPlatform.cpp" />
     <ClCompile Include="hjPlayScene.cpp" />
@@ -263,7 +272,9 @@
     <ClCompile Include="hjRscManager.cpp" />
     <ClCompile Include="hjScene.cpp" />
     <ClCompile Include="hjSceneManager.cpp" />
+    <ClCompile Include="hjSkelDog.cpp" />
     <ClCompile Include="hjSkeletonArcher.cpp" />
+    <ClCompile Include="hjSkelIceMagician.cpp" />
     <ClCompile Include="hjSpriteRenderer.cpp" />
     <ClCompile Include="hjSword.cpp" />
     <ClCompile Include="hjSword_mon.cpp" />

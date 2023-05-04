@@ -41,8 +41,8 @@ namespace hj
 	void Empty_mon::Update()
 	{
 		Weapon::Update();
-		Collider* tr = GetOwner()->GetComponent<Collider>();
-		Vector2 ownerSize = tr->GetSize();
+		Collider* ownerTr = GetOwner()->GetComponent<Collider>();
+		Vector2 ownerSize = ownerTr->GetSize();
 
 		mWstate = GetWState();
 		Vector2 pos = GetPos();
@@ -52,7 +52,7 @@ namespace hj
 
 		Collider* collider = GetComponent<Collider>();
 		collider->SetPos(pos
-			- Vector2{ collider->GetSize().x * isFlip * 1.f, collider->GetSize().y * 1.f }
+			- Vector2{ collider->GetSize().x * isFlip * 1.f, collider->GetSize().y * 0.5f }
 			+ Vector2{ ownerSize.x / 2.f * (flipNum) ,0.0f }
 		);
 		GetComponent<Transform>()->SetPos(collider->GetPos());

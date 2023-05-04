@@ -48,6 +48,8 @@ namespace hj
 	}
 	MonsterHPBar::~MonsterHPBar()
 	{
+		//delete image_full;
+		//delete image_empty;
 	}
 	void MonsterHPBar::Initialize()
 	{

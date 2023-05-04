@@ -48,6 +48,8 @@ namespace hj
 	}
 	BossHPBar::~BossHPBar()
 	{
+		//delete image_full;
+		//delete image_empty;
 	}
 	void BossHPBar::Initialize()
 	{

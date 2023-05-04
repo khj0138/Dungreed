@@ -13,8 +13,7 @@
 #include "hjPSceneManager.h"
 
 #include "hjMonster.h"
-#include "hjSkeletonWarrior.h"
-#include "hjEliteSkelWarrior.h"
+#include "hjmonsterHeader.h"
 
 extern hj::Application application;
 

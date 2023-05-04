@@ -37,6 +37,11 @@ namespace hj
 	{
 		//delete mEffects;
 		mEffects = nullptr;
+		if (hpBar != nullptr)
+		{
+			delete hpBar;
+			hpBar = nullptr;
+		}
 	}
 	void Monster::Initialize()
 	{
@@ -45,8 +50,12 @@ namespace hj
 		hpBar->SetMonster(this);
 		GameObject::Initialize();
 
-		/*mEffects = new Emanager();
+		mEffects = new Emanager();
 		mEffects->SetOwner(this);
+		mEffects->RegisterEffect(L"DieEffect", L"..\\Resource\\Monster\\DieFX.bmp", false, false, 11,
+			Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y },
+			0.05f, Vector2::One * 2.f, false);
+		/*
 		mEffects->RegisterEffect(L"HitEffect", L"..\\Resource\\Char\\HitFX.bmp", false, true, 6,
 			Vector2{ 0.0f, GetComponent<Collider>()->GetSize().y / -2.f },
 			0.01f, Vector2::One * 2.f);*/
@@ -55,6 +64,24 @@ namespace hj
 	{
 		GameObject::Update();
 		hpBar->Update();
+		if (GetHero() == nullptr)
+		{
+			Scene* b = SceneManager::FindScene(eSceneType::Play);
+			PlayScene* c = dynamic_cast<PlayScene*>(b);
+			PlayScene* a = dynamic_cast<PlayScene*>(SceneManager::FindScene(eSceneType::Play));
+			if (a == nullptr)
+				return;
+			SetHero(a->GetHero());
+			if (GetHero() == nullptr)
+				return;
+		}
+		if (GetStat().HP == 0)
+		{
+			mEffects->CreateEffect(L"DieEffect");
+
+			SetState(eState::Pause);
+			GetHero()->monsterNum--;
+		}
 	}
 	void Monster::Render(HDC hdc)
 	{
@@ -88,131 +115,20 @@ namespace hj
 
 	void Monster::StateChange(eMonsterState state, std::wstring anim, bool loop = false)
 	{
-		/*mState = state;
-		if (GetFlip())
-		{
-			std::wstring flipAnim = L"Flipped";
-			flipAnim.append(anim);
-			mAnimator->Play(flipAnim, loop);
-		}
-		else
-		{
-			mAnimator->Play(anim, loop);
-		}
-		mAnimator->Reset();*/
+		
 	}
 	void Monster::idle()
 	{
-		/*if (hero != nullptr)
-		{
-
-			Transform* tr = GetComponent<Transform>();
-			Vector2 pos = tr->GetPos();
-			Vector2 size = tr->GetSize();
-
-			if (fabs(pos.x - GetHeroPos().x) >= (size.x))
-				StateChange(eMonsterState::Run, L"Run", true);
-
-			else
-			{
-				Flip(L"Idle");
-			}
-
-		}*/
+		
 	}
 	void Monster::run()
 	{
-		/*if (hero != nullptr)
-		{
-			Transform* tr = GetComponent<Transform>();
-			Vector2 pos = tr->GetPos();
-			Vector2 size = tr->GetSize();
-
-
-			if (fabs(pos.x - GetHeroPos().x) >= (size.x))
-			{
-
-				if (GetFlip())
-				{
-					Vector2 velocity = mRigidbody->GetVelocity();
-					velocity.x = -300.0f;
-					mRigidbody->SetVelocity(velocity);
-				}
-				else
-				{
-					Vector2 velocity = mRigidbody->GetVelocity();
-					velocity.x = 300.0f;
-					mRigidbody->SetVelocity(velocity);
-				}
-				Flip(L"Run");
-			}
-
-			if ((pos.y - GetHeroPos().y) >= (size.y * 2))
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.y = -1200.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
-
-				StateChange(eMonsterState::Jump, L"Jump", true);
-			}
-			else if ((pos.y - GetHeroPos().y) <= (size.y))
-			{
-
-			}
-
-			if (
-				fabs(pos.x - GetHeroPos().x) <= (size.x) &&
-				fabs(pos.y - GetHeroPos().y) <= (size.y)
-				)
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = 0.0f;
-				mRigidbody->SetVelocity(velocity);
-				StateChange(eMonsterState::Idle, L"Idle", true);
-			}
-
-		}*/
+		
 	}
 	void Monster::jump()
 	{
 
-		/*Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-		Vector2 size = tr->GetSize();
-		Vector2 velocity = mRigidbody->GetVelocity();
-		mRigidbody->SetGravity(true);
-		if (mRigidbody->GetGround())
-		{
-			cJump = 1;
-			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y = 0.0f;
-			mRigidbody->SetVelocity(velocity);
-			StateChange(eMonsterState::Run, L"Run", true);
-		}
-		if (fabs(pos.x - GetHeroPos().x) >= (size.x))
-		{
-
-			if (GetFlip())
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = -300.0f;
-				mRigidbody->SetVelocity(velocity);
-			}
-			else
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.x = 300.0f;
-				mRigidbody->SetVelocity(velocity);
-			}
-			Flip(L"Jump");
-		}
-		else
-		{
-			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.x = 0.0f;
-			mRigidbody->SetVelocity(velocity);
-		}*/
+		
 
 	}
 	void Monster::Flip(std::wstring Anim)

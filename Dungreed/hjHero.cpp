@@ -35,6 +35,9 @@ namespace hj
 		mWeapons = nullptr;
 		delete mEffects;
 		mEffects = nullptr;
+
+		delete hpBar;
+		hpBar = nullptr;
 	}
 
 	void Hero::Initialize()

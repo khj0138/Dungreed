@@ -14,10 +14,11 @@
 #include "hjRigidBody.h"
 
 #include "hjMonster.h"
-#include "hjSkeletonWarrior.h"
-#include "hjEliteSkelWarrior.h"
 #include "hjAnimObject.h"
+
 #include "hjNiflheim.h"
+#include "hjmonsterHeader.h"
+
 extern hj::Application application;
 
 namespace hj
@@ -116,12 +117,12 @@ namespace hj
 			SceneManager::LoadScene(eSceneType::Tool);
 			return;
 		}*/
-		if (Input::GetKeyDown(eKeyCode::L))
-		{
-			//TilePalatte::Load();
-			//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
-			TilePalatte::Load();
-		}
+		//if (Input::GetKeyDown(eKeyCode::L))
+		//{
+		//	//TilePalatte::Load();
+		//	//wchar_t a[256] = L"C:\\Users\\kang\\Desktop\\assortRock\\khj\\46th_winAPI\\Dungreed\\Resource\\Tile2.Tile\0";
+		//	TilePalatte::Load();
+		//}
 
 		Scene::Update();
 	}
@@ -166,6 +167,11 @@ namespace hj
 		AddGameObject(mon2, eLayerType::Monster);
 		mon2->Initialize();
 		mon2->GetComponent<Transform>()->SetPos(Vector2{ 3200.0f, 450.0f });*/
+
+		SkelDog* mon2 = new SkelDog();
+		AddGameObject(mon2, eLayerType::Monster);
+		mon2->Initialize();
+		mon2->GetComponent<Transform>()->SetPos(Vector2{ 3200.0f, 450.0f });
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
 			delete gameObj;

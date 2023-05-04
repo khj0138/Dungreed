@@ -78,6 +78,21 @@ namespace hj
 			if (!(changePos == Vector2::Zero))
 				pos = changePos;
 			newEffect = new Effect(pos);
+			if (eInfo->bRotate)
+			{
+				newEffect->GetComponent<SpriteRenderer>()->SetRotate(true);
+				if (GetFlip())
+				{
+					newEffect->GetComponent<SpriteRenderer>()->SetDir(direction);
+				}
+				else
+				{
+					newEffect->GetComponent<SpriteRenderer>()->SetDir(direction);
+
+				}
+				//nnewEffect->GetComponent<SpriteRenderer>()->SetDir(direction);
+
+			}
 
 			if (eInfo->bRotate)
 			{
@@ -103,21 +118,6 @@ namespace hj
 			newEffect->SetEmanager(this);
 			SceneManager::FindScene(eSceneType::Play)->AddGameObject(newEffect, eLayerType::Effect);
 			newEffect->SetState(eState::Active);
-			if (eInfo->bRotate)
-			{
-				newEffect->GetComponent<SpriteRenderer>()->SetRotate(true);
-				if (GetFlip())
-				{
-					newEffect->GetComponent<SpriteRenderer>()->SetDir(direction);
-				}
-				else
-				{
-					newEffect->GetComponent<SpriteRenderer>()->SetDir(direction);
-
-				}
-				//nnewEffect->GetComponent<SpriteRenderer>()->SetDir(direction);
-
-			}
 			if (!(eInfo->bDuplicate))
 				eInfo->bCreate = false;
 		}

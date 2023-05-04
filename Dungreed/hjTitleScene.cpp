@@ -35,7 +35,7 @@ namespace hj {
 		AddGameObject(bg3, eLayerType::FrontBG);
 
 		BackGround* bg4 = new BackGround(L"MainLogo", L"..\\Resource\\Title\\MainLogo.bmp", Vector2::Zero, asRatio);
-		AddGameObject(bg4, eLayerType::FrontBG);
+		AddGameObject(bg4, eLayerType::UI);
 		
 
 		for (int i = -2; i < 3; i++)

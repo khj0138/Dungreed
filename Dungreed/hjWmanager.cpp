@@ -9,10 +9,10 @@
 #include "hjSceneManager.h"
 #include "hjPSceneManager.h"
 #include "hjSword.h"
-#include "hjEmpty.h"
 #include "hjBow.h"
 #include "hjRigidBody.h"
 #include "hjCosmosSword.h"
+#include "hjDashWeapon.h"
 namespace hj
 {
 
@@ -186,8 +186,8 @@ namespace hj
 		case eWeaponType::COSMOSSWORD:
 			newWeapon = new CosmosSword();
 			break;
-		case eWeaponType::EMPTY:
-			newWeapon = new Empty();
+		case eWeaponType::DASHWEAPON:
+			newWeapon = new DashWeapon();
 			break;
 		case eWeaponType::BOW:
 			newWeapon = new Bow();
@@ -221,9 +221,9 @@ namespace hj
 	{
 		if (mActiveWeapon == nullptr)
 		{
-			CreateWeapon(L"Empty", eWeaponType::EMPTY);
+			CreateWeapon(L"DashWeapon", eWeaponType::DASHWEAPON);
 
-			Empty* newWeapon = new Empty();
+			DashWeapon* newWeapon = new DashWeapon();
 			if (newWeapon != nullptr)
 			{
 				newWeapon->SetOwner(mOwner);

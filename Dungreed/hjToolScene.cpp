@@ -88,14 +88,14 @@ namespace hj
 		if (Input::GetKeyDown(eKeyCode::R))
 		{
 			Img* a = Img::Create(L"test", 8000, 1800);
-			wchar_t p[256] = L"../Resource/Ice/Dungeon1_1_Tile.Tile\0";
+			wchar_t p[256] = L"../Resource/Ice/Dungeon1_2_Tile.Tile\0";
 			//wchar_t p[256] = L"../Resource/Ice/Dungeon1_2_Tile.Tile\0";
 			TilePalatte::Load(p, 1, a->GetHdc());
 			//TilePalatte::Load(p);
 			HBITMAP b = (HBITMAP)GetCurrentObject(a->GetHdc(), OBJ_BITMAP);
 			TilePalatte::HDCToFile(b);
 			delete a;
-			wchar_t c[256] = L"../Resource/Ice/Dungeon1_1_Tile.Tile\0";
+			wchar_t c[256] = L"../Resource/Ice/Dungeon1_2_Tile.Tile\0";
 			//wchar_t c[256] = L"../Resource/Ice/Dungeon1_2_Tile.Tile\0";
 			TilePalatte::Load(c);
 		}

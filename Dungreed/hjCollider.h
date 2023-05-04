@@ -42,7 +42,10 @@ namespace hj
 		bool CollisionCheck() { return collisionCheck; }
 
 		UINT GetID() { return mID; }
-
+		static bool colRender;
+		static void cRenderChange() {
+			colRender = (bool)(((int)colRender + 1) % 2);
+		}
 	private:
 		static UINT ColliderNumber;
 		UINT mCollisionCount;

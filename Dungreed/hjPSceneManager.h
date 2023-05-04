@@ -58,6 +58,7 @@ namespace hj
 			//delete prevScene;
 			//mPlayScene->OnEnter();
 		}
+
 	private:
 		Hero* mHero;
 		BackGround* bg;

@@ -15,9 +15,8 @@
 
 #include "hjRigidBody.h"
 #include "hjMonster.h"
-#include "hjSkeletonWarrior.h"
 #include "hjGameObject.h"
-#include "hjEliteSkelWarrior.h"
+#include "hjmonsterHeader.h"
 
 extern hj::Application application;
 
@@ -39,10 +38,10 @@ namespace hj
 		asRatio = asRatio * 3.f;
 
 
-		BackGround* bg2 = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, false, 0, Vector2{ 0.0f, 1520.0f - (1200.0f) * (1.0f - 0.6f) });
-		AddGameObject(bg2, eLayerType::BackBG);
-		BackGround* bg4 = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1520.0f - (1200.0f) * (1.0f - 0.8f) });
-		AddGameObject(bg4, eLayerType::BackBG);
+		BackGround* BackBG = new BackGround(L"DungeonNiflheimBackBG", L"../Resource/Ice/IceBackBG.bmp", Vector2{ 0.8f, 0.6f }, asRatio, false, 0, Vector2{ 0.0f, 1520.0f - (1200.0f) * (1.0f - 0.6f) });
+		AddGameObject(BackBG, eLayerType::BackBG);
+		BackGround* FrontBG = new BackGround(L"DungeonNiflheimFrontBG", L"../Resource/Ice/IceFrontBG.bmp", Vector2{ 0.8f, 0.8f }, asRatio, false, 0, Vector2{ 0.0f, 1520.0f - (1200.0f) * (1.0f - 0.8f) });
+		AddGameObject(FrontBG, eLayerType::BackBG);
 		
 
 		BackGround* Dungeon1_0_foothold = new BackGround(L"Dungeon1_0_foothold", L"../Resource/Ice/Dungeon1_0.bmp", Vector2::One * 1.0f, asRatio / 5.f, false);
@@ -51,6 +50,7 @@ namespace hj
 		AddGameObject(Dungeon1_0, eLayerType::BackBG);
 		AnimObject* IceDoorClose = new AnimObject(L"IceDoorClose", L"../Resource/Ice/IceDoorClose.bmp", asRatio, Vector2{ 10.0f, 1.0f }, Vector2{ 500.0f, 1360.0f });
 		AddGameObject(IceDoorClose, eLayerType::BackBG);
+
 
 		/*BackGround* Dungeon1_0 = new BackGround(L"IceDoorClose", L"../Resource/Ice/IceDoorClose.bmp", Vector2::One * 1.0f, asRatio / 5.f, false, 0, Vector2{ 0.0f, 1280.0f });
 		AddGameObject(Dungeon1_0, eLayerType::BackBG);*/

@@ -39,6 +39,8 @@ namespace hj
 
 		delete mEffects;
 		mEffects = nullptr;
+		delete hpBar;
+		hpBar = nullptr;
 
 		for (int i = 3; i >= 0; i--)
 		{
@@ -448,7 +450,7 @@ break;
 	}
 	void Niflheim::SetState(GameObject::eState type)
 	{
-		mWeapons->SetState(type);
+		//mWeapons->SetState(type);
 		GameObject::SetState(type);
 	}
 	void Niflheim::idle()

@@ -8,9 +8,10 @@
 #include "hjTransform.h"
 #include "hjCollider.h"
 #include "hjSceneManager.h"
-#include "hjEmpty.h"
 #include "hjPSceneManager.h"
 #include "hjBow_mon.h"
+#include "hjEmpty_mon.h"
+#include "hjDashWeapon_mon.h"
 namespace hj
 {
 
@@ -51,6 +52,10 @@ namespace hj
 		{
 			mActiveWeapon->GameObject::SetState(GetOwner()->GetState());
 			mDashWeapon->GameObject::SetState(GetOwner()->GetState());
+		}*/
+		/*if (GetOwner()->GetState() == eState::Pause)
+		{
+			mActiveWeapon->SetState(eState::Pause);
 		}*/
 		if (mDashWeapon->GetCAttack())
 		{
@@ -162,11 +167,14 @@ namespace hj
 		case eWeaponType::SWORD_MON:
 			newWeapon = new Sword_mon();
 			break;
-		case eWeaponType::EMPTY:
-			newWeapon = new Empty();
-			break;
 		case eWeaponType::BOW_MON:
 			newWeapon = new Bow_mon();
+			break;
+		case eWeaponType::EMPTY_MON:
+			newWeapon = new Empty_mon();
+			break;
+		case eWeaponType::DASHWEAPON_MON:
+			newWeapon = new DashWeapon_mon();
 			break;
 		}
 		if (newWeapon != nullptr)
@@ -196,9 +204,9 @@ namespace hj
 	{
 		if (mActiveWeapon == nullptr)
 		{
-			CreateWeapon(L"Empty", eWeaponType::EMPTY);
+			CreateWeapon(L"DashWeapon", eWeaponType::DASHWEAPON_MON);
 
-			Empty* newWeapon = new Empty();
+			DashWeapon_mon* newWeapon = new DashWeapon_mon();
 			if (newWeapon != nullptr)
 			{
 				newWeapon->SetOwner(mOwner);
@@ -208,6 +216,7 @@ namespace hj
 					GetOwner()->GetComponent<Collider>()->GetSize());
 				PlayScene* scene = SceneManager::GetPManager()->GetPlayScene();
 				scene->AddGameObject(mDashWeapon, eLayerType::Weapon_Monster);
+				newWeapon->Initialize();
 			}
 		}
 		ReleaseWeapon();
@@ -272,6 +281,4 @@ namespace hj
 			}
 		}
 	}
-	//	return wfuncs->Wrender.mWfunc;
-	//}
 }

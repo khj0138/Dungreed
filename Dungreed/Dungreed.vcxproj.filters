@@ -347,6 +347,24 @@
     <ClInclude Include="hjCosmosSkill.h">
       <Filter>Contents\Weapon\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="hjDashWeapon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjDashWeapon_mon.h">
+      <Filter>Contents\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="hjOvibos.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSkelDog.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjmonsterHeader.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hjSkelIceMagician.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dungreed.rc">
@@ -572,6 +590,21 @@
     </ClCompile>
     <ClCompile Include="hjCosmosSkill.cpp">
       <Filter>Contents\Weapon\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDashWeapon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjDashWeapon_mon.cpp">
+      <Filter>Contents\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="hjOvibos.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSkelDog.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hjSkelIceMagician.cpp">
+      <Filter>Contents\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -62,7 +62,7 @@ namespace hj
 		}
 		status GetStat() { return stat; }
 		//Vector2 prevPos;
-
+		UINT monsterNum;
 	private:
 
 		void idle();

@@ -48,6 +48,8 @@ namespace hj
 	}
 	HPBar::~HPBar()
 	{
+		//delete image_full;
+		//delete image_empty;
 	}
 	void HPBar::Initialize()
 	{

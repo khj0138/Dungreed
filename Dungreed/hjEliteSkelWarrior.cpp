@@ -85,8 +85,8 @@ namespace hj
 		mWeapons->SetOwner(this);
 		/*mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
 		mWeapons->EquipWeapon(L"Empty", 1);*/
-		mWeapons->CreateWeapon(L"Empty", eWeaponType::EMPTY);
-		mWeapons->EquipWeapon(L"Empty");
+		mWeapons->CreateWeapon(L"Empty_mon", eWeaponType::EMPTY_MON);
+		mWeapons->EquipWeapon(L"Empty_mon");
 		mWeapons->GetActiveWeapon()->SetStat(5.0f, 0.0f, 0.6f, 0.6f);
 
 		Monster::Initialize();
@@ -94,6 +94,12 @@ namespace hj
 	}
 	void EliteSkelWarrior::Update()
 	{
+		if (GetStat().HP == 0)
+		{
+			mWeapons->GetActiveWeapon()->SetState(eState::Pause);
+			mWeapons->GetDashWeapon()->SetState(eState::Pause);
+			SetState(eState::Pause);
+		}
 		SetBAttack(true);
 		if (GetHero() == nullptr)
 		{
