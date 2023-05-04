@@ -1,6 +1,7 @@
 #include "hjAnimator.h"
 #include "hjRscManager.h"
 
+#include <cassert>
 
 namespace hj
 {
@@ -99,6 +100,10 @@ namespace hj
 		
 		mAnimations.insert(std::make_pair(name, animation));
 		Events* event = new Events();
+
+		auto iter = mEvents.find(name);
+		assert(iter == mEvents.end());
+
 		mEvents.insert(std::make_pair(name, event));
 	}
 	void Animator::CreateAnimations(const std::wstring& path, Vector2 offset, float duration)

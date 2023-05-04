@@ -137,7 +137,7 @@ namespace hj
 	void Town::OnEnter()
 	{
 		Camera::SetLookRange(
-			Vector2{ 9040.f, 1840.f }
+			Vector2{ 9040.f, 1800.f }
 		);
 		Camera::SetTarget(GetHero());
 		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
@@ -148,6 +148,7 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, true);
 
+		Camera::SetPos(GetHero()->GetComponent<Transform>()->GetPos());
 
 		/*SkeletonWarrior* mon = new SkeletonWarrior();
 		AddGameObject(mon, eLayerType::Monster);
@@ -168,10 +169,10 @@ namespace hj
 		mon2->Initialize();
 		mon2->GetComponent<Transform>()->SetPos(Vector2{ 3200.0f, 450.0f });*/
 
-		SkelDog* mon2 = new SkelDog();
+		/*SkelDog* mon2 = new SkelDog();
 		AddGameObject(mon2, eLayerType::Monster);
 		mon2->Initialize();
-		mon2->GetComponent<Transform>()->SetPos(Vector2{ 3200.0f, 450.0f });
+		mon2->GetComponent<Transform>()->SetPos(Vector2{ 3200.0f, 450.0f });*/
 		/*for (GameObject* gameObj : SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile))
 		{
 			delete gameObj;
@@ -184,10 +185,14 @@ namespace hj
 
 		TilePalatte::Load(a);
 		//TilePalatte::Load(b);
-
+		Camera::SetBVelocity(true);
 	}
 	void Town::OnExit()
 	{
+		Scene::ClearLayer(eLayerType::Bullet_Monster);
+		Scene::ClearLayer(eLayerType::Bullet_Player);
+		Scene::ClearLayer(eLayerType::Weapon_Monster);
+		Scene::ClearLayer(eLayerType::Weapon_Player);
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 

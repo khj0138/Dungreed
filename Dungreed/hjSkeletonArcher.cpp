@@ -30,8 +30,8 @@ namespace hj
 	}
 	SkeletonArcher::~SkeletonArcher()
 	{
-		delete mWeapons;
-		mWeapons = nullptr;
+		//delete mWeapons;
+		//mWeapons = nullptr;
 		//delete mEffects;
 		mEffects = nullptr;
 	}

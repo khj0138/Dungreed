@@ -87,7 +87,10 @@ namespace hj
 
 	void PlayScene::OnExit()
 	{
-		
+		Scene::ClearLayer(eLayerType::Weapon_Player);
+		Scene::ClearLayer(eLayerType::Bullet_Monster);
+		Scene::ClearLayer(eLayerType::Bullet_Player);
+		Scene::ClearLayer(eLayerType::Tile);
 		////Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		//Camera::SetTarget(nullptr);
 

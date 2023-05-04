@@ -39,7 +39,7 @@ namespace hj
 	{
 		delete mEffects;
 		mEffects = nullptr;
-		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+		Scene* scene = SceneManager::GetActiveScene();
 		{
 			if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
 			{
@@ -50,11 +50,10 @@ namespace hj
 				if (it != temp.end())
 				{
 					temp.erase(it);
-					continue;
 				}
 			}
 		}
-		delete arrow;
+		//delete arrow;
 		arrow = nullptr;
 	}
 	void Bow::Initialize()

@@ -30,7 +30,7 @@ namespace hj
 	}
 	EliteSkelWarrior::~EliteSkelWarrior()
 	{
-		delete mWeapons;
+		//delete mWeapons;
 		mWeapons = nullptr;
 		//delete mEffects;
 		mEffects = nullptr;

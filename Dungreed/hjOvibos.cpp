@@ -32,7 +32,7 @@ namespace hj
 	}
 	Ovibos::~Ovibos()
 	{
-		delete mWeapons;
+		//delete mWeapons;
 		mWeapons = nullptr;
 
 		

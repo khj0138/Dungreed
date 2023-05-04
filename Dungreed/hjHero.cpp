@@ -31,7 +31,7 @@ namespace hj
 
 	Hero::~Hero()
 	{
-		delete mWeapons;
+		//delete mWeapons;
 		mWeapons = nullptr;
 		delete mEffects;
 		mEffects = nullptr;

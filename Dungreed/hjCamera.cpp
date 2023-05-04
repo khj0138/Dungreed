@@ -12,6 +12,7 @@ namespace hj
 	Vector2 Camera::mLookPosition = Vector2::Zero;
 	Vector2 Camera::mDistance = Vector2::Zero;
 	Vector2 Camera::mLookRange = Vector2::Zero;
+	bool Camera::bVelocity = false;
 	GameObject* Camera::mTarget = nullptr;
 
 	void Camera::Initiailize()
@@ -40,6 +41,9 @@ namespace hj
 
 		if (mTarget != nullptr)
 		{
+			if (bVelocity)
+			{
+
 			float distance = (mTarget->GetComponent<Transform>()->GetPos() - mLookPosition).Length();
 			if (distance < 1000.0f * Time::DeltaTime())
 				mLookPosition = mTarget->GetComponent<Transform>()->GetPos();
@@ -47,6 +51,11 @@ namespace hj
 				mLookPosition += (mTarget->GetComponent<Transform>()->GetPos() - mLookPosition).Normalize() * 2000.0f * Time::DeltaTime();
 			else
 				mLookPosition += (mTarget->GetComponent<Transform>()->GetPos() - mLookPosition).Normalize() * 1000.0f * Time::DeltaTime();
+			}
+			else
+			{
+				mLookPosition = mTarget->GetComponent<Transform>()->GetPos();
+			}
 		}
 
 		if (mLookPosition.x <= (mResolution.x / 2.0f))

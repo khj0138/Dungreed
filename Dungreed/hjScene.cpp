@@ -7,6 +7,10 @@ namespace hj
 	{
 		mLayers.reserve(5);
 		mLayers.resize((UINT)eLayerType::End);
+		for (size_t i = 0; i < mLayers.size(); ++i)
+		{
+			mLayers[i].SetName(std::to_wstring(i));
+		}
 	}
 
 	Scene::~Scene()

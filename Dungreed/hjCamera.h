@@ -23,6 +23,7 @@ namespace hj
 			return pos - mDistance * moveRate; 
 		}
 		static void SetPos(Vector2 pos) { mLookPosition = pos; }
+		static void SetBVelocity(bool vel) { bVelocity = vel; }
 
 
 	private:
@@ -31,5 +32,6 @@ namespace hj
 		static Vector2 mDistance;
 		static GameObject* mTarget;
 		static Vector2 mLookRange;
+		static bool bVelocity;
 	};
 }

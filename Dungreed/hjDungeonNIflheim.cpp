@@ -61,6 +61,7 @@ namespace hj
 			Camera::SetTarget(GetHero());
 			GetHero()->SetState(GameObject::eState::Active);
 			niflheim->SetState(GameObject::eState::Active);
+			Camera::SetBVelocity(false);
 			mTime = 2.0f;
 		}
 		/*if (Input::GetKeyDown(eKeyCode::T))
@@ -78,13 +79,7 @@ namespace hj
 			return;
 		}*/
 
-		PlaneObject* dungeonGate = new PlaneObject(L"DungeonGate_90", L"..\\Resource\\Ice\\DungeonGate\\DungeonGate_90.bmp", Vector2::One, Vector2{ 2480.0f, 166.0f }, Vector2::One);
-		AddGameObject(dungeonGate, eLayerType::FrontBG);
-		DungeonGate.push_back(dungeonGate);
-
-		dungeonGate = new PlaneObject(L"DungeonGate_270", L"..\\Resource\\Ice\\DungeonGate\\DungeonGate_270.bmp", Vector2::One, Vector2{ 0.0f, 806.0f }, Vector2::One);
-		AddGameObject(dungeonGate, eLayerType::FrontBG);
-		DungeonGate.push_back(dungeonGate);
+		
 		if (niflheim->GetState() == GameObject::eState::Pause && mTime >= 2)
 		{
 			for (auto gate : DungeonGate)
@@ -120,6 +115,14 @@ namespace hj
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, true);
 		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Bullet_Monster, true);
 
+		PlaneObject* dungeonGate = new PlaneObject(L"DungeonGate_90", L"..\\Resource\\Ice\\DungeonGate\\DungeonGate_90.bmp", Vector2::One, Vector2{ 2480.0f, 166.0f }, Vector2::One);
+		AddGameObject(dungeonGate, eLayerType::FrontBG);
+		DungeonGate.push_back(dungeonGate);
+
+		dungeonGate = new PlaneObject(L"DungeonGate_270", L"..\\Resource\\Ice\\DungeonGate\\DungeonGate_270.bmp", Vector2::One, Vector2{ 0.0f, 806.0f }, Vector2::One);
+		AddGameObject(dungeonGate, eLayerType::FrontBG);
+		DungeonGate.push_back(dungeonGate);
+
 		Niflheim* mon2 = new Niflheim();
 		AddGameObject(mon2, eLayerType::Monster);
 		mon2->Initialize();
@@ -144,12 +147,14 @@ namespace hj
 		
 		GetHero()->SetState(GameObject::eState::Wait);
 		mon2->SetState(GameObject::eState::Wait);
+		Camera::SetBVelocity(true);
 		Camera::SetTarget(mon2);
 		mTime = 0.0f;
 	}
 	void DungeonNiflheim::OnExit()
 	{
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
+		//PlayScene::OnExit();
 		Camera::SetTarget(nullptr);
 
 		TilePalatte::clear();

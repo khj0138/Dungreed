@@ -39,7 +39,7 @@ namespace hj
 	{
 		delete mEffects;
 		mEffects = nullptr;
-		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+		Scene* scene = SceneManager::GetActiveScene();
 		{
 			if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
 			{
@@ -50,7 +50,7 @@ namespace hj
 				if (it != temp.end())
 				{
 					temp.erase(it);
-					continue;
+
 				}
 			}
 		}
@@ -166,7 +166,7 @@ namespace hj
 		arrow = new Arrow_mon();
 		arrow->Create();
 		arrow->SetState(GameObject::eState::Pause);
-		for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+		Scene* scene = SceneManager::GetActiveScene();
 			scene->AddGameObject((GameObject*)arrow, eLayerType::Bullet_Monster);
 
 	}

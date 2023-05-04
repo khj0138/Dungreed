@@ -80,6 +80,11 @@ namespace hj
 			//GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
 			return;
 		}
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_1);
+			return;
+		}
 		/*if (Input::GetKeyState(eKeyCode::Q) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Tool);
@@ -124,21 +129,22 @@ namespace hj
 	}
 	void Dungeon1_0::OnExit()
 	{
+		PlayScene::OnExit();
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 
 		wchar_t clean[256] = L"\0";
 		TilePalatte::Load(clean);
-
-		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
-		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, false);
-		CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, false);
-		CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, false);
-		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, false);
-		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Bullet_Player, false);
-		CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Monster, false);
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, false);
+		
+		////CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, false);
+		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, false);
+		//CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, false);
+		//CollisionManager::SetLayer(eLayerType::Weapon_Monster, eLayerType::Player, false);
+		//CollisionManager::SetLayer(eLayerType::Weapon_Player, eLayerType::Monster, false);
+		//CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Player, false);
+		//CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Bullet_Player, false);
+		//CollisionManager::SetLayer(eLayerType::Tile, eLayerType::Bullet_Monster, false);
+		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet_Monster, false);
 		CollisionManager::Clear();
 	}
 }

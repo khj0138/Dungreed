@@ -34,7 +34,7 @@ namespace hj
 	}
 	Niflheim::~Niflheim()
 	{
-		delete mWeapons;
+		//delete mWeapons;
 		mWeapons = nullptr;
 
 		delete mEffects;
@@ -44,29 +44,29 @@ namespace hj
 
 		for (int i = 3; i >= 0; i--)
 		{
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			Scene* scene = SceneManager::GetActiveScene();
+			if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
 			{
-				if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
+
+				std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Bullet_Player));
+
+				auto it = std::find(temp.begin(), temp.end(), mPillars[i]);
+				if (it != temp.end())
 				{
-
-					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Bullet_Player));
-
-					auto it = std::find(temp.begin(), temp.end(), mPillars[i]);
-					if (it != temp.end())
-					{
-						temp.erase(it);
-						continue;
-					}
+					temp.erase(it);
+					continue;
 				}
 			}
-			delete mPillars[i];
+			
+			
+			//delete mPillars[i];
 			mPillars[i] = nullptr;
 		}
 		mPillars.clear();
 	}
 	void Niflheim::Initialize()
 	{
-		SetStat(500, 500);
+		SetStat(400, 400);
 		bAttack[0] = true;
 		bAttack[1] = true;
 		bAttack[2] = false;
@@ -142,8 +142,8 @@ namespace hj
 		{
 			IcePillar* newPillar = new IcePillar();
 			mPillars.push_back(newPillar);
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
-				scene->AddGameObject((GameObject*)newPillar, eLayerType::Monster);
+			Scene* scene = SceneManager::GetActiveScene();
+			scene->AddGameObject((GameObject*)newPillar, eLayerType::Monster);
 			mPillars[i]->Initialize();
 
 			pillarDir[0][i] = math::Rotate(Vector2::Right, i * (-90.0f)).Normalize();
@@ -207,13 +207,22 @@ namespace hj
 		//SetBAttack(true);
 		if (GetStat().HP == 0 && mState != eNiflheimState::Die)
 		{
+			mRigidbody->SetGround(false);
+			mRigidbody->SetGravity(false);
+			GetComponent<Transform>()->SetPos(Vector2{ 1280.0f, 560.0f });
 			StateChange(eNiflheimState::Die);
-			AnimPlay(L"Die", false);
-			mRigidbody->SetGravity(true);
+			Camera::SetTarget(this);
+			Camera::SetBVelocity(true);
 			for (int i = 0; i < 4; i++)
 			{
 				mPillars[i]->SetState(eState::Pause);
 			}
+		}
+		if (mState == eNiflheimState::Die && Camera::GetPos() == GetComponent<Transform>()->GetPos()
+			&& GetComponent<Animator>()->GetActiveAnimation()->GetAnimationName() != L"Die")
+		{
+			mRigidbody->SetGravity(true);
+			AnimPlay(L"Die", false);
 		}
 		if (GetHero() == nullptr)
 		{

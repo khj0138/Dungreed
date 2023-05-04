@@ -43,7 +43,7 @@ namespace hj
 
 		for (int i = 5; i >= 0; i--)
 		{
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			Scene* scene = SceneManager::GetActiveScene();
 			{
 				if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
 				{
@@ -54,11 +54,10 @@ namespace hj
 					if (it != temp.end())
 					{
 						temp.erase(it);
-						continue;
 					}
 				}
 			}
-			delete mBullets[i];
+			//delete mBullets[i];
 			mBullets[i] = nullptr;
 		}
 		mBullets.clear();
@@ -110,7 +109,7 @@ namespace hj
 			newBullet->Create();
 			newBullet->SetState(GameObject::eState::Pause);
 			mBullets.push_back(newBullet);
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			Scene* scene = SceneManager::GetActiveScene();
 				scene->AddGameObject((GameObject*)newBullet, eLayerType::Bullet_Monster);
 		}
 

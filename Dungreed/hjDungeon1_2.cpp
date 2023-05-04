@@ -81,7 +81,7 @@ namespace hj
 			&& GetHero()->GetComponent<Transform>()->GetPos().y >= 160.0f
 			&& GetHero()->GetComponent<Transform>()->GetPos().y <= 481.0f)
 		{
-			GetPManager()->ChangePlayScene(ePSceneType::DungeonNiflheim);
+			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_3);
 			return;
 		}
 		/*if (Input::GetKeyState(eKeyCode::Q) == eKeyState::Down)
@@ -89,6 +89,11 @@ namespace hj
 			SceneManager::LoadScene(eSceneType::Tool);
 			return;
 		}*/
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			GetPManager()->ChangePlayScene(ePSceneType::Dungeon1_3);
+			return;
+		}
 		Scene::Update();
 	}
 	void Dungeon1_2::Render(HDC hdc)
@@ -162,7 +167,7 @@ namespace hj
 		}*/
 		//SceneManager::FindScene(eSceneType::Play)->GetGameObjects(eLayerType::Tile).clear();
 		if (GetHero() != nullptr)
-			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 0.0f, 1441.0f } +
+			GetHero()->GetComponent<Transform>()->SetPos(Vector2{ 80.0f, 1441.0f } +
 				Vector2{ GetHero()->GetComponent<Transform>()->GetSize().x / 2.0f, 0.0f });
 		wchar_t a[256] = L"../Resource/Ice/Dungeon1_2_Collider.Tile\0";
 		//wchar_t b[256] = L"../Resource/Dungeon1_2Tile.Tile\0";
@@ -174,6 +179,7 @@ namespace hj
 	}
 	void Dungeon1_2::OnExit()
 	{
+		PlayScene::OnExit();
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 

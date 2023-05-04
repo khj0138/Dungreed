@@ -249,7 +249,7 @@ namespace hj
 	{
 		if (mActiveWeapon != nullptr)
 		{
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			for(PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
 			{
 				if (!(scene->LayerEmpty(eLayerType::Weapon_Player)))
 				{
@@ -270,6 +270,7 @@ namespace hj
 	{
 		if (mDashWeapon != nullptr)
 		{
+
 			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
 			{
 				if (!(scene->LayerEmpty(eLayerType::Weapon_Player)))

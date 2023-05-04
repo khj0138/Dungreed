@@ -31,7 +31,7 @@ namespace hj
 		//for (std::pair<std::wstring, Weapon*> weapon : mWeapons)
 		ReleaseDashWeapon();
 		ReleaseWeapon();
-		for (auto weapon : mWeapons)
+		for (auto& weapon : mWeapons)
 		{
 			delete weapon.second;
 			weapon.second = nullptr;
@@ -227,7 +227,7 @@ namespace hj
 		/*if (index == 0)
 		{
 
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			Scene* scene = SceneManager::GetActiveScene();
 				scene->AddGameObject(mActiveWeapon, eLayerType::Weapon_Player);
 
 		}
@@ -245,7 +245,7 @@ namespace hj
 	{
 		if (mActiveWeapon != nullptr)
 		{
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			Scene* scene = SceneManager::GetActiveScene();
 			{
 				
 				if (!(scene->LayerEmpty(eLayerType::Weapon_Monster)))
@@ -255,7 +255,6 @@ namespace hj
 					if (it != temp.end())
 					{
 						temp.erase(it);
-						continue;
 					}
 				}
 			}
@@ -265,7 +264,7 @@ namespace hj
 	{
 		if (mDashWeapon != nullptr)
 		{
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
+			Scene* scene = SceneManager::GetActiveScene();
 			{
 				if (!(scene->LayerEmpty(eLayerType::Weapon_Monster)))
 				{
@@ -275,7 +274,6 @@ namespace hj
 					if (it != temp.end())
 					{
 						temp.erase(it);
-						continue;
 					}
 				}
 			}

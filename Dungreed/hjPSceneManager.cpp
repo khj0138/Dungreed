@@ -52,7 +52,8 @@ namespace hj
 		hj::PSceneManager::CreatePScene<Dungeon1_0>(ePSceneType::Dungeon1_0);
 		hj::PSceneManager::CreatePScene<Dungeon1_1>(ePSceneType::Dungeon1_1);
 		hj::PSceneManager::CreatePScene<Dungeon1_2>(ePSceneType::Dungeon1_2);
-		hj::PSceneManager::CreatePScene<DungeonNiflheim>(ePSceneType::Dungeon1_3);
+		hj::PSceneManager::CreatePScene<Dungeon1_3>(ePSceneType::Dungeon1_3);
+		//hj::PSceneManager::CreatePScene<DungeonNiflheim>(ePSceneType::DungeonNiflheim);
 
 		mPlayScene = mPlayScenes[0];
 

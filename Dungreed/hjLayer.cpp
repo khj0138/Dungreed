@@ -8,6 +8,8 @@ namespace hj
 	}
 	Layer::~Layer()
 	{
+		auto name = GetName();
+
 		for (GameObject* gameObj : mGameObjects)
 		{
 			if (gameObj == nullptr)

@@ -32,7 +32,7 @@ namespace hj
 	}
 	SkelDog::~SkelDog()
 	{
-		delete mWeapons;
+		//delete mWeapons;
 		mWeapons = nullptr;
 
 

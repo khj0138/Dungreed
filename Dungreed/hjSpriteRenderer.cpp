@@ -68,7 +68,14 @@ namespace hj
 
 		void* copied_hBits = NULL;
 		copied_hBmp = CreateDIBSection(NULL, &bInfo, DIB_RGB_COLORS, &copied_hBits, NULL, 0);
-
+		assert(copied_hBmp);
+		/*if (copied_hBmp == nullptr)
+		{
+			DeleteObject(h_bitmap);
+			delete[] h_bmp_data;
+			h_bmp_data = nullptr;
+			return;
+		}*/
 		memcpy(copied_hBits, h_bmp_data, h_bmp_size);
 
  		Gdiplus::Bitmap* GdiP_bmp = Gdiplus::Bitmap::FromHBITMAP(copied_hBmp, NULL);
@@ -76,7 +83,7 @@ namespace hj
 
 		DeleteDC(mem_dc);
 		DeleteObject(mem_bitmap);
-
+		
 		if (GdiP_bmp != NULL)
 		{
 			/////////////////////////////////////////////////////////////////////////////
@@ -96,7 +103,7 @@ namespace hj
 			G.RotateTransform((REAL)degree);
 			G.TranslateTransform(size.x / 2.f, size.y / 2.f, Gdiplus::MatrixOrderAppend);
 			G.DrawImage(GdiP_bmp, -(INT)size.x / 2, -(INT)size.y / 2);
-			Gdiplus::Bitmap* pBmp = new Gdiplus::Bitmap(size.x, size.y, PixelFormat24bppRGB);
+			//Gdiplus::Bitmap* pBmp = new Gdiplus::Bitmap(size.x, size.y, PixelFormat24bppRGB);
 			
 			//G.DrawImage(pBmp, size.x, size.y);
 

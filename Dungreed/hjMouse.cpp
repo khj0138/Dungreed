@@ -1,6 +1,9 @@
 #include "hjMouse.h"
 #include "hjApplication.h"
 #include "hjCamera.h"
+
+extern hj::Application application;
+
 namespace hj
 {
 	Vector2 Mouse::mPos = Vector2::Zero;
@@ -11,6 +14,12 @@ namespace hj
 	}
 	void Mouse::Update()
 	{
+		HWND hFocusedHwnd = GetFocus();
+		if (hFocusedHwnd != application.GetHwnd())
+		{
+			return;
+		}
+
 		mLstate = (eKeyState)Input::GetKeyState(eKeyCode::MLEFT);
 		mRstate = (eKeyState)Input::GetKeyState(eKeyCode::MRIGHT);
 

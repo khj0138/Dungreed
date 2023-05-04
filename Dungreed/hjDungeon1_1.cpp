@@ -177,6 +177,7 @@ namespace hj
 	}
 	void Dungeon1_1::OnExit()
 	{
+		PlayScene::OnExit();
 		//Camera::SetLookRange(Vector2{ 0.0f, 0.0f });
 		Camera::SetTarget(nullptr);
 

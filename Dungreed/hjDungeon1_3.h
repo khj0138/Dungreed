@@ -6,7 +6,7 @@
 
 namespace hj
 {
-
+	class PlaneObject;
 	class Dungeon1_3 : public PlayScene
 	{
 	public:
@@ -21,6 +21,6 @@ namespace hj
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 	private:
-
+		std::vector<PlaneObject*> DungeonGate;
 	};
 }

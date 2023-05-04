@@ -30,7 +30,7 @@ namespace hj
 	}
 	SkeletonWarrior::~SkeletonWarrior()
 	{
-		delete mWeapons;
+		//delete mWeapons;
 		mWeapons = nullptr;
 		//delete mEffects;
 		mEffects = nullptr;

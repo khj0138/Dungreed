@@ -1,7 +1,8 @@
 #pragma once
 #include "hjEntity.h"
 #include "hjLayer.h"
-
+#include "hjEnums.h"
+#define NAME(n) L#n
 namespace hj
 {
 	class Scene : public Entity
@@ -24,6 +25,11 @@ namespace hj
 		bool LayerEmpty(eLayerType layer) { return mLayers.empty(); }
 		void SetAsRatio(Vector2 ratio) { asRatio = ratio; }
 		Vector2 GetAsRatio() { return asRatio; }
+
+		void ClearLayer(eLayerType layer) 
+		{
+			mLayers[(int)layer].ClearAll();
+		}
 	private:
 		std::vector<Layer> mLayers;
 		Vector2 asRatio;

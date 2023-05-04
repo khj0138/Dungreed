@@ -44,29 +44,28 @@ namespace hj
 		hpBar = nullptr;
 		for (int i = 59; i >= 0; i--)
 		{
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
-			{
-				if (!(scene->LayerEmpty(eLayerType::Bullet_Player)))
+			Scene* scene = SceneManager::GetActiveScene();
+		
+				if (!(scene->LayerEmpty(eLayerType::Bullet_Monster)))
 				{
 
-					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Bullet_Player));
+					std::vector<GameObject*>& temp = (scene->GetGameObjects(eLayerType::Bullet_Monster));
 
 					auto it = std::find(temp.begin(), temp.end(), mBullets[i]);
 					if (it != temp.end())
 					{
 						temp.erase(it);
-						continue;
+
 					}
 				}
-			}
-			delete mBullets[i];
+			//delete mBullets[i];
 			mBullets[i] = nullptr;
 		}
 		mBullets.clear();
 	}
 	void IcePillar::Initialize()
 	{
-		Monster::SetStat(100.0f, 100.0f);
+		Monster::SetStat(50.0f, 50.0f);
 		hpBar = new MonsterHPBar(L"MonsterHPBar", L"..\\Resource\\Monster\\LifeBar", Vector2::One * 2.f);
 		hpBar->Initialize();
 		hpBar->SetMonster(this);
@@ -120,8 +119,8 @@ namespace hj
 			newBullet->SetState(GameObject::eState::Pause);
 			mBullets.push_back(newBullet);
 			newBullet->SetBossRoom(true);
-			for (PlayScene* scene : SceneManager::GetPManager()->GetPlayScenes())
-				scene->AddGameObject((GameObject*)newBullet, eLayerType::Bullet_Monster);
+			Scene* scene = SceneManager::GetActiveScene();
+			scene->AddGameObject((GameObject*)newBullet, eLayerType::Bullet_Monster);
 			
 		}
 
